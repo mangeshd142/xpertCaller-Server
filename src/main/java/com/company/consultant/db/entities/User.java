@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private String name;
     private int age;
     private String password;
+    private String mobileNumber;
     private boolean isActive;
 
     @Override
@@ -32,7 +33,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.mobileNumber;
     }
 
     @Override

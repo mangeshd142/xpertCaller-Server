@@ -6,10 +6,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
-public class User {
-    String userId;
-    String name;
-    String mobileNumber;
-    int age;
+public class JwtRequestMobile {
+    private String mobileNumber;
+    private String password;
 }

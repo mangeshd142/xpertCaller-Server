@@ -2,6 +2,7 @@ package com.company.consultant.controllers;
 
 import com.company.consultant.db.entities.User;
 import com.company.consultant.moduls.JwtRequest;
+import com.company.consultant.moduls.JwtRequestMobile;
 import com.company.consultant.moduls.JwtResponse;
 import com.company.consultant.security.JwtHelper;
 import com.company.consultant.service.UserService;
@@ -38,11 +39,10 @@ public class AuthController {
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
-    @PostMapping("/login")
+    @PostMapping("/login2")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
 
         this.doAuthenticate(request.getUsername(), request.getPassword());
-
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         String token = this.helper.generateToken(userDetails);
@@ -52,10 +52,23 @@ public class AuthController {
                 .username(userDetails.getUsername()).build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login2(@RequestBody JwtRequestMobile request) {
 
-    private void doAuthenticate(String email, String password) {
+        this.doAuthenticate(request.getMobileNumber(), request.getPassword());
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email, password);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getMobileNumber());
+        String token = this.helper.generateToken(userDetails);
+
+        JwtResponse response = JwtResponse.builder()
+                .jwtToken(token)
+                .username(userDetails.getUsername()).build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private void doAuthenticate(String userName, String password) {
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, password);
         try {
             manager.authenticate(authentication);
         } catch (BadCredentialsException e) {
@@ -71,6 +84,11 @@ public class AuthController {
     @RequestMapping("/createUser")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
+    }
+
+    @RequestMapping("/sendOtp")
+    public User sendOtp(@RequestBody String mobileNumber) {
+        return userService.sendOtp(mobileNumber);
     }
 
 }
