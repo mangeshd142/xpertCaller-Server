@@ -5,7 +5,8 @@ import com.company.consultant.moduls.JwtRequest;
 import com.company.consultant.moduls.JwtRequestMobile;
 import com.company.consultant.moduls.JwtResponse;
 import com.company.consultant.security.JwtHelper;
-import com.company.consultant.service.UserService;
+import com.company.consultant.service.interfaces.IUserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -34,10 +34,9 @@ public class AuthController {
     private JwtHelper helper;
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
-
 
     @PostMapping("/login2")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
@@ -87,8 +86,11 @@ public class AuthController {
     }
 
     @RequestMapping("/sendOtp")
-    public User sendOtp(@RequestBody String mobileNumber) {
-        return userService.sendOtp(mobileNumber);
+    public User sendOtp(@RequestBody String mobileNumber, HttpServletResponse httpResponse) {
+        User user = userService.sendOtp(mobileNumber);
+        if(user == null)
+            httpResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        return user;
     }
 
 }
