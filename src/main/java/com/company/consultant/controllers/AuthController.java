@@ -36,11 +36,8 @@ public class AuthController {
     @Autowired
     private IUserService userService;
 
-    private Logger logger = LoggerFactory.getLogger(AuthController.class);
-
     @PostMapping("/login2")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-
         this.doAuthenticate(request.getUsername(), request.getPassword());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
@@ -53,7 +50,6 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login2(@RequestBody JwtRequestMobile request) {
-
         this.doAuthenticate(request.getMobileNumber(), request.getPassword());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getMobileNumber());
@@ -66,7 +62,6 @@ public class AuthController {
     }
 
     private void doAuthenticate(String userName, String password) {
-
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, password);
         try {
             manager.authenticate(authentication);
@@ -92,5 +87,4 @@ public class AuthController {
             httpResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         return user;
     }
-
 }

@@ -1,5 +1,6 @@
 package com.company.consultant.db.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -20,11 +21,14 @@ import java.util.Collections;
 public class User implements UserDetails {
     @Id
     private String userId;
+    @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String email;
     private String name;
     private int age;
     private String password;
+    @Column(unique = true)
     private String mobileNumber;
     private boolean isActive;
     private String category;

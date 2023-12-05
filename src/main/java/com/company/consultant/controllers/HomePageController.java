@@ -1,7 +1,7 @@
 package com.company.consultant.controllers;
 
 import com.company.consultant.db.entities.User;
-import com.company.consultant.service.UserService;
+import com.company.consultant.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +12,7 @@ import java.util.List;
 public class HomePageController {
 
     @Autowired
-    UserService userService;
+    IUserService userService;
 
     @RequestMapping("/")
     public String sayHi() {

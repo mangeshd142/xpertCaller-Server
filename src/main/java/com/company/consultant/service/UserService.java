@@ -19,7 +19,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    Random random = new Random();
 
+    @Override
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -29,8 +31,7 @@ public class UserService implements IUserService {
 
         user.setUserId(UUID.randomUUID().toString());
         user.setActive(true);
-        if(user !=null){
-            Random random = new Random();
+        if(user != null){
             String randomNumber = "" + random.nextInt(99999);
             System.out.println("OTP : " +randomNumber);
             user.setPassword(passwordEncoder.encode(randomNumber));
@@ -48,7 +49,6 @@ public class UserService implements IUserService {
     public User sendOtp(String mobileNumber){
         User user = userRepository.findByMobileNumber(mobileNumber);
         if(user !=null){
-            Random random = new Random();
             String randomNumber = "" + random.nextInt(99999);
             System.out.println("OTP : " +randomNumber);
             user.setPassword(passwordEncoder.encode(randomNumber));
