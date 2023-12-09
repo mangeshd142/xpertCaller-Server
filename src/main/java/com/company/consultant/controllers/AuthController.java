@@ -5,10 +5,8 @@ import com.company.consultant.moduls.JwtRequest;
 import com.company.consultant.moduls.JwtRequestMobile;
 import com.company.consultant.moduls.JwtResponse;
 import com.company.consultant.security.JwtHelper;
-import com.company.consultant.service.interfaces.IUserService;
+import com.company.consultant.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +32,7 @@ public class AuthController {
     private JwtHelper helper;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @CrossOrigin(origins = "*")
     @PostMapping("/login2")

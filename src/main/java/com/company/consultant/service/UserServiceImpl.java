@@ -2,7 +2,7 @@ package com.company.consultant.service;
 
 import com.company.consultant.db.entities.User;
 import com.company.consultant.db.repositories.UserRepository;
-import com.company.consultant.service.interfaces.IUserService;
+import com.company.consultant.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @Service
-public class UserService implements IUserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;

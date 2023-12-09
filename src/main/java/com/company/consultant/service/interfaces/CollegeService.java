@@ -6,7 +6,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
-public interface CollegeServiceInterface {
+public interface CollegeService {
     List<College> insertColleges() throws IOException, JSONException;
     List<College> getColleges(String collegeName);
 }

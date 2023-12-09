@@ -1,9 +1,9 @@
 package com.company.consultant.service;
 
-import com.company.consultant.db.dao.interfaces.CollegeDaoInterface;
+import com.company.consultant.db.dao.interfaces.CollegeDao;
 import com.company.consultant.db.entities.CollegeEntity;
 import com.company.consultant.moduls.College;
-import com.company.consultant.service.interfaces.CollegeServiceInterface;
+import com.company.consultant.service.interfaces.CollegeService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class CollegeService implements CollegeServiceInterface {
+public class CollegeServiceImpl implements CollegeService {
     @Autowired
-    CollegeDaoInterface collegeDao;
+    CollegeDao collegeDao;
 
     @Override
     public List<College> insertColleges() throws IOException, JSONException {

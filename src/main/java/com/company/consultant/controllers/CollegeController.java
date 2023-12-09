@@ -1,8 +1,7 @@
 package com.company.consultant.controllers;
 
-import com.company.consultant.db.entities.User;
 import com.company.consultant.moduls.College;
-import com.company.consultant.service.interfaces.CollegeServiceInterface;
+import com.company.consultant.service.interfaces.CollegeService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +17,7 @@ import java.util.List;
 public class CollegeController {
 
     @Autowired
-    CollegeServiceInterface collegeService;
+    CollegeService collegeService;
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/addData")
