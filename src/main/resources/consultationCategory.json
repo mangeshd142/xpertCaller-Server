@@ -1,0 +1,177 @@
+{
+  "consultationCategory" : [
+    {
+      "consultationId" : "1",
+      "consultationName" : "Mechanics",
+      "consultationDescription" : "Mechanics",
+      "image" : "",
+      "skillSets" : [
+        {
+          "skillId" : "1",
+          "skillName" : "car",
+          "skillSetDescription" : "car"
+        },
+        {
+          "skillId" : "2",
+          "skillName" : "Bike",
+          "skillSetDescription" : "Bike"
+        },
+        {
+          "skillId" : "2",
+          "skillName" : "Bike",
+          "skillSetDescription" : "car"
+        }
+      ]
+    },
+    {
+      "consultationId" : "2",
+      "consultationName" : "Teacher",
+      "consultationDescription" : "Teacher",
+      "image" : ""
+    },
+    {
+      "consultationId" : "3",
+      "consultationName" : "Builder",
+      "consultationDescription" : "Builder",
+      "image" : ""
+    },
+    {
+      "consultationId" : "4",
+      "consultationName" : "Astrologer",
+      "consultationDescription" : "Astrologer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "5",
+      "consultationName" : "Advocate",
+      "consultationDescription" : "Advocate",
+      "image" : ""
+    },
+    {
+      "consultationId" : "6",
+      "consultationName" : "Police",
+      "consultationDescription" : "Police",
+      "image" : ""
+    },
+    {
+      "consultationId" : "7",
+      "consultationName" : "Computer",
+      "consultationDescription" : "Computer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "8",
+      "consultationName" : "Doctor",
+      "consultationDescription" : "Doctor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "9",
+      "consultationName" : "Development",
+      "consultationDescription" : "Development",
+      "image" : ""
+    },
+    {
+      "consultationId" : "10",
+      "consultationName" : "Agricultural Advisor",
+      "consultationDescription" : "Agricultural Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "11",
+      "consultationName" : "Electrical",
+      "consultationDescription" : "Electrical",
+      "image" : ""
+    },
+    {
+      "consultationId" : "12",
+      "consultationName" : "Designer",
+      "consultationDescription" : "Designer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "13",
+      "consultationName" : "Architecture",
+      "consultationDescription" : "Architecture",
+      "image" : ""
+    },
+    {
+      "consultationId" : "14",
+      "consultationName" : "Accountant",
+      "consultationDescription" : "Accountant",
+      "image" : ""
+    },
+    {
+      "consultationId" : "15",
+      "consultationName" : "Finance Advisor",
+      "consultationDescription" : "Finance Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "16",
+      "consultationName" : "Insurance Advisor",
+      "consultationDescription" : "Insurance Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "17",
+      "consultationName" : "Investment advisor",
+      "consultationDescription" : "Investment Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "18",
+      "consultationName" : "Career adviser",
+      "consultationDescription" : "Career Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "19",
+      "consultationName" : "Fashion Designer",
+      "consultationDescription" : "Fashion Designer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "20",
+      "consultationName" : "Interior Designer",
+      "consultationDescription" : "Interior Designer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "21",
+      "consultationName" : "Property Advisor",
+      "consultationDescription" : "Property Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "21",
+      "consultationName" : "Dietitian ",
+      "consultationDescription" : "dietitian",
+      "image" : ""
+    },
+    {
+      "consultationId" : "22",
+      "consultationName" : "Gym Trainer",
+      "consultationDescription" : "Gym Trainer",
+      "image" : ""
+    },
+    {
+      "consultationId" : "23",
+      "consultationName" : "Beautician",
+      "consultationDescription" : "Beautician",
+      "image" : ""
+    },
+    {
+      "consultationId" : "24",
+      "consultationName" : "Travel Advisor",
+      "consultationDescription" : "Travel Advisor",
+      "image" : ""
+    },
+    {
+      "consultationId" : "25",
+      "consultationName" : "Couching Advisor",
+      "consultationDescription" : "Couching Advisor",
+      "image" : ""
+    }
+  ]
+}

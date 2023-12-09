@@ -36,6 +36,7 @@ public class AuthController {
     @Autowired
     private IUserService userService;
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/login2")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
         this.doAuthenticate(request.getUsername(), request.getPassword());
@@ -48,6 +49,7 @@ public class AuthController {
                 .username(userDetails.getUsername()).build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @CrossOrigin(origins = "*")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login2(@RequestBody JwtRequestMobile request) {
         this.doAuthenticate(request.getMobileNumber(), request.getPassword());
@@ -75,11 +77,13 @@ public class AuthController {
         return "Credentials Invalid !!";
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping("/createUser")
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping("/sendOtp")
     public User sendOtp(@RequestBody String mobileNumber, HttpServletResponse httpResponse) {
         User user = userService.sendOtp(mobileNumber);
