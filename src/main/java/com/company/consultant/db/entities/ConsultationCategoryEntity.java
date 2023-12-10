@@ -13,7 +13,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "consultation_category_table")
-public class ConsultationCategory {
+public class ConsultationCategoryEntity {
     @Id
     private String consultationId;
     @Column(unique = true)

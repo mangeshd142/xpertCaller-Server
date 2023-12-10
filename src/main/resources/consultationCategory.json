@@ -21,14 +21,14 @@
       ]
     },
     {
-      "consultationId" : "4",
+      "consultationId" : "2",
       "consultationName" : "Astrologer",
       "consultationDescription" : "Astrologer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "5",
+      "consultationId" : "3",
       "consultationName" : "Advocate",
       "consultationDescription" : "Advocate",
       "image" : "",
@@ -48,147 +48,147 @@
       ]
     },
     {
-      "consultationId" : "6",
+      "consultationId" : "4",
       "consultationName" : "Police",
       "consultationDescription" : "Police",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "7",
+      "consultationId" : "5",
       "consultationName" : "Computer",
       "consultationDescription" : "Computer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "8",
+      "consultationId" : "6",
       "consultationName" : "Doctor",
       "consultationDescription" : "Doctor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "9",
+      "consultationId" : "7",
       "consultationName" : "Development",
       "consultationDescription" : "Development",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "10",
+      "consultationId" : "8",
       "consultationName" : "Agricultural Advisor",
       "consultationDescription" : "Agricultural Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "11",
+      "consultationId" : "9",
       "consultationName" : "Electrical",
       "consultationDescription" : "Electrical",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "12",
+      "consultationId" : "10",
       "consultationName" : "Designer",
       "consultationDescription" : "Designer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "13",
+      "consultationId" : "11",
       "consultationName" : "Architecture",
       "consultationDescription" : "Architecture",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "14",
+      "consultationId" : "12",
       "consultationName" : "Accountant",
       "consultationDescription" : "Accountant",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "15",
+      "consultationId" : "13",
       "consultationName" : "Finance & Investment Advisor",
       "consultationDescription" : "Finance Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "16",
+      "consultationId" : "14",
       "consultationName" : "Insurance Advisor",
       "consultationDescription" : "Insurance Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "17",
+      "consultationId" : "15",
       "consultationName" : "Investment advisor",
       "consultationDescription" : "Investment Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "18",
+      "consultationId" : "16",
       "consultationName" : "Career adviser",
       "consultationDescription" : "Career Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "19",
+      "consultationId" : "17",
       "consultationName" : "Fashion Designer",
       "consultationDescription" : "Fashion Designer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "20",
+      "consultationId" : "18",
       "consultationName" : "Interior Designer",
       "consultationDescription" : "Interior Designer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "21",
+      "consultationId" : "19",
       "consultationName" : "Property Advisor",
       "consultationDescription" : "Property Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "21",
+      "consultationId" : "20",
       "consultationName" : "Dietitian ",
       "consultationDescription" : "dietitian",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "22",
+      "consultationId" : "21",
       "consultationName" : "Gym Trainer",
       "consultationDescription" : "Gym Trainer",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "23",
+      "consultationId" : "22",
       "consultationName" : "Beautician",
       "consultationDescription" : "Beautician",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "24",
+      "consultationId" : "23",
       "consultationName" : "Travel Advisor",
       "consultationDescription" : "Travel Advisor",
       "image" : "",
       "skillSets" : []
     },
     {
-      "consultationId" : "25",
+      "consultationId" : "24",
       "consultationName" : "Couching Advisor",
       "consultationDescription" : "Couching Advisor",
       "image" : "",

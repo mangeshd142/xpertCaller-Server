@@ -1,13 +1,13 @@
 package com.company.consultant.db.dao.interfaces;
 
-import com.company.consultant.db.entities.ConsultationCategory;
-import com.company.consultant.db.entities.ConsultationSkills;
+import com.company.consultant.db.entities.ConsultationCategoryEntity;
+import com.company.consultant.db.entities.ConsultationSkillsEntity;
 
 import java.util.List;
 
 public interface ConsultationDao {
-    List<ConsultationCategory> insertConsultationCategories(List<ConsultationCategory> consultationCategoryList);
-    List<ConsultationSkills> insertConsultationSkills(List<ConsultationSkills> consultationSkillsList);
-    List<ConsultationCategory> getAllConsultationCategory();
-    List<ConsultationSkills> getConsultationSkillsByParentId(String parentId);
+    List<ConsultationCategoryEntity> insertConsultationCategories(List<ConsultationCategoryEntity> consultationCategoryEntityList);
+    List<ConsultationSkillsEntity> insertConsultationSkills(List<ConsultationSkillsEntity> consultationSkillsEntityList);
+    List<ConsultationCategoryEntity> getAllConsultationCategory();
+    List<ConsultationSkillsEntity> getConsultationSkillsByParentId(String parentId);
 }

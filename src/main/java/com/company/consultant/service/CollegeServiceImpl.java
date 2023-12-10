@@ -4,18 +4,14 @@ import com.company.consultant.db.dao.interfaces.CollegeDao;
 import com.company.consultant.db.entities.CollegeEntity;
 import com.company.consultant.moduls.College;
 import com.company.consultant.service.interfaces.CollegeService;
+import com.company.consultant.util.ReadResourceFile;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,10 +21,13 @@ public class CollegeServiceImpl implements CollegeService {
     @Autowired
     CollegeDao collegeDao;
 
+    @Autowired
+    ReadResourceFile readResourceFile;
+
     @Override
     public List<College> insertColleges() throws IOException, JSONException {
 
-        String colleges = readFileFromResources();
+        String colleges = readResourceFile.readFileFromResources("colleges.json");
 
         JSONObject jsonObject = new JSONObject(colleges);
         JSONArray jsonArray = jsonObject.getJSONArray("colleges");
@@ -54,23 +53,6 @@ public class CollegeServiceImpl implements CollegeService {
             collegeList.add(new College(college.getCollegeId(), college.getUniversity(), college.getCollege(), college.getCollegeType(), college.getState(), college.getDistrict()));
         }
         return collegeList;
-    }
-
-    public String readFileFromResources() throws IOException {
-        // Specify the file name or path within the resources directory
-        String fileName = "colleges.json";
-
-        // Create a ClassPathResource using the specified file name
-        Resource resource = new ClassPathResource(fileName);
-
-        // Open an InputStream from the resource
-        try (InputStream inputStream = resource.getInputStream()) {
-            // Read the contents of the file into a byte array
-            byte[] bytes = FileCopyUtils.copyToByteArray(inputStream);
-
-            // Convert the byte array to a String (assuming the file contains text)
-            return new String(bytes, StandardCharsets.UTF_8);
-        }
     }
 
 }

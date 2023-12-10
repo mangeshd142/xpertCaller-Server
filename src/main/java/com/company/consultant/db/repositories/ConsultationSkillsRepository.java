@@ -1,6 +1,6 @@
 package com.company.consultant.db.repositories;
 
-import com.company.consultant.db.entities.ConsultationSkills;
+import com.company.consultant.db.entities.ConsultationSkillsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ConsultationSkillsRepository extends JpaRepository<ConsultationSkills, String> {
-    public ConsultationSkills findByConsultationSkillId(String collegeId);
-    public Optional<ConsultationSkills> findByConsultationSkillName(String userName);
-    public List<ConsultationSkills> findByParentId(String parentId);
+public interface ConsultationSkillsRepository extends JpaRepository<ConsultationSkillsEntity, String> {
+    public ConsultationSkillsEntity findByConsultationSkillId(String collegeId);
+    public Optional<ConsultationSkillsEntity> findByConsultationSkillName(String userName);
+    public List<ConsultationSkillsEntity> findByParentId(String parentId);
 }

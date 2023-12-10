@@ -1,6 +1,5 @@
 package com.company.consultant.db.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,7 +12,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "consultation_skills_table")
-public class ConsultationSkills {
+public class ConsultationSkillsEntity {
     @Id
     private String consultationSkillId;
     private String consultationSkillName;
