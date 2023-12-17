@@ -35,12 +35,15 @@ public class CollegeServiceImpl implements CollegeService {
 
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject college = jsonArray.getJSONObject(i);
-            collegeListEntity.add(new CollegeEntity(UUID.randomUUID().toString(), college.getString("university"), college.getString("college"), college.getString("college_type"), college.getString("state"), college.getString("district")));
+            collegeListEntity.add(new CollegeEntity(UUID.randomUUID().toString(), college.getString("university"),
+                    college.getString("college"), college.getString("college_type"), college.getString("state"),
+                    college.getString("district")));
         }
         List<CollegeEntity> insertedCollegeListEntity = collegeDao.insertColleges(collegeListEntity);
         List<College> collegeList = new ArrayList<>();
         for (CollegeEntity college : insertedCollegeListEntity){
-            collegeList.add(new College(college.getCollegeId(), college.getUniversity(), college.getCollege(), college.getCollegeType(), college.getState(), college.getDistrict()));
+            collegeList.add(new College(college.getCollegeId(), college.getUniversity(), college.getCollege(),
+                    college.getCollegeType(), college.getState(), college.getDistrict()));
         }
         return collegeList;
     }
@@ -50,7 +53,8 @@ public class CollegeServiceImpl implements CollegeService {
         List<CollegeEntity> collegeEntities = collegeDao.getColleges(collegeName);
         List<College> collegeList = new ArrayList<>();
         for (CollegeEntity college : collegeEntities){
-            collegeList.add(new College(college.getCollegeId(), college.getUniversity(), college.getCollege(), college.getCollegeType(), college.getState(), college.getDistrict()));
+            collegeList.add(new College(college.getCollegeId(), college.getUniversity(), college.getCollege(),
+                    college.getCollegeType(), college.getState(), college.getDistrict()));
         }
         return collegeList;
     }

@@ -1,8 +1,8 @@
 package com.company.consultant.db.dao;
 
+import com.company.consultant.db.repositories.CollegeRepository;
 import com.company.consultant.db.dao.interfaces.CollegeDao;
 import com.company.consultant.db.entities.CollegeEntity;
-import com.company.consultant.db.repositories.CollegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,10 @@
 package com.company.consultant.controllers;
 
+import com.company.consultant.elastic.entities.Expert;
 import com.company.consultant.moduls.College;
 import com.company.consultant.moduls.ConsultationCategory;
 import com.company.consultant.moduls.ConsultationSkills;
+import com.company.consultant.service.ExpertService;
 import com.company.consultant.service.interfaces.CollegeService;
 import com.company.consultant.service.interfaces.ConsultationService;
 import org.json.JSONException;
@@ -25,6 +27,9 @@ public class ServiceController {
 
     @Autowired
     ConsultationService consultationService;
+
+    @Autowired
+    ExpertService expertService;
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/addData")
@@ -53,5 +58,19 @@ public class ServiceController {
     @RequestMapping("/get-consultation-skills")
     public List<ConsultationSkills> getConsultationCategories(@RequestBody String parentId) {
         return consultationService.getConsultationSkillsByParentId(parentId);
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/create-data")
+    public void createData() throws JSONException, IOException {
+        collegeService.insertColleges();
+        consultationService.insertConsultationCategory();
+        return ;
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/expert")
+    public Expert insertExpert(Expert expert) throws JSONException, IOException {
+        return expertService.insertExpert(expert);
     }
 }

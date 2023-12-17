@@ -1,9 +1,10 @@
 package com.company.consultant.controllers;
 
-import com.company.consultant.db.entities.User;
+import com.company.consultant.db.entities.UserEntity;
 import com.company.consultant.moduls.JwtRequest;
 import com.company.consultant.moduls.JwtRequestMobile;
 import com.company.consultant.moduls.JwtResponse;
+import com.company.consultant.moduls.User;
 import com.company.consultant.security.JwtHelper;
 import com.company.consultant.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;

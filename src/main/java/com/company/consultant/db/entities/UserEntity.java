@@ -18,7 +18,7 @@ import java.util.Collections;
 @ToString
 @Entity
 @Table(name = "user_table")
-public class User implements UserDetails {
+public class UserEntity {
     @Id
     private String userId;
     @Column(unique = true)
@@ -33,34 +33,4 @@ public class User implements UserDetails {
     private boolean isActive;
     private String category;
     private String role;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public String getUsername() {
-        return this.mobileNumber;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive;
-    }
 }
