@@ -1,6 +1,6 @@
-package com.company.consultant.db.repositories;
+package com.company.consultant.db.sql.repositories;
 
-import com.company.consultant.db.entities.ConsultationCategoryEntity;
+import com.company.consultant.db.sql.entities.ConsultationCategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

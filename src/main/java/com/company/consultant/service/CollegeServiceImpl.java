@@ -1,7 +1,7 @@
 package com.company.consultant.service;
 
-import com.company.consultant.db.dao.interfaces.CollegeDao;
-import com.company.consultant.db.entities.CollegeEntity;
+import com.company.consultant.db.interfaces.dao.CollegeDao;
+import com.company.consultant.db.sql.entities.CollegeEntity;
 import com.company.consultant.moduls.College;
 import com.company.consultant.service.interfaces.CollegeService;
 import com.company.consultant.util.ReadResourceFile;

@@ -1,7 +1,7 @@
-package com.company.consultant.db.dao.interfaces;
+package com.company.consultant.db.interfaces.dao;
 
-import com.company.consultant.db.entities.ConsultationCategoryEntity;
-import com.company.consultant.db.entities.ConsultationSkillsEntity;
+import com.company.consultant.db.sql.entities.ConsultationCategoryEntity;
+import com.company.consultant.db.sql.entities.ConsultationSkillsEntity;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.company.consultant.db.repositories;
+package com.company.consultant.db.sql.repositories;
 
-import com.company.consultant.db.entities.CollegeEntity;
+import com.company.consultant.db.sql.entities.CollegeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

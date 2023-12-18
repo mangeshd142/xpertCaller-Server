@@ -1,8 +1,8 @@
-package com.company.consultant.db.dao;
+package com.company.consultant.db.sql.dao;
 
-import com.company.consultant.db.dao.interfaces.UserDao;
-import com.company.consultant.db.entities.UserEntity;
-import com.company.consultant.db.repositories.UserRepository;
+import com.company.consultant.db.interfaces.dao.UserDao;
+import com.company.consultant.db.sql.entities.UserEntity;
+import com.company.consultant.db.sql.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

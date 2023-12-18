@@ -1,4 +1,4 @@
-package com.company.consultant.db.entities;
+package com.company.consultant.db.sql.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,4 +33,5 @@ public class UserEntity {
     private boolean isActive;
     private String category;
     private String role;
+    private String otp;
 }

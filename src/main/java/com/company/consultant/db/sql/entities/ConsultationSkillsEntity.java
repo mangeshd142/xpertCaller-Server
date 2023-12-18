@@ -1,4 +1,4 @@
-package com.company.consultant.db.entities;
+package com.company.consultant.db.sql.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

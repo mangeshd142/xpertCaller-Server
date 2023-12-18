@@ -1,6 +1,6 @@
-package com.company.consultant.db.dao.interfaces;
+package com.company.consultant.db.interfaces.dao;
 
-import com.company.consultant.db.entities.UserEntity;
+import com.company.consultant.db.sql.entities.UserEntity;
 
 import java.util.List;
 import java.util.Optional;

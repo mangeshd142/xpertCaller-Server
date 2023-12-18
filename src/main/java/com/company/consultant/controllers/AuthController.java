@@ -1,6 +1,5 @@
 package com.company.consultant.controllers;
 
-import com.company.consultant.db.entities.UserEntity;
 import com.company.consultant.moduls.JwtRequest;
 import com.company.consultant.moduls.JwtRequestMobile;
 import com.company.consultant.moduls.JwtResponse;
@@ -55,6 +54,9 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getMobileNumber());
         String token = this.helper.generateToken(userDetails);
+        if (token != null && !token.isEmpty()){
+            userService.deleteOtp(request.getMobileNumber());
+        }
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)

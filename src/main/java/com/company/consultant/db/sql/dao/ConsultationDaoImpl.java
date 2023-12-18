@@ -1,10 +1,10 @@
-package com.company.consultant.db.dao;
+package com.company.consultant.db.sql.dao;
 
-import com.company.consultant.db.dao.interfaces.ConsultationDao;
-import com.company.consultant.db.entities.ConsultationCategoryEntity;
-import com.company.consultant.db.entities.ConsultationSkillsEntity;
-import com.company.consultant.db.repositories.ConsultationCategoryRepository;
-import com.company.consultant.db.repositories.ConsultationSkillsRepository;
+import com.company.consultant.db.interfaces.dao.ConsultationDao;
+import com.company.consultant.db.sql.entities.ConsultationCategoryEntity;
+import com.company.consultant.db.sql.entities.ConsultationSkillsEntity;
+import com.company.consultant.db.sql.repositories.ConsultationCategoryRepository;
+import com.company.consultant.db.sql.repositories.ConsultationSkillsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

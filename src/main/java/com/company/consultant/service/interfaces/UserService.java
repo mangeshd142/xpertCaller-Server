@@ -1,6 +1,5 @@
 package com.company.consultant.service.interfaces;
 
-import com.company.consultant.db.entities.UserEntity;
 import com.company.consultant.moduls.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,4 +13,6 @@ public interface UserService {
     User getUserByMobileNumber(String mobileNumber);
     User sendOtp(String mobileNumber);
     List<User> getAllUsers();
+
+    void deleteOtp(String mobileNumber);
 }

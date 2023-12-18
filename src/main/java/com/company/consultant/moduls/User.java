@@ -23,6 +23,8 @@ public class User implements UserDetails {
     private boolean isActive;
     private String category;
     private String role;
+    private String otp;
+    private boolean isPasswordAuthentication;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,5 +54,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    @Override
+    public String getPassword(){
+        return this.otp;
     }
 }

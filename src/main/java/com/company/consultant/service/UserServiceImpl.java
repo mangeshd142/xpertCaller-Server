@@ -1,8 +1,7 @@
 package com.company.consultant.service;
 
-import com.company.consultant.db.dao.interfaces.UserDao;
-import com.company.consultant.db.entities.UserEntity;
-import com.company.consultant.db.repositories.UserRepository;
+import com.company.consultant.db.interfaces.dao.UserDao;
+import com.company.consultant.db.sql.entities.UserEntity;
 import com.company.consultant.moduls.User;
 import com.company.consultant.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
         List<User> userList = new ArrayList<>();
         for (UserEntity userEntity : userEntityList){
             userList.add(new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                    "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole()));
+                    "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false));
         }
         return userList;
     }
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByMobileNumber(username);
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole());
+                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false);
     }
 
     @Override
@@ -49,15 +48,15 @@ public class UserServiceImpl implements UserService {
         user.setUserId(UUID.randomUUID().toString());
         user.setActive(true);
         if(user != null){
-            String randomNumber = "" + random.nextInt(99999);
+            String randomNumber = "" + random.nextInt(10000,99999);
             System.err.println("OTP : " +randomNumber);
             user.setPassword(passwordEncoder.encode(randomNumber));
 
             UserEntity userEntity = new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(),
-                    user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole());
+                    user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole(), "");
             UserEntity userEntity1 = userDao.saveUser(userEntity);
             user = new User(userEntity1.getUserId(), userEntity1.getUsername(), userEntity1.getEmail(), userEntity1.getName(), userEntity1.getAge(),
-                    "", userEntity1.getMobileNumber(), userEntity1.isActive(), userEntity1.getCategory(), userEntity1.getRole());
+                    "", userEntity1.getMobileNumber(), userEntity1.isActive(), userEntity1.getCategory(), userEntity1.getRole(), "", false);
         }
         return user;
     }
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
     public User getUserByMobileNumber(String mobileNumber) {
         UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole());
+                "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), "", false);
 
     }
 
@@ -76,10 +75,18 @@ public class UserServiceImpl implements UserService {
         if(userEntity !=null){
             String randomNumber = "" + random.nextInt(99999);
             System.out.println("OTP : " +randomNumber);
-            userEntity.setPassword(passwordEncoder.encode(randomNumber));
+            userEntity.setOtp(passwordEncoder.encode(randomNumber));
             userEntity = userDao.saveUser(userEntity);
         }
-        return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole());
+        return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
+                userEntity.getAge(), "", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getCategory(), userEntity.getRole(), "", false);
+    }
+
+    @Override
+    public void deleteOtp(String mobileNumber){
+        UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
+        userEntity.setOtp("");
+        userDao.saveUser(userEntity);
     }
 }

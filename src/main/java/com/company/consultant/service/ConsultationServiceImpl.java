@@ -1,8 +1,8 @@
 package com.company.consultant.service;
 
-import com.company.consultant.db.dao.interfaces.ConsultationDao;
-import com.company.consultant.db.entities.ConsultationCategoryEntity;
-import com.company.consultant.db.entities.ConsultationSkillsEntity;
+import com.company.consultant.db.interfaces.dao.ConsultationDao;
+import com.company.consultant.db.sql.entities.ConsultationCategoryEntity;
+import com.company.consultant.db.sql.entities.ConsultationSkillsEntity;
 import com.company.consultant.moduls.ConsultationCategory;
 import com.company.consultant.moduls.ConsultationSkills;
 import com.company.consultant.service.interfaces.ConsultationService;
