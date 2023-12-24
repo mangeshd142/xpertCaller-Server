@@ -78,11 +78,6 @@ public class AuthController {
         return "Credentials Invalid !!";
     }
 
-    @CrossOrigin(origins = "*")
-    @RequestMapping("/createUser")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/sendOtp")

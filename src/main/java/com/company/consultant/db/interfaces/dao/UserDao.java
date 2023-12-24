@@ -12,4 +12,6 @@ public interface UserDao {
     List<UserEntity> getAllUsers();
 
     UserEntity saveUser(UserEntity userEntity);
+
+    UserEntity getUserById(String id);
 }

@@ -27,4 +27,5 @@ public class UserProfile {
     private String location;
     private String address;
     private List<String> reviewRating;
+    private String skills;
 }

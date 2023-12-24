@@ -2,6 +2,7 @@ package com.company.consultant.service;
 
 import com.company.consultant.db.interfaces.dao.UserDao;
 import com.company.consultant.db.sql.entities.UserEntity;
+import com.company.consultant.moduls.AddCategory;
 import com.company.consultant.moduls.User;
 import com.company.consultant.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,7 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> userEntityList = userDao.getAllUsers();
         List<User> userList = new ArrayList<>();
         for (UserEntity userEntity : userEntityList){
-            userList.add(new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                    "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false));
+            userList.add(convertUserEntityToUser(userEntity));
         }
         return userList;
     }
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByMobileNumber(username);
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false);
+                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getProfileId(), userEntity.getRole(), userEntity.getOtp(), false);
     }
 
     @Override
@@ -50,13 +50,12 @@ public class UserServiceImpl implements UserService {
         if(user != null){
             String randomNumber = "" + random.nextInt(10000,99999);
             System.err.println("OTP : " +randomNumber);
-            user.setPassword(passwordEncoder.encode(randomNumber));
-
-            UserEntity userEntity = new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(),
-                    user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole(), "");
+            String password = passwordEncoder.encode(randomNumber);
+            user.setPassword(password);
+            user.setOtp(password);
+            UserEntity userEntity = convertUserToUserEntity(user);
             UserEntity userEntity1 = userDao.saveUser(userEntity);
-            user = new User(userEntity1.getUserId(), userEntity1.getUsername(), userEntity1.getEmail(), userEntity1.getName(), userEntity1.getAge(),
-                    "", userEntity1.getMobileNumber(), userEntity1.isActive(), userEntity1.getCategory(), userEntity1.getRole(), "", false);
+            user = convertUserEntityToUser(userEntity);
         }
         return user;
     }
@@ -64,9 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByMobileNumber(String mobileNumber) {
         UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
-        return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                "", userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), "", false);
-
+        return convertUserEntityToUser(userEntity);
     }
 
     @Override
@@ -78,9 +75,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setOtp(passwordEncoder.encode(randomNumber));
             userEntity = userDao.saveUser(userEntity);
         }
-        return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), "", userEntity.getMobileNumber(), userEntity.isActive(),
-                userEntity.getCategory(), userEntity.getRole(), "", false);
+        return convertUserEntityToUser(userEntity);
     }
 
     @Override
@@ -89,4 +84,24 @@ public class UserServiceImpl implements UserService {
         userEntity.setOtp("");
         userDao.saveUser(userEntity);
     }
+
+    @Override
+    public AddCategory addCategory(AddCategory addCategory) {
+        UserEntity userEntity = userDao.getUserById(addCategory.getUserId());
+        userEntity.setCategory(addCategory.getCategory());
+
+        return null;
+    }
+
+    private User convertUserEntityToUser(UserEntity userEntity){
+        return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
+                userEntity.getAge(), "", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getCategory(), userEntity.getProfileId(), userEntity.getRole(), "", false);
+    }
+
+    private UserEntity convertUserToUserEntity(User user){
+         return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(),
+                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getProfileId(), user.getCategory(), user.getRole(), user.getOtp());
+    }
+
 }

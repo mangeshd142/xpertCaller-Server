@@ -32,4 +32,9 @@ public class UserDaoImpl implements UserDao {
     public UserEntity saveUser(UserEntity userEntity){
         return userRepository.save(userEntity);
     }
+
+    @Override
+    public UserEntity getUserById(String id){
+        return userRepository.getReferenceById(id);
+    }
 }

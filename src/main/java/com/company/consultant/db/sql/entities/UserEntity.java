@@ -5,11 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.Collections;
 
 @Getter
 @Setter
@@ -32,6 +27,7 @@ public class UserEntity {
     private String mobileNumber;
     private boolean isActive;
     private String category;
+    private String profileId;
     private String role;
     private String otp;
 }

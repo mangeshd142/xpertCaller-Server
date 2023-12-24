@@ -22,6 +22,7 @@ public class User implements UserDetails {
     private String mobileNumber;
     private boolean isActive;
     private String category;
+    private String profileId;
     private String role;
     private String otp;
     private boolean isPasswordAuthentication;
