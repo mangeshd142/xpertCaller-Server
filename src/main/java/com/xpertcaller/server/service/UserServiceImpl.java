@@ -4,6 +4,7 @@ import com.xpertcaller.server.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.db.sql.entities.UserEntity;
 import com.xpertcaller.server.db.sql.entities.UserProfileEntity;
+import com.xpertcaller.server.exception.userdefined.XpertCallerException;
 import com.xpertcaller.server.moduls.AddCategory;
 import com.xpertcaller.server.moduls.User;
 import com.xpertcaller.server.moduls.UserProfile;
@@ -92,20 +93,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addCategory(AddCategory addCategory) {
-        UserEntity userEntity = userDao.getUserById(addCategory.getUserId());
-        UserProfileEntity userProfileEntity = userProfileDao.getUserProfileByUserId(addCategory.getUserId());
-        if(userProfileEntity == null){
-            userProfileEntity = new UserProfileEntity();
-            userProfileEntity.setProfileId(UUID.randomUUID().toString());
-            userProfileEntity.setUserId(addCategory.getUserId());
-        }
-        userProfileEntity.setExpertCategory(addCategory.getCategory());
-        userProfileEntity.setSkills(addCategory.getSkills());
-        userProfileDao.saveUserProfile(userProfileEntity);
+    public User addCategory(AddCategory addCategory) throws XpertCallerException {
+        User user;
+        try {
+            UserEntity userEntity = userDao.getUserById(addCategory.getUserId());
+            UserProfileEntity userProfileEntity = userProfileDao.getUserProfileByUserId(addCategory.getUserId());
+            if (userProfileEntity == null) {
+                userProfileEntity = new UserProfileEntity();
+                userProfileEntity.setProfileId(UUID.randomUUID().toString());
+                userProfileEntity.setUserId(addCategory.getUserId());
+            }
+            userProfileEntity.setExpertCategory(addCategory.getCategory());
+            userProfileEntity.setSkills(addCategory.getSkills());
+            userProfileDao.saveUserProfile(userProfileEntity);
 
-        User user = convertUserEntityToUser(userEntity);
-        user.setUserProfile(convertUserProfileEntityToUserProfile(userProfileEntity));
+            user = convertUserEntityToUser(userEntity);
+            user.setUserProfile(convertUserProfileEntityToUserProfile(userProfileEntity));
+        }catch (Exception e){
+            throw new XpertCallerException("Error occurred while adding category");
+        }
         return user;
     }
     private UserProfile convertUserProfileEntityToUserProfile(UserProfileEntity userProfileEntity){

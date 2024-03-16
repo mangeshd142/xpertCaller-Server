@@ -1,5 +1,6 @@
 package com.xpertcaller.server.controllers;
 
+import com.xpertcaller.server.exception.userdefined.XpertCallerException;
 import com.xpertcaller.server.moduls.AddCategory;
 import com.xpertcaller.server.moduls.User;
 import com.xpertcaller.server.service.interfaces.UserService;
@@ -14,7 +15,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/addCategory", method = RequestMethod.POST)
-    public User addCategory(@RequestBody AddCategory addCategory) {
+    public User addCategory(@RequestBody AddCategory addCategory) throws XpertCallerException {
         return userService.addCategory(addCategory);
     }
 }

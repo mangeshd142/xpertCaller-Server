@@ -1,5 +1,6 @@
 package com.xpertcaller.server.service.interfaces;
 
+import com.xpertcaller.server.exception.userdefined.XpertCallerException;
 import com.xpertcaller.server.moduls.AddCategory;
 import com.xpertcaller.server.moduls.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,5 +18,5 @@ public interface UserService {
 
     void deleteOtp(String mobileNumber);
 
-    User addCategory(AddCategory addCategory);
+    User addCategory(AddCategory addCategory) throws XpertCallerException;
 }
