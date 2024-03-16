@@ -1,5 +1,6 @@
 package com.xpertcaller.server.controllers;
 
+import com.xpertcaller.server.aws.service.S3BucketService;
 import com.xpertcaller.server.elastic.entities.Expert;
 import com.xpertcaller.server.moduls.College;
 import com.xpertcaller.server.moduls.ConsultationCategory;
@@ -9,14 +10,14 @@ import com.xpertcaller.server.service.interfaces.CollegeService;
 import com.xpertcaller.server.service.interfaces.ConsultationService;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/service")
@@ -30,6 +31,9 @@ public class ServiceController {
 
     @Autowired
     ExpertService expertService;
+
+    @Autowired
+    S3BucketService s3BucketService;
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/addData")
@@ -72,5 +76,13 @@ public class ServiceController {
     @RequestMapping("/expert")
     public Expert insertExpert(Expert expert) throws JSONException, IOException {
         return expertService.insertExpert(expert);
+    }
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/uploadFile")
+    public String uploadFile(@RequestParam(name = "file") MultipartFile multipartFile) throws JSONException, IOException {
+        File file = File.createTempFile("temp", null);
+        multipartFile.transferTo(file);
+        s3BucketService.uploadFile(UUID.randomUUID().toString(), file);
+        return "Success";
     }
 }

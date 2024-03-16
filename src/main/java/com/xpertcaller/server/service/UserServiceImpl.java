@@ -1,9 +1,12 @@
 package com.xpertcaller.server.service;
 
 import com.xpertcaller.server.db.interfaces.dao.UserDao;
+import com.xpertcaller.server.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.db.sql.entities.UserEntity;
+import com.xpertcaller.server.db.sql.entities.UserProfileEntity;
 import com.xpertcaller.server.moduls.AddCategory;
 import com.xpertcaller.server.moduls.User;
+import com.xpertcaller.server.moduls.UserProfile;
 import com.xpertcaller.server.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserProfileDao userProfileDao;
     Random random = new Random();
 
     @Override
@@ -40,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByMobileNumber(username);
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(), userEntity.getAge(),
-                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getProfileId(), userEntity.getRole(), userEntity.getOtp(), false);
+                userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(), userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false, null);
     }
 
     @Override
@@ -86,22 +92,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AddCategory addCategory(AddCategory addCategory) {
+    public User addCategory(AddCategory addCategory) {
         UserEntity userEntity = userDao.getUserById(addCategory.getUserId());
-        userEntity.setCategory(addCategory.getCategory());
+        UserProfileEntity userProfileEntity = userProfileDao.getUserProfileByUserId(addCategory.getUserId());
+        if(userProfileEntity == null){
+            userProfileEntity = new UserProfileEntity();
+            userProfileEntity.setProfileId(UUID.randomUUID().toString());
+            userProfileEntity.setUserId(addCategory.getUserId());
+        }
+        userProfileEntity.setExpertCategory(addCategory.getCategory());
+        userProfileEntity.setSkills(addCategory.getSkills());
+        userProfileDao.saveUserProfile(userProfileEntity);
 
-        return null;
+        User user = convertUserEntityToUser(userEntity);
+        user.setUserProfile(convertUserProfileEntityToUserProfile(userProfileEntity));
+        return user;
+    }
+    private UserProfile convertUserProfileEntityToUserProfile(UserProfileEntity userProfileEntity){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setProfileId(userProfileEntity.getProfileId());
+        userProfile.setUserId(userProfileEntity.getUserId());
+        userProfile.setExpertCategory(userProfile.getExpertCategory());
+        userProfile.setSkills(userProfileEntity.getSkills());
+        userProfile.setCollege(userProfileEntity.getCollege());
+        userProfile.setDegree(userProfileEntity.getDegree());
+        userProfile.setDetailedInfo(userProfileEntity.getDetailedInfo());
+        userProfile.setProfilePicture(userProfileEntity.getProfilePicture());
+        userProfile.setCertificates(userProfileEntity.getCertificates());
+        userProfile.setDesignation(userProfileEntity.getDesignation());
+        userProfile.setLanguages(userProfileEntity.getLanguages());
+        userProfile.setLongitude(userProfileEntity.getLongitude());
+        userProfile.setLatitude(userProfileEntity.getLatitude());
+        userProfile.setAddress(userProfileEntity.getAddress());
+        userProfile.setAverageRating(userProfileEntity.getAverageRating());
+        return userProfile;
     }
 
     private User convertUserEntityToUser(UserEntity userEntity){
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
                 userEntity.getAge(), "", userEntity.getMobileNumber(), userEntity.isActive(),
-                userEntity.getCategory(), userEntity.getProfileId(), userEntity.getRole(), "", false);
+                userEntity.getCategory(), userEntity.getRole(), "", false, null);
     }
 
     private UserEntity convertUserToUserEntity(User user){
          return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(),
-                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getProfileId(), user.getCategory(), user.getRole(), user.getOtp());
+                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole(), user.getOtp());
     }
 
 }

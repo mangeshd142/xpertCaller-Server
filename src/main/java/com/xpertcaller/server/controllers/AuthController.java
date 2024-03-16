@@ -87,4 +87,10 @@ public class AuthController {
             httpResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         return user;
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/createUser")
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
 }

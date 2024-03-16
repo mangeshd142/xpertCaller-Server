@@ -1,5 +1,6 @@
 package com.xpertcaller.server.moduls;
 
+import com.xpertcaller.server.db.sql.entities.UserProfileEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +23,10 @@ public class User implements UserDetails {
     private String mobileNumber;
     private boolean isActive;
     private String category;
-    private String profileId;
     private String role;
     private String otp;
     private boolean isPasswordAuthentication;
+    private UserProfile userProfile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

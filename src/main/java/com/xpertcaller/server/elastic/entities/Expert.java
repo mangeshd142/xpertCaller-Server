@@ -18,4 +18,6 @@ public class Expert {
     private String category;
     private String detailedInfo;
     private String searchKeyword;
+    private float averageRating;
+    private int totalReviewers;
 }

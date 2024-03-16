@@ -5,6 +5,7 @@ import com.xpertcaller.server.db.interfaces.dao.CollegeDao;
 import com.xpertcaller.server.db.sql.entities.CollegeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class CollegeDaoImpl implements CollegeDao {
     @Autowired
     CollegeRepository collegeRepository;
 
+    @Transactional
     @Override
     public List<CollegeEntity> insertColleges(List<CollegeEntity> collegeListEntity){
         return collegeRepository.saveAll(collegeListEntity);

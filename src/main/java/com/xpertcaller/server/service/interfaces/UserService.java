@@ -17,5 +17,5 @@ public interface UserService {
 
     void deleteOtp(String mobileNumber);
 
-    AddCategory addCategory(AddCategory addCategory);
+    User addCategory(AddCategory addCategory);
 }

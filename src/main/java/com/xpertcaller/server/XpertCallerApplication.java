@@ -6,9 +6,9 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @EnableElasticsearchRepositories
 @SpringBootApplication
-public class ConsultantApplication {
+public class XpertCallerApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(ConsultantApplication.class, args);
+		SpringApplication.run(XpertCallerApplication.class, args);
 	}
 
 }
