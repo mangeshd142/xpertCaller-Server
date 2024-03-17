@@ -1,9 +1,5 @@
-package com.xpertcaller.server.moduls;
+package com.xpertcaller.server.beans;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Getter

@@ -1,8 +1,8 @@
 package com.xpertcaller.server.service.interfaces;
 
 import com.xpertcaller.server.exception.userdefined.BusinessException;
-import com.xpertcaller.server.moduls.user.AddCategory;
-import com.xpertcaller.server.moduls.user.User;
+import com.xpertcaller.server.beans.user.AddCategory;
+import com.xpertcaller.server.beans.user.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

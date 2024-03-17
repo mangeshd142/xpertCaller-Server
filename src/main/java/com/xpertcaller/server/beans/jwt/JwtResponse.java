@@ -1,4 +1,4 @@
-package com.xpertcaller.server.moduls.jwt;
+package com.xpertcaller.server.beans.jwt;
 
 import lombok.*;
 

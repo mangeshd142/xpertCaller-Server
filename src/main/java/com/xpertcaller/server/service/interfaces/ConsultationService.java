@@ -1,7 +1,7 @@
 package com.xpertcaller.server.service.interfaces;
 
-import com.xpertcaller.server.moduls.ConsultationCategory;
-import com.xpertcaller.server.moduls.ConsultationSkills;
+import com.xpertcaller.server.beans.ConsultationCategory;
+import com.xpertcaller.server.beans.ConsultationSkills;
 import org.json.JSONException;
 
 import java.io.IOException;

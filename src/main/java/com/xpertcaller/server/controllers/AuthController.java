@@ -1,10 +1,10 @@
 package com.xpertcaller.server.controllers;
 
 import com.xpertcaller.server.exception.userdefined.BusinessException;
-import com.xpertcaller.server.moduls.jwt.JwtRequest;
-import com.xpertcaller.server.moduls.jwt.JwtRequestMobile;
-import com.xpertcaller.server.moduls.jwt.JwtResponse;
-import com.xpertcaller.server.moduls.user.User;
+import com.xpertcaller.server.beans.jwt.JwtRequest;
+import com.xpertcaller.server.beans.jwt.JwtRequestMobile;
+import com.xpertcaller.server.beans.jwt.JwtResponse;
+import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.security.JwtHelper;
 import com.xpertcaller.server.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;

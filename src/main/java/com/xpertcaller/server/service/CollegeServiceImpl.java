@@ -2,7 +2,7 @@ package com.xpertcaller.server.service;
 
 import com.xpertcaller.server.db.interfaces.dao.CollegeDao;
 import com.xpertcaller.server.db.sql.entities.CollegeEntity;
-import com.xpertcaller.server.moduls.user.College;
+import com.xpertcaller.server.beans.user.College;
 import com.xpertcaller.server.service.interfaces.CollegeService;
 import com.xpertcaller.server.util.ReadResourceFile;
 import org.json.JSONArray;

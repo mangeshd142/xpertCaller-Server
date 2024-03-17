@@ -1,4 +1,4 @@
-package com.xpertcaller.server.moduls.jwt;
+package com.xpertcaller.server.beans.jwt;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class JwtRequest {
-    private String username;
+public class JwtRequestMobile {
+    private String mobileNumber;
     private String password;
 }

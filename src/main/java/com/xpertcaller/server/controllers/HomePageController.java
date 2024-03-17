@@ -1,6 +1,6 @@
 package com.xpertcaller.server.controllers;
 
-import com.xpertcaller.server.moduls.user.User;
+import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,6 @@
 package com.xpertcaller.server.service.interfaces;
 
-import com.xpertcaller.server.moduls.user.College;
+import com.xpertcaller.server.beans.user.College;
 import org.json.JSONException;
 
 import java.io.IOException;
