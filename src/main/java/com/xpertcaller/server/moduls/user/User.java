@@ -1,6 +1,5 @@
-package com.xpertcaller.server.moduls;
+package com.xpertcaller.server.moduls.user;
 
-import com.xpertcaller.server.db.sql.entities.UserProfileEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

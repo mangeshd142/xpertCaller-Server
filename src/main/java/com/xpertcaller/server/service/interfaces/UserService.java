@@ -1,8 +1,8 @@
 package com.xpertcaller.server.service.interfaces;
 
-import com.xpertcaller.server.exception.userdefined.XpertCallerException;
-import com.xpertcaller.server.moduls.AddCategory;
-import com.xpertcaller.server.moduls.User;
+import com.xpertcaller.server.exception.userdefined.BusinessException;
+import com.xpertcaller.server.moduls.user.AddCategory;
+import com.xpertcaller.server.moduls.user.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -18,5 +18,5 @@ public interface UserService {
 
     void deleteOtp(String mobileNumber);
 
-    User addCategory(AddCategory addCategory) throws XpertCallerException;
+    User addCategory(AddCategory addCategory) throws BusinessException;
 }

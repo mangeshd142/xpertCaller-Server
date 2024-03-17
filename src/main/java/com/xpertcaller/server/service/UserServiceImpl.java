@@ -4,11 +4,13 @@ import com.xpertcaller.server.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.db.sql.entities.UserEntity;
 import com.xpertcaller.server.db.sql.entities.UserProfileEntity;
-import com.xpertcaller.server.exception.userdefined.XpertCallerException;
-import com.xpertcaller.server.moduls.AddCategory;
-import com.xpertcaller.server.moduls.User;
-import com.xpertcaller.server.moduls.UserProfile;
+import com.xpertcaller.server.exception.userdefined.BusinessException;
+import com.xpertcaller.server.moduls.user.AddCategory;
+import com.xpertcaller.server.moduls.user.User;
+import com.xpertcaller.server.moduls.user.UserProfile;
 import com.xpertcaller.server.service.interfaces.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserProfileDao userProfileDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     Random random = new Random();
 
     @Override
@@ -93,9 +98,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addCategory(AddCategory addCategory) throws XpertCallerException {
+    public User addCategory(AddCategory addCategory) throws BusinessException {
         User user;
         try {
+            logger.debug("adding category for user {} ", addCategory.getUserId());
             UserEntity userEntity = userDao.getUserById(addCategory.getUserId());
             UserProfileEntity userProfileEntity = userProfileDao.getUserProfileByUserId(addCategory.getUserId());
             if (userProfileEntity == null) {
@@ -110,7 +116,8 @@ public class UserServiceImpl implements UserService {
             user = convertUserEntityToUser(userEntity);
             user.setUserProfile(convertUserProfileEntityToUserProfile(userProfileEntity));
         }catch (Exception e){
-            throw new XpertCallerException("Error occurred while adding category");
+            logger.error("error while adding category ", e);
+            throw new BusinessException("Error occurred while adding category");
         }
         return user;
     }

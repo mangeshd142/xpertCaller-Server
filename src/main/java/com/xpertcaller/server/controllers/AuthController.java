@@ -1,9 +1,9 @@
 package com.xpertcaller.server.controllers;
 
-import com.xpertcaller.server.moduls.JwtRequest;
-import com.xpertcaller.server.moduls.JwtRequestMobile;
-import com.xpertcaller.server.moduls.JwtResponse;
-import com.xpertcaller.server.moduls.User;
+import com.xpertcaller.server.moduls.jwt.JwtRequest;
+import com.xpertcaller.server.moduls.jwt.JwtRequestMobile;
+import com.xpertcaller.server.moduls.jwt.JwtResponse;
+import com.xpertcaller.server.moduls.user.User;
 import com.xpertcaller.server.security.JwtHelper;
 import com.xpertcaller.server.service.interfaces.UserService;
 import jakarta.servlet.http.HttpServletResponse;

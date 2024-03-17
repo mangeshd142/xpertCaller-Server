@@ -1,4 +1,4 @@
-package com.xpertcaller.server.moduls;
+package com.xpertcaller.server.moduls.user;
 
 import lombok.*;
 

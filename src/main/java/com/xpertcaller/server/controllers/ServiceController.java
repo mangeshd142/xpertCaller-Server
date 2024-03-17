@@ -2,7 +2,7 @@ package com.xpertcaller.server.controllers;
 
 import com.xpertcaller.server.aws.service.S3BucketService;
 import com.xpertcaller.server.elastic.entities.Expert;
-import com.xpertcaller.server.moduls.College;
+import com.xpertcaller.server.moduls.user.College;
 import com.xpertcaller.server.moduls.ConsultationCategory;
 import com.xpertcaller.server.moduls.ConsultationSkills;
 import com.xpertcaller.server.service.ExpertService;
