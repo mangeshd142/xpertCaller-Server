@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -12,7 +13,8 @@ import java.util.Collections;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
+    private static final long serialVersionUID = 1L;
     private String userId;
     private String username;
     private String email;
@@ -25,7 +27,7 @@ public class User implements UserDetails {
     private String role;
     private String otp;
     private boolean isPasswordAuthentication;
-    private UserProfile userProfile;
+    private transient UserProfile userProfile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user){
-        user.setUserId(UUID.randomUUID().toString());
-        user.setActive(true);
         if(user != null){
+            user.setUserId(UUID.randomUUID().toString());
+            user.setActive(true);
             String randomNumber = "" + random.nextInt(10000,99999);
             System.err.println("OTP : " +randomNumber);
             String password = passwordEncoder.encode(randomNumber);
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             user.setOtp(password);
             UserEntity userEntity = convertUserToUserEntity(user);
             UserEntity userEntity1 = userDao.saveUser(userEntity);
-            user = convertUserEntityToUser(userEntity);
+            user = convertUserEntityToUser(userEntity1);
         }
         return user;
     }
@@ -79,13 +79,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User sendOtp(String mobileNumber){
+    public User sendOtp(String mobileNumber) throws BusinessException {
         UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
         if(userEntity !=null){
             String randomNumber = "" + random.nextInt(99999);
             System.out.println("OTP : " +randomNumber);
             userEntity.setOtp(passwordEncoder.encode(randomNumber));
             userEntity = userDao.saveUser(userEntity);
+        }else{
+            throw new BusinessException("User not registered");
         }
         return convertUserEntityToUser(userEntity);
     }

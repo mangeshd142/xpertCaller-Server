@@ -1,5 +1,6 @@
 package com.xpertcaller.server.controllers;
 
+import com.xpertcaller.server.exception.userdefined.BusinessException;
 import com.xpertcaller.server.moduls.jwt.JwtRequest;
 import com.xpertcaller.server.moduls.jwt.JwtRequestMobile;
 import com.xpertcaller.server.moduls.jwt.JwtResponse;
@@ -81,7 +82,7 @@ public class AuthController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/sendOtp")
-    public User sendOtp(@RequestBody String mobileNumber, HttpServletResponse httpResponse) {
+    public User sendOtp(@RequestBody String mobileNumber, HttpServletResponse httpResponse) throws BusinessException {
         User user = userService.sendOtp(mobileNumber);
         if(user == null)
             httpResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);

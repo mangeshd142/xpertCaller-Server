@@ -73,7 +73,7 @@ public class ServiceController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/expert")
+    @RequestMapping(value = "/expert", method = RequestMethod.POST)
     public Expert insertExpert(Expert expert) throws JSONException, IOException {
         return expertService.insertExpert(expert);
     }

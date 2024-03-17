@@ -2,6 +2,7 @@ package com.xpertcaller.server.moduls.user;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -9,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserProfile {
+public class UserProfile implements Serializable {
     private String profileId;
     private String userId;
     private String expertCategory;

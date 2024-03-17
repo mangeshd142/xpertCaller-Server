@@ -13,7 +13,7 @@ public interface UserService {
     User createUser(User user);
 
     User getUserByMobileNumber(String mobileNumber);
-    User sendOtp(String mobileNumber);
+    User sendOtp(String mobileNumber) throws BusinessException;
     List<User> getAllUsers();
 
     void deleteOtp(String mobileNumber);

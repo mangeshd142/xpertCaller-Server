@@ -15,16 +15,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
-    @Autowired
-    private JwtAuthenticationEntryPoint point;
-    @Autowired
-    private JwtAuthenticationFilter filter;
+    private final JwtAuthenticationEntryPoint point;
+    private final JwtAuthenticationFilter filter;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public SecurityConfig(JwtAuthenticationEntryPoint point, JwtAuthenticationFilter filter, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        this.point = point;
+        this.filter = filter;
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +34,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                         .authorizeHttpRequests(auth -> auth.requestMatchers("/about")
                                 .authenticated().requestMatchers("/auth/login")
-                                .permitAll().requestMatchers("/auth/**").permitAll().anyRequest().authenticated().and())
+                                .permitAll().requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
                         .exceptionHandling(ex -> ex.authenticationEntryPoint(point)).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
