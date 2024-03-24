@@ -27,7 +27,6 @@ public class User implements UserDetails, Serializable {
     private String role;
     private String otp;
     private boolean isPasswordAuthentication;
-    private transient UserProfile userProfile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

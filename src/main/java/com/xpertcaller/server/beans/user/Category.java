@@ -9,8 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AddCategory {
-    private String userId;
+public class Category {
     private String category;
     private List<String> skills;
 }
