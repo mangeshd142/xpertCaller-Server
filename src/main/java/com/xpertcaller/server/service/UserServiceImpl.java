@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user){
         UserEntity userEntity = userDao.findByMobileNumber(user.getMobileNumber());
-        if(userEntity != null){
+        if(userEntity == null){
             user.setUserId(UUID.randomUUID().toString());
             user.setActive(true);
             String randomNumber = "" + random.nextInt(10000,99999);
