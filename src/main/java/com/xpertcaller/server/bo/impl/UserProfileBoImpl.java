@@ -49,7 +49,7 @@ public class UserProfileBoImpl implements UserProfileBo {
             User user = CommonUtil.getCurrentUser();
             UserEntity userEntity = userDao.getUserById(user.getUserId());
             UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
-            convertUserProfileToUseProfileEntity(profileDetails, userProfileEntity);
+            userProfileEntity = convertUserProfileToUseProfileEntity(profileDetails, userProfileEntity);
             userProfileEntity.setUserEntity(userEntity);
 
             userProfileDao.saveUserProfile(userProfileEntity);
