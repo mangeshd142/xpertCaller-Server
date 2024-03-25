@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Address {
+    private String addressId;
     private String street;
     private String city;
     private String state;

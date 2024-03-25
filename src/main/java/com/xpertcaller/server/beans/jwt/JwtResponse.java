@@ -11,4 +11,5 @@ import lombok.*;
 public class JwtResponse {
     String username;
     String jwtToken;
+    String name;
 }

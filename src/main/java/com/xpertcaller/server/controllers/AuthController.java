@@ -53,7 +53,7 @@ public class AuthController {
     public ResponseEntity<JwtResponse> login2(@RequestBody JwtRequestMobile request) {
         this.doAuthenticate(request.getMobileNumber(), request.getPassword());
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getMobileNumber());
+        User userDetails = (User) userDetailsService.loadUserByUsername(request.getMobileNumber());
         String token = this.helper.generateToken(userDetails);
         if (token != null && !token.isEmpty()){
             userService.deleteOtp(request.getMobileNumber());
@@ -61,7 +61,8 @@ public class AuthController {
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
-                .username(userDetails.getUsername()).build();
+                .username(userDetails.getUsername()).name(userDetails.getName()).build();
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

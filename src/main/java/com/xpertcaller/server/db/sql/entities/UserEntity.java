@@ -22,6 +22,7 @@ public class UserEntity {
     private String email;
     private String name;
     private int age;
+    private String gender;
     private String password;
     @Column(unique = true)
     private String mobileNumber;

@@ -19,4 +19,6 @@ public interface UserService {
     void deleteOtp(String mobileNumber);
 
     ProfileDetails addProfileDetails(ProfileDetails profileDetails) throws BusinessException;
+
+    User updateUser(User user) throws BusinessException;
 }

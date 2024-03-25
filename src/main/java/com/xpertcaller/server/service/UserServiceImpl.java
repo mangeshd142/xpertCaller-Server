@@ -7,6 +7,7 @@ import com.xpertcaller.server.db.sql.entities.UserEntity;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
 import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.service.interfaces.UserService;
+import com.xpertcaller.server.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByMobileNumber(username);
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getAge(), userEntity.getGender(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
                 userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false);
     }
 
@@ -80,16 +81,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User sendOtp(String mobileNumber) throws BusinessException {
-        UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
-        if(userEntity !=null){
-            String randomNumber = "" + random.nextInt(10000,99999);
+        try {
+            UserEntity userEntity = userDao.findByMobileNumber(mobileNumber);
+            if (userEntity == null) {
+                userEntity = new UserEntity();
+                userEntity.setUserId(UUID.randomUUID().toString());
+                userEntity.setMobileNumber(mobileNumber);
+                userEntity.setUsername(mobileNumber);
+                userEntity.setActive(true);
+            }
+            String randomNumber = "" + random.nextInt(10000, 99999);
             logger.error("OTP : {}", randomNumber);
             userEntity.setOtp(passwordEncoder.encode(randomNumber));
-            userEntity = userDao.saveUser(userEntity);
-        }else{
-            throw new BusinessException("User not registered");
+            return convertUserEntityToUser(userDao.saveUser(userEntity));
+        } catch (Exception e) {
+            logger.error("Error while sending otp or creating new user ", e);
+            throw new BusinessException("Error while sending otp or creating new user");
         }
-        return convertUserEntityToUser(userEntity);
     }
 
     @Override
@@ -106,15 +114,27 @@ public class UserServiceImpl implements UserService {
         return userProfileBo.addProfileDetails(profileDetails);
     }
 
+    @Override
+    public User updateUser(User user) throws BusinessException {
+        User loggedUser = CommonUtil.getCurrentUser();
+        UserEntity userEntity = userDao.findByMobileNumber(loggedUser.getMobileNumber());
+        userEntity.setName(user.getName());
+        userEntity.setGender(user.getGender());
+        userEntity.setEmail(user.getEmail());
+        userEntity = userDao.saveUser(userEntity);
+
+        return convertUserEntityToUser(userEntity);
+    }
+
 
     private User convertUserEntityToUser(UserEntity userEntity){
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), "", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getAge(), userEntity.getGender(),"", userEntity.getMobileNumber(), userEntity.isActive(),
                 userEntity.getCategory(), userEntity.getRole(), "", false);
     }
 
     private UserEntity convertUserToUserEntity(User user){
-         return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(),
+         return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(), user.getGender(),
                  user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole(), user.getOtp());
     }
 

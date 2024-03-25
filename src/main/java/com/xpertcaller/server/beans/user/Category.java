@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class Category {
+    private String categoryId;
     private String category;
     private List<String> skills;
 }

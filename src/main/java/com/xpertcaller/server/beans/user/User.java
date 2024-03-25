@@ -20,6 +20,7 @@ public class User implements UserDetails, Serializable {
     private String email;
     private String name;
     private int age;
+    private String gender;
     private String password;
     private String mobileNumber;
     private boolean isActive;
