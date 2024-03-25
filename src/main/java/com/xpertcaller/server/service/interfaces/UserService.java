@@ -23,4 +23,6 @@ public interface UserService {
     User updateUser(User user) throws BusinessException;
 
     ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException;
+
+    ProfileDetails updateDocumentIds(List<String> profilePicIds) throws BusinessException;
 }

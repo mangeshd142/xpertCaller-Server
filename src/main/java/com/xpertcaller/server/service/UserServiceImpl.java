@@ -131,6 +131,10 @@ public class UserServiceImpl implements UserService {
         return userProfileBo.updateProfilePictureId(profileImageId);
     }
 
+    public ProfileDetails updateDocumentIds(List<String> profilePicIds) throws BusinessException {
+        return userProfileBo.updateDocumentIds(profilePicIds);
+    }
+
 
     private User convertUserEntityToUser(UserEntity userEntity){
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),

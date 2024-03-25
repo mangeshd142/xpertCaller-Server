@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,5 +52,24 @@ public class UserController {
             logger.error("File is empty", businessException);
             throw businessException;
         }
+    }
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/uploadDocuments")
+    public ProfileDetails uploadDocuments(@RequestParam(name = "files") List<MultipartFile> multipartFiles) throws IOException, BusinessException {
+        List<String> profilePicIds = new ArrayList<>();
+        for (MultipartFile multipartFile: multipartFiles) {
+            if (!multipartFile.isEmpty()) {
+                File file = File.createTempFile("temp", null);
+                multipartFile.transferTo(file);
+                String profilePicId = UUID.randomUUID().toString();
+                s3BucketService.uploadFile(profilePicId, file);
+                profilePicIds.add(profilePicId);
+            } else {
+                BusinessException businessException = new BusinessException("One of the file is empty");
+                logger.error("One of the file is empty", businessException);
+                throw businessException;
+            }
+        }
+        return userService.updateDocumentIds(profilePicIds);
     }
 }

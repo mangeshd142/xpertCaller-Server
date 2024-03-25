@@ -76,6 +76,21 @@ public class UserProfileBoImpl implements UserProfileBo {
         }
     }
 
+    @Override
+    public ProfileDetails updateDocumentIds(List<String> profilePicIds) throws BusinessException {
+        try {
+            User user = CommonUtil.getCurrentUser();
+            UserEntity userEntity = userDao.getUserById(user.getUserId());
+            UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
+            userProfileEntity.setFiles(profilePicIds);
+            UserProfileEntity updatedUserProfileEntity = userProfileDao.saveUserProfile(userProfileEntity);
+            return convertUserProfileEntityToProfileDetails(updatedUserProfileEntity);
+        }catch (Exception e){
+            logger.error("Error while adding profile pic id ", e);
+            throw new BusinessException("Error while adding profile pic id");
+        }
+    }
+
 
     private UserProfileEntity createOrUpdateUserProfileEntity(ProfileDetails profileDetails, UserProfileEntity userProfileEntity) {
         if(userProfileEntity == null){
