@@ -126,6 +126,11 @@ public class UserServiceImpl implements UserService {
         return convertUserEntityToUser(userEntity);
     }
 
+    @Override
+    public ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException {
+        return userProfileBo.updateProfilePictureId(profileImageId);
+    }
+
 
     private User convertUserEntityToUser(UserEntity userEntity){
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),

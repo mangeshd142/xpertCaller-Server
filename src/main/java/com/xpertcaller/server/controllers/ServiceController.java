@@ -42,8 +42,8 @@ public class ServiceController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/getColleges")
-    public List<College> getColleges(@RequestBody String collegeName) throws IOException, JSONException {
+    @RequestMapping(value = "/getColleges", method = RequestMethod.GET)
+    public List<College> getColleges(@RequestParam String collegeName) throws IOException, JSONException {
         return collegeService.getColleges(collegeName);
     }
     @CrossOrigin(origins = "*")
@@ -65,11 +65,10 @@ public class ServiceController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping("/create-data")
+    @RequestMapping(value = "/create-data", method = RequestMethod.GET)
     public void createData() throws JSONException, IOException {
         collegeService.insertColleges();
         consultationService.insertConsultationCategory();
-        return ;
     }
 
     @CrossOrigin(origins = "*")

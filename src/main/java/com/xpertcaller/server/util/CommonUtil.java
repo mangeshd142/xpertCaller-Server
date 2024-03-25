@@ -9,12 +9,10 @@ public class CommonUtil {
     private CommonUtil(){}
     public static User getCurrentUser() throws BusinessException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
         if (authentication != null && authentication.getPrincipal() instanceof User) {
-            user = (User) authentication.getPrincipal();
+            return (User) authentication.getPrincipal();
         }else {
             throw new BusinessException("No user authenticated");
         }
-        return user;
     }
 }

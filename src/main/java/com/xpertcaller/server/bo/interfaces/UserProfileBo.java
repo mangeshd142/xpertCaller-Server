@@ -5,4 +5,6 @@ import com.xpertcaller.server.exception.userdefined.BusinessException;
 
 public interface UserProfileBo {
     ProfileDetails addProfileDetails(ProfileDetails profileDetails) throws BusinessException;
+
+    ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException;
 }
