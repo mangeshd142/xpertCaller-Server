@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class CommonUtil {
+    private CommonUtil(){}
     public static User getCurrentUser() throws BusinessException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
