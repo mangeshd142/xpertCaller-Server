@@ -1,5 +1,6 @@
 package com.xpertcaller.server.beans.jwt;
 
+import com.xpertcaller.server.beans.user.User;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,6 @@ import lombok.*;
 @Builder
 @ToString
 public class JwtResponse {
-    String username;
     String jwtToken;
-    String name;
+    User user;
 }

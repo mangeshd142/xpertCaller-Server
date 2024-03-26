@@ -36,19 +36,6 @@ public class AuthController {
     private UserService userService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/login2")
-    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest request) {
-        this.doAuthenticate(request.getUsername(), request.getPassword());
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = this.helper.generateToken(userDetails);
-
-        JwtResponse response = JwtResponse.builder()
-                .jwtToken(token)
-                .username(userDetails.getUsername()).build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    @CrossOrigin(origins = "*")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login2(@RequestBody JwtRequestMobile request) {
         this.doAuthenticate(request.getMobileNumber(), request.getPassword());
@@ -61,7 +48,7 @@ public class AuthController {
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
-                .username(userDetails.getUsername()).name(userDetails.getName()).build();
+                .user(userDetails).build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -5,7 +5,6 @@ import com.xpertcaller.server.beans.user.ProfileDetails;
 import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
 import com.xpertcaller.server.service.interfaces.UserService;
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
