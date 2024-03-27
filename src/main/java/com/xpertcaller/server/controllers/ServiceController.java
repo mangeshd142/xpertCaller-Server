@@ -1,6 +1,6 @@
 package com.xpertcaller.server.controllers;
 
-import com.xpertcaller.server.aws.service.interfaces.S3BucketServiceInterface;
+import com.xpertcaller.server.aws.service.interfaces.S3BucketService;
 import com.xpertcaller.server.elastic.entities.Expert;
 import com.xpertcaller.server.beans.user.College;
 import com.xpertcaller.server.beans.ConsultationCategory;
@@ -33,7 +33,7 @@ public class ServiceController {
     ExpertService expertService;
 
     @Autowired
-    S3BucketServiceInterface s3BucketService;
+    S3BucketService s3BucketService;
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/addData")

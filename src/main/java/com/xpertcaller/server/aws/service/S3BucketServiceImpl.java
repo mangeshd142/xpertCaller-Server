@@ -1,5 +1,5 @@
 package com.xpertcaller.server.aws.service;
-import com.xpertcaller.server.aws.service.interfaces.S3BucketServiceInterface;
+import com.xpertcaller.server.aws.service.interfaces.S3BucketService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -10,7 +10,7 @@ import software.amazon.awssdk.services.s3.model.*;
 import java.io.File;
 
 @Component
-public class S3BucketService implements S3BucketServiceInterface {
+public class S3BucketServiceImpl implements S3BucketService {
 
     private String accessKey;
 
@@ -21,10 +21,10 @@ public class S3BucketService implements S3BucketServiceInterface {
 
     private final S3Client s3Client;
 
-    public S3BucketService(@Value("${aws.accessKey}") String accessKey,
-                           @Value("${aws.secretKey}") String secretKey,
-                           @Value("${aws.region}") String region,
-                           @Value("${aws.bucketName}") String bucketName) {
+    public S3BucketServiceImpl(@Value("${aws.accessKey}") String accessKey,
+                               @Value("${aws.secretKey}") String secretKey,
+                               @Value("${aws.region}") String region,
+                               @Value("${aws.bucketName}") String bucketName) {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.region = region;

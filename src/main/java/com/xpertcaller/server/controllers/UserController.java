@@ -1,7 +1,7 @@
 package com.xpertcaller.server.controllers;
 
 
-import com.xpertcaller.server.aws.service.interfaces.S3BucketServiceInterface;
+import com.xpertcaller.server.aws.service.interfaces.S3BucketService;
 import com.xpertcaller.server.beans.user.ProfileDetails;
 import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    S3BucketServiceInterface s3BucketService;
+    S3BucketService s3BucketService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/addProfileDetails", method = RequestMethod.POST)
