@@ -33,6 +33,13 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/fetchCurrentUser", method = RequestMethod.GET)
+    public User fetchCurrentUser() throws BusinessException {
+        return userService.fetchCurrentUser();
+    }
+
+
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public User updateUser(@RequestBody User user) throws BusinessException {
         return userService.updateUser(user);

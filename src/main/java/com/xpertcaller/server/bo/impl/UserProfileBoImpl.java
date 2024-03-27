@@ -97,6 +97,11 @@ public class UserProfileBoImpl implements UserProfileBo {
         }
     }
 
+    @Override
+    public User fetchCurrentUser() throws BusinessException{
+        return CommonUtil.getCurrentUser();
+    }
+
     private UserProfileEntity getCurrentUserProfileEntity() throws BusinessException {
         User user = CommonUtil.getCurrentUser();
         UserEntity userEntity = userDao.getUserById(user.getUserId());

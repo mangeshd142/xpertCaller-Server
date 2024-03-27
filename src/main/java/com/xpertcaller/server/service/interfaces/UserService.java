@@ -27,4 +27,6 @@ public interface UserService {
     ProfileDetails updateDocumentIds(List<String> profilePicIds) throws BusinessException;
 
     ProfileDetails fetchProfileDetails() throws BusinessException;
+
+    User fetchCurrentUser() throws BusinessException;
 }

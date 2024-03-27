@@ -136,6 +136,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User fetchCurrentUser() throws BusinessException{
+        return userProfileBo.fetchCurrentUser();
+    }
+    @Override
     public ProfileDetails fetchProfileDetails() throws BusinessException{
         return userProfileBo.fetchProfileDetails();
     }
