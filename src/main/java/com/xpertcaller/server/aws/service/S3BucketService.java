@@ -1,7 +1,7 @@
 package com.xpertcaller.server.aws.service;
+import com.xpertcaller.server.aws.service.interfaces.S3BucketServiceInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -10,29 +10,33 @@ import software.amazon.awssdk.services.s3.model.*;
 import java.io.File;
 
 @Component
-public class S3BucketService {
+public class S3BucketService implements S3BucketServiceInterface {
 
-    @Value("${aws.accessKey}")
-    private String accessKey = "AKIAXJYJQ2SWAPOYJJEQ";
+    private String accessKey;
 
-    @Value("${aws.secretKey}")
-    private String secretKey = "74LhNN0d7V0iRrmUM+NcvbLaIZApndE6W2sMVs5B";
+    private String secretKey;
 
-    @Value("${aws.region}")
-    private String region = "ap-south-1";
-
-    @Value("${aws.bucketName}")
-    private String bucketName = "xpertcaller-service-v1";
+    private String region;
+    private String bucketName;
 
     private final S3Client s3Client;
 
-    public S3BucketService() {
+    public S3BucketService(@Value("${aws.accessKey}") String accessKey,
+                           @Value("${aws.secretKey}") String secretKey,
+                           @Value("${aws.region}") String region,
+                           @Value("${aws.bucketName}") String bucketName) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.region = region;
+        this.bucketName = bucketName;
+
         this.s3Client = S3Client.builder()
                 .region(Region.of(region))
                 .credentialsProvider(() -> AwsBasicCredentials.create(accessKey, secretKey))
                 .build();
     }
 
+    @Override
     public void uploadFile(String key, File file) {
         s3Client.putObject(PutObjectRequest.builder()
                 .bucket(this.bucketName)
@@ -40,6 +44,7 @@ public class S3BucketService {
                 .build(), file.toPath());
     }
 
+    @Override
     public void downloadFile(String key, File outputFile) {
         s3Client.getObject(GetObjectRequest.builder()
                 .bucket(this.bucketName)
