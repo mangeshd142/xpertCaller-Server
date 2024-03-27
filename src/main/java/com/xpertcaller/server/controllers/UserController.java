@@ -5,6 +5,7 @@ import com.xpertcaller.server.beans.user.ProfileDetails;
 import com.xpertcaller.server.beans.user.User;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
 import com.xpertcaller.server.service.interfaces.UserService;
+import com.xpertcaller.server.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +39,19 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/fetchProfileDetails", method = RequestMethod.GET)
+    public ProfileDetails fetchProfileDetails() throws BusinessException {
+        return userService.fetchProfileDetails();
+    }
+
+    @CrossOrigin(origins = "*")
     @RequestMapping("/uploadProfilePic")
     public ProfileDetails uploadProfilePic(@RequestParam(name = "file") MultipartFile multipartFile) throws IOException, BusinessException {
         if(!multipartFile.isEmpty()) {
+            String fileFormat = CommonUtil.getFileFormat(multipartFile.getOriginalFilename());
             File file = File.createTempFile("temp", null);
             multipartFile.transferTo(file);
-            String profilePicId = UUID.randomUUID().toString();
+            String profilePicId = UUID.randomUUID().toString() + "." + fileFormat;
             s3BucketService.uploadFile(profilePicId, file);
             return userService.updateProfilePictureId(profilePicId);
         }else{
@@ -58,9 +66,10 @@ public class UserController {
         List<String> profilePicIds = new ArrayList<>();
         for (MultipartFile multipartFile: multipartFiles) {
             if (!multipartFile.isEmpty()) {
+                String fileFormat = CommonUtil.getFileFormat(multipartFile.getOriginalFilename());
                 File file = File.createTempFile("temp", null);
                 multipartFile.transferTo(file);
-                String profilePicId = UUID.randomUUID().toString();
+                String profilePicId = UUID.randomUUID().toString() + "." + fileFormat;
                 s3BucketService.uploadFile(profilePicId, file);
                 profilePicIds.add(profilePicId);
             } else {

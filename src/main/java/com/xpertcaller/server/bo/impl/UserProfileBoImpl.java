@@ -64,9 +64,7 @@ public class UserProfileBoImpl implements UserProfileBo {
     @Override
     public ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException {
         try {
-            User user = CommonUtil.getCurrentUser();
-            UserEntity userEntity = userDao.getUserById(user.getUserId());
-            UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
+            UserProfileEntity userProfileEntity = getCurrentUserProfileEntity();
             userProfileEntity.setProfilePic(profileImageId);
             UserProfileEntity updatedUserProfileEntity = userProfileDao.saveUserProfile(userProfileEntity);
             return convertUserProfileEntityToProfileDetails(updatedUserProfileEntity);
@@ -79,9 +77,7 @@ public class UserProfileBoImpl implements UserProfileBo {
     @Override
     public ProfileDetails updateDocumentIds(List<String> profilePicIds) throws BusinessException {
         try {
-            User user = CommonUtil.getCurrentUser();
-            UserEntity userEntity = userDao.getUserById(user.getUserId());
-            UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
+            UserProfileEntity userProfileEntity = getCurrentUserProfileEntity();
             userProfileEntity.setFiles(profilePicIds);
             UserProfileEntity updatedUserProfileEntity = userProfileDao.saveUserProfile(userProfileEntity);
             return convertUserProfileEntityToProfileDetails(updatedUserProfileEntity);
@@ -91,6 +87,22 @@ public class UserProfileBoImpl implements UserProfileBo {
         }
     }
 
+    @Override
+    public ProfileDetails fetchProfileDetails() throws BusinessException{
+        UserProfileEntity userProfileEntity = getCurrentUserProfileEntity();
+        if(userProfileEntity != null){
+            return convertUserProfileEntityToProfileDetails(userProfileEntity);
+        } else {
+            throw new BusinessException("Profile details are not registered");
+        }
+    }
+
+    private UserProfileEntity getCurrentUserProfileEntity() throws BusinessException {
+        User user = CommonUtil.getCurrentUser();
+        UserEntity userEntity = userDao.getUserById(user.getUserId());
+        UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
+        return userProfileEntity;
+    }
 
     private UserProfileEntity createOrUpdateUserProfileEntity(ProfileDetails profileDetails, UserProfileEntity userProfileEntity) {
         if(userProfileEntity == null){

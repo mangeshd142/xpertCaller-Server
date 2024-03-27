@@ -135,6 +135,10 @@ public class UserServiceImpl implements UserService {
         return userProfileBo.updateDocumentIds(profilePicIds);
     }
 
+    @Override
+    public ProfileDetails fetchProfileDetails() throws BusinessException{
+        return userProfileBo.fetchProfileDetails();
+    }
 
     private User convertUserEntityToUser(UserEntity userEntity){
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),

@@ -45,11 +45,11 @@ public class AuthController {
         if (token != null && !token.isEmpty()){
             userService.deleteOtp(request.getMobileNumber());
         }
-
+        userDetails.setOtp("");
+        userDetails.setPassword("");
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
                 .user(userDetails).build();
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
