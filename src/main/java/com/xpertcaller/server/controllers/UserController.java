@@ -38,7 +38,6 @@ public class UserController {
         return userService.fetchCurrentUser();
     }
 
-
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     public User updateUser(@RequestBody User user) throws BusinessException {

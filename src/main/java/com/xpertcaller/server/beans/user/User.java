@@ -1,5 +1,6 @@
 package com.xpertcaller.server.beans.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +22,13 @@ public class User implements UserDetails, Serializable {
     private String name;
     private int age;
     private String gender;
+    @JsonIgnore
     private String password;
     private String mobileNumber;
     private boolean isActive;
     private String category;
     private String role;
+    @JsonIgnore
     private String otp;
     private boolean isPasswordAuthentication;
 
