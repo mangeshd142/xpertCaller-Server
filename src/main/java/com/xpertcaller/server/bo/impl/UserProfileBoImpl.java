@@ -2,6 +2,8 @@ package com.xpertcaller.server.bo.impl;
 
 import com.xpertcaller.server.beans.user.*;
 import com.xpertcaller.server.bo.interfaces.UserProfileBo;
+import com.xpertcaller.server.db.interfaces.dao.EducationDetailsDao;
+import com.xpertcaller.server.db.interfaces.dao.ExperienceDao;
 import com.xpertcaller.server.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.db.sql.entities.UserEntity;
@@ -12,8 +14,6 @@ import com.xpertcaller.server.db.sql.entities.profileEntities.EducationDetailsEn
 import com.xpertcaller.server.db.sql.entities.profileEntities.ExperienceEntity;
 import com.xpertcaller.server.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.db.sql.repositories.CategoryRepository;
-import com.xpertcaller.server.db.sql.repositories.EducationDetailsRepository;
-import com.xpertcaller.server.db.sql.repositories.ExperienceRepository;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
 import com.xpertcaller.server.service.UserServiceImpl;
 import com.xpertcaller.server.util.CommonUtil;
@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class UserProfileBoImpl implements UserProfileBo {
@@ -36,15 +37,15 @@ public class UserProfileBoImpl implements UserProfileBo {
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
-    EducationDetailsRepository educationDetailsRepository;
+    EducationDetailsDao educationDetailsDao;
     @Autowired
-    ExperienceRepository experienceRepository;
+    ExperienceDao experienceDao;
     @Autowired
     UserDao userDao;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public ProfileDetails addProfileDetails(ProfileDetails profileDetails) throws BusinessException {
+    public ProfileDetails addOrUpdateProfileDetails(ProfileDetails profileDetails) throws BusinessException {
         try {
             logger.debug("adding Profile details");
             User user = CommonUtil.getCurrentUser();
@@ -175,6 +176,33 @@ public class UserProfileBoImpl implements UserProfileBo {
                 userProfileEntity.setExperienceEntities(experienceEntities);
             }
         }
+
+        List<String> deleteEducationDetailIds = profileDetails.getDeleteEducationDetailIds();
+        if(deleteEducationDetailIds != null)
+            deleteEducationDetailIds.forEach( id ->{
+                userProfileEntity.setEducationDetailEntities(deleteEducationDetail(userProfileEntity.getEducationDetailEntities(), id));
+            });
+
+        List<String> deleteExperienceIds = profileDetails.getDeleteExperienceIds();
+        if (deleteExperienceIds != null)
+            deleteExperienceIds.forEach(id->{
+                userProfileEntity.setExperienceEntities(deleteExperience(userProfileEntity.getExperienceEntities(), id));
+            });
+
+    }
+
+    private List<EducationDetailsEntity> deleteEducationDetail(List<EducationDetailsEntity> list, String eduId) {
+        educationDetailsDao.deleteEducationDetails(eduId);
+        return list.stream()
+                .filter(obj -> !obj.getEducationDetailsId().equals(eduId))
+                .collect(Collectors.toList());
+    }
+
+    private List<ExperienceEntity> deleteExperience(List<ExperienceEntity> list, String experienceId) {
+        experienceDao.deleteExperience(experienceId);
+        return list.stream()
+                .filter(obj -> !obj.getExperienceEntityId().equals(experienceId))
+                .collect(Collectors.toList());
     }
 
     private UserProfileEntity createUserProfileEntity(ProfileDetails profileDetails){

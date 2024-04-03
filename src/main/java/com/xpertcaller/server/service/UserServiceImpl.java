@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ProfileDetails addProfileDetails(ProfileDetails profileDetails) throws BusinessException {
-        return userProfileBo.addProfileDetails(profileDetails);
+        return userProfileBo.addOrUpdateProfileDetails(profileDetails);
     }
 
     @Override

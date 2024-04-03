@@ -7,7 +7,7 @@ import com.xpertcaller.server.exception.userdefined.BusinessException;
 import java.util.List;
 
 public interface UserProfileBo {
-    ProfileDetails addProfileDetails(ProfileDetails profileDetails) throws BusinessException;
+    ProfileDetails addOrUpdateProfileDetails(ProfileDetails profileDetails) throws BusinessException;
 
     ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException;
 

@@ -18,4 +18,6 @@ public class ProfileDetails {
     private List<Experience> experiences;
     private Address address;
     private List<String> files;
+    private List<String> deleteEducationDetailIds;
+    private List<String> deleteExperienceIds;
 }
