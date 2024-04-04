@@ -194,14 +194,14 @@ public class UserProfileBoImpl implements UserProfileBo {
     private List<EducationDetailsEntity> deleteEducationDetail(List<EducationDetailsEntity> list, String eduId) {
         educationDetailsDao.deleteEducationDetails(eduId);
         return list.stream()
-                .filter(obj -> !obj.getEducationDetailsId().equals(eduId))
+                .filter(obj -> obj.getEducationDetailsId() == null || !obj.getEducationDetailsId().equals(eduId))
                 .collect(Collectors.toList());
     }
 
     private List<ExperienceEntity> deleteExperience(List<ExperienceEntity> list, String experienceId) {
         experienceDao.deleteExperience(experienceId);
         return list.stream()
-                .filter(obj -> !obj.getExperienceEntityId().equals(experienceId))
+                .filter(obj -> obj.getExperienceEntityId() == null || !obj.getExperienceEntityId().equals(experienceId))
                 .collect(Collectors.toList());
     }
 

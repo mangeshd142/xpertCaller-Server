@@ -1,8 +1,9 @@
 package com.xpertcaller.server.aws.service.interfaces;
 
 import java.io.File;
+import java.io.IOException;
 
 public interface S3BucketService {
-    void downloadFile(String key, File outputFile);
+    byte[] downloadFile(String imageName) throws IOException;
     void uploadFile(String key, File file);
 }

@@ -10,9 +10,14 @@ import com.xpertcaller.server.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,5 +91,19 @@ public class UserController {
             }
         }
         return userService.updateDocumentIds(profilePicIds);
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/getFile/{fileName}")
+    public ResponseEntity getFile(@PathVariable String fileName) throws IOException, BusinessException {
+        byte[] imageContent = s3BucketService.downloadFile(fileName);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(imageContent.length);
+        headers.setContentDispositionFormData("attachment", fileName);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new InputStreamResource(new ByteArrayInputStream(imageContent)));
     }
 }

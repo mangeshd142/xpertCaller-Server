@@ -8,6 +8,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.File;
+import java.io.IOException;
 
 @Component
 public class S3BucketServiceImpl implements S3BucketService {
@@ -45,11 +46,11 @@ public class S3BucketServiceImpl implements S3BucketService {
     }
 
     @Override
-    public void downloadFile(String key, File outputFile) {
-        s3Client.getObject(GetObjectRequest.builder()
+    public byte[] downloadFile(String imageName) throws IOException {
+        return s3Client.getObject(GetObjectRequest.builder()
                 .bucket(this.bucketName)
-                .key(key)
-                .build(), outputFile.toPath());
+                .key(imageName)
+                .build()).readAllBytes();
     }
 
 }
