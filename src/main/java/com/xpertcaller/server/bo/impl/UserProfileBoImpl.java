@@ -94,7 +94,8 @@ public class UserProfileBoImpl implements UserProfileBo {
         if(userProfileEntity != null){
             return convertUserProfileEntityToProfileDetails(userProfileEntity);
         } else {
-            throw new BusinessException("Profile details are not registered");
+            logger.debug("Profile details are not available");
+            return new ProfileDetails();
         }
     }
 

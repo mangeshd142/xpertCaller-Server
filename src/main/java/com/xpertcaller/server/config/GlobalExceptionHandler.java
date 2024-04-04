@@ -1,5 +1,6 @@
 package com.xpertcaller.server.config;
 
+import com.xpertcaller.server.config.beans.ErrorResponseBean;
 import com.xpertcaller.server.exception.userdefined.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> handleException(BusinessException ex) {
+    public ResponseEntity<ErrorResponseBean> handleException(BusinessException ex) {
+        ErrorResponseBean errorResponseBean = new ErrorResponseBean(ex.getMessage(), "", HttpStatus.INTERNAL_SERVER_ERROR.toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ex.getMessage());
+                .body(errorResponseBean);
     }
 }
