@@ -10,11 +10,8 @@
 7. go to consultant app open command prompt on consultant app folder
     and run bellow command
     -> mvn clean install
-    -> mvn spring-boot:run
+    -> mvn -f xpertCaller-build/pom.xml spring-boot:run
     application will ge started
-
-
-
 
 URLS
 
@@ -23,5 +20,6 @@ Elastic search url : http://127.0.0.1:9200/
 
 ## Installations
     # To set JAVA version 
-        set PATH=C:/Java/jdk-22/bin;%PATH%
         set JAVA_HOME=C:/Java/jdk-22
+        set PATH=C:/Java/jdk-22/bin;%PATH%
+        
