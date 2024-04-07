@@ -1,6 +1,6 @@
-package com.xpertcaller.server.aws.service;
+package com.xpertcaller.server.file.service.awsService;
 
-import com.xpertcaller.server.aws.service.interfaces.S3BucketService;
+import com.xpertcaller.server.file.service.S3BucketService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;

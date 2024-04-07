@@ -3,18 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>xpertcaller</artifactId>
+        <artifactId>modules</artifactId>
         <groupId>com.xpertcaller</groupId>
         <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>modules</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>commonUtil</module>
-        <module>user-module</module>
-        <module>fileManagement</module>
-    </modules>
+    <artifactId>fileManagement</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.xpertcaller</groupId>
+            <artifactId>commonUtil</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -9,9 +9,11 @@
 
 7. go to consultant app open command prompt on consultant app folder
     and run bellow command
-    -> mvn clean install
-    -> mvn -f xpertCaller-build/pom.xml spring-boot:run
-    application will ge started
+    -> Build Application mvn clean install
+    -> Run Application : mvn -f xpertCaller-build/pom.xml spring-boot:run
+    -> Run application in debug Mode : mvn -f xpertCaller-build/pom.xml spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005"
+       application will ge started
+    -> or copy war from target folder of xpertCaller-build and it to application server config folder, like add to Tomcat/webapps
 
 URLS
 

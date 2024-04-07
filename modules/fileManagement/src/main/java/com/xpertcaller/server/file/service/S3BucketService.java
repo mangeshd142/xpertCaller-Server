@@ -1,4 +1,4 @@
-package com.xpertcaller.server.aws.service.interfaces;
+package com.xpertcaller.server.file.service;
 
 import java.io.File;
 import java.io.IOException;
