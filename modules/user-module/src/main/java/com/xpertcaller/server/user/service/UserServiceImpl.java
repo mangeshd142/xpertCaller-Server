@@ -1,11 +1,15 @@
 package com.xpertcaller.server.user.service;
 
 import com.xpertcaller.server.common.exception.BusinessException;
+import com.xpertcaller.server.user.beans.user.Address;
 import com.xpertcaller.server.user.beans.user.ProfileDetails;
 import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.bo.interfaces.UserBo;
 import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
+import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.service.interfaces.UserService;
 import com.xpertcaller.server.user.util.CommonUtil;
 import org.slf4j.Logger;
@@ -34,6 +38,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserProfileBo userProfileBo;
+    @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
+    UserBo userBo;
 
     Random random = new Random();
 
@@ -50,9 +59,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userDao.findByMobileNumber(username);
+        AddressEntity addressEntity = userEntity.getAddressEntity();
+        Address address = new Address();
+        if(addressEntity != null){
+            address.setId(addressEntity.getAddressId());
+            address.setStreet(addressEntity.getStreet());
+            address.setCity(addressEntity.getCity());
+            address.setState(addressEntity.getState());
+            address.setZipCode(addressEntity.getZipCode());
+            address.setLatitude(addressEntity.getLatitude());
+            address.setLongitude(addressEntity.getLongitude());
+        }
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getGender(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
-                userEntity.getCategory(), userEntity.getRole(), userEntity.getOtp(), false);
+                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getRole(), userEntity.getOtp(), false);
     }
 
     @Override
@@ -67,6 +87,10 @@ public class UserServiceImpl implements UserService {
             user.setPassword(password);
             user.setOtp(password);
             userEntity = convertUserToUserEntity(user);
+            AddressEntity addressEntity = userEntity.getAddressEntity();
+            if(addressEntity != null)
+                addressRepository.save(addressEntity);
+
             UserEntity userEntity1 = userDao.saveUser(userEntity);
             user = convertUserEntityToUser(userEntity1);
         }
@@ -116,14 +140,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws BusinessException {
-        User loggedUser = CommonUtil.getCurrentUser();
-        UserEntity userEntity = userDao.findByMobileNumber(loggedUser.getMobileNumber());
-        userEntity.setName(user.getName());
-        userEntity.setGender(user.getGender());
-        userEntity.setEmail(user.getEmail());
-        userEntity = userDao.saveUser(userEntity);
-
-        return convertUserEntityToUser(userEntity);
+        return userBo.updateUser(user);
     }
 
     @Override
@@ -145,14 +162,34 @@ public class UserServiceImpl implements UserService {
     }
 
     private User convertUserEntityToUser(UserEntity userEntity){
+        AddressEntity addressEntity = userEntity.getAddressEntity();
+        Address address = new Address();
+        if(addressEntity != null){
+            address.setId(addressEntity.getAddressId());
+            address.setStreet(addressEntity.getStreet());
+            address.setCity(addressEntity.getCity());
+            address.setState(addressEntity.getState());
+            address.setZipCode(addressEntity.getZipCode());
+            address.setLatitude(addressEntity.getLatitude());
+            address.setLongitude(addressEntity.getLongitude());
+        }
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getGender(),"", userEntity.getMobileNumber(), userEntity.isActive(),
-                userEntity.getCategory(), userEntity.getRole(), "", false);
+                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(),"", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getRole(), "", false);
     }
 
     private UserEntity convertUserToUserEntity(User user){
-         return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(), user.getGender(),
-                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getCategory(), user.getRole(), user.getOtp());
+        Address address = user.getAddress();
+        AddressEntity addressEntity = null;
+        if(address != null){
+            addressEntity = new AddressEntity();
+            addressEntity.setStreet(address.getStreet());
+            addressEntity.setCity(address.getCity());
+            addressEntity.setLatitude(address.getLatitude());
+            addressEntity.setLongitude(address.getLongitude());
+        }
+        return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(), user.getAbout(), addressEntity, user.getGender(),
+                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getRole(), user.getOtp());
     }
 
 }

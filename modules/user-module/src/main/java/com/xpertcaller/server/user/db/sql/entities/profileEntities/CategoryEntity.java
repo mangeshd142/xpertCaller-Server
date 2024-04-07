@@ -16,10 +16,10 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String categoryId;
-    private String category;
+    private List<String> category;
     private List<String> skills;
 
-    public CategoryEntity(String category, List<String> skills) {
+    public CategoryEntity(List<String> category, List<String> skills) {
         this.category = category;
         this.skills = skills;
     }

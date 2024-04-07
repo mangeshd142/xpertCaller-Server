@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class EducationDetails {
-    private String educationDetailsId;
+    private String id;
     private String degree;
     private String college;
 }

@@ -21,12 +21,13 @@ public class User implements UserDetails, Serializable {
     private String email;
     private String name;
     private int age;
+    private String about;
+    private Address address;
     private String gender;
     @JsonIgnore
     private String password;
     private String mobileNumber;
     private boolean isActive;
-    private String category;
     private String role;
     @JsonIgnore
     private String otp;

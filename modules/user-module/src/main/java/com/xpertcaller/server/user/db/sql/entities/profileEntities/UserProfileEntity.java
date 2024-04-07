@@ -19,7 +19,6 @@ public class UserProfileEntity {
     @OneToOne
     private UserEntity userEntity;
     private String profilePic;
-    private String about;
     private List<String> languages;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<EducationDetailsEntity> educationDetailEntities;
@@ -27,7 +26,5 @@ public class UserProfileEntity {
     private CategoryEntity categoryEntity;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<ExperienceEntity> experienceEntities;
-    @OneToOne(cascade = CascadeType.ALL)
-    private AddressEntity addressEntity;
     private List<String> files;
 }

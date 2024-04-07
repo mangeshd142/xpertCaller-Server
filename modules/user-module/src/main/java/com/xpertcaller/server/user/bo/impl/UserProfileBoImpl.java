@@ -118,8 +118,7 @@ public class UserProfileBoImpl implements UserProfileBo {
 
     //TODO - Refactor method
     private void updateUserProfileEntity(ProfileDetails profileDetails, UserProfileEntity userProfileEntity) {
-        if(profileDetails.getAbout() != null)
-            userProfileEntity.setAbout(profileDetails.getAbout());
+
         if(profileDetails.getLanguages() != null)
             userProfileEntity.setLanguages(profileDetails.getLanguages());
         if(profileDetails.getProfilePic() != null)
@@ -127,20 +126,11 @@ public class UserProfileBoImpl implements UserProfileBo {
         if(profileDetails.getFiles() != null)
             userProfileEntity.setFiles(profileDetails.getFiles());
 
-        Address address = profileDetails.getAddress();
-        if(address != null) {
-            AddressEntity addressEntity = new AddressEntity(address.getStreet(), address.getCity(), address.getState(),
-                    address.getZipCode(), address.getLongitude(), address.getLatitude());
-            addressEntity.setAddressId(address.getAddressId());
-            addressEntity = addressRepository.save(addressEntity);
-            userProfileEntity.setAddressEntity(addressEntity);
-        }
-
         Category category = profileDetails.getCategory();
         if(category != null) {
             CategoryEntity categoryEntity = new CategoryEntity(category.getCategory(),
                     category.getSkills());
-            categoryEntity.setCategoryId(category.getCategoryId());
+            categoryEntity.setCategoryId(category.getId());
             categoryEntity = categoryRepository.save(categoryEntity);
             userProfileEntity.setCategoryEntity(categoryEntity);
         }
@@ -151,7 +141,7 @@ public class UserProfileBoImpl implements UserProfileBo {
             for (EducationDetails educationDetail : educationDetails) {
                 EducationDetailsEntity educationDetailsEntity = new EducationDetailsEntity(educationDetail.getDegree(), educationDetail.getCollege());
                 educationDetailsEntity.setUserProfileEntity(userProfileEntity);
-                educationDetailsEntity.setEducationDetailsId(educationDetail.getEducationDetailsId());
+                educationDetailsEntity.setEducationDetailsId(educationDetail.getId());
                 educationDetailsEntities.add(educationDetailsEntity);
             }
             if (!educationDetailsEntities.isEmpty()) {
@@ -166,7 +156,7 @@ public class UserProfileBoImpl implements UserProfileBo {
                 ExperienceEntity experienceEntity = new ExperienceEntity(experience.getCompanyName(), experience.getRole(),
                         experience.getDetails(), experience.getYears());
                 experienceEntity.setUserProfileEntity(userProfileEntity);
-                experienceEntity.setExperienceEntityId(experience.getExperienceEntityId());
+                experienceEntity.setExperienceEntityId(experience.getId());
                 experienceEntities.add(experienceEntity);
             }
             if (!experienceEntities.isEmpty()) {
@@ -208,18 +198,9 @@ public class UserProfileBoImpl implements UserProfileBo {
         String profileId = UUID.randomUUID().toString();
         userProfileEntity.setProfileId(profileId);
 
-        userProfileEntity.setAbout(profileDetails.getAbout());
         userProfileEntity.setLanguages(profileDetails.getLanguages());
         userProfileEntity.setProfilePic(profileDetails.getProfilePic());
         userProfileEntity.setFiles(profileDetails.getFiles());
-
-        Address address = profileDetails.getAddress();
-        if(address != null) {
-            AddressEntity addressEntity = new AddressEntity(address.getStreet(), address.getCity(), address.getState(),
-                    address.getZipCode(), address.getLongitude(), address.getLatitude());
-            addressEntity = addressRepository.save(addressEntity);
-            userProfileEntity.setAddressEntity(addressEntity);
-        }
 
         Category category = profileDetails.getCategory();
         if(category != null) {
@@ -261,15 +242,9 @@ public class UserProfileBoImpl implements UserProfileBo {
 
     private ProfileDetails convertUserProfileEntityToProfileDetails(UserProfileEntity updatedUserProfileEntity) {
         ProfileDetails profileDetails = new ProfileDetails();
-        profileDetails.setAbout(updatedUserProfileEntity.getAbout());
         profileDetails.setProfilePic(updatedUserProfileEntity.getProfilePic());
         profileDetails.setLanguages(updatedUserProfileEntity.getLanguages());
         profileDetails.setFiles(updatedUserProfileEntity.getFiles());
-
-        AddressEntity addressEntity = updatedUserProfileEntity.getAddressEntity();
-        if(addressEntity != null)
-            profileDetails.setAddress(new Address(addressEntity.getAddressId(), addressEntity.getStreet(), addressEntity.getCity(),
-                addressEntity.getState(), addressEntity.getZipCode(), addressEntity.getLongitude(), addressEntity.getLatitude()));
 
         CategoryEntity categoryEntity = updatedUserProfileEntity.getCategoryEntity();
         if(categoryEntity != null)

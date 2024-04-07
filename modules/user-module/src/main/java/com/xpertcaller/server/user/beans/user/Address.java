@@ -2,13 +2,15 @@ package com.xpertcaller.server.user.beans.user;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Address {
-    private String addressId;
+public class Address implements Serializable {
+    private String id;
     private String street;
     private String city;
     private String state;

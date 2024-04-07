@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Experience {
-    private String experienceEntityId;
+    private String id;
     private String companyName;
     private String role;
     private String details;

@@ -1,9 +1,7 @@
 package com.xpertcaller.server.user.db.sql.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -22,12 +20,14 @@ public class UserEntity {
     private String email;
     private String name;
     private int age;
+    private String about;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AddressEntity addressEntity;
     private String gender;
     private String password;
     @Column(unique = true)
     private String mobileNumber;
     private boolean isActive;
-    private String category;
     private String role;
     private String otp;
 }
