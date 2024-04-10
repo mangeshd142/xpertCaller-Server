@@ -2,6 +2,7 @@ package com.xpertcaller.server.user.service;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.Address;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
 import com.xpertcaller.server.user.beans.user.ProfileDetails;
 import com.xpertcaller.server.user.beans.user.User;
 import com.xpertcaller.server.user.bo.interfaces.UserBo;
@@ -11,7 +12,6 @@ import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
 import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.service.interfaces.UserService;
-import com.xpertcaller.server.user.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +159,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public ProfileDetails fetchProfileDetails() throws BusinessException{
         return userProfileBo.fetchProfileDetails();
+    }
+
+    @Override
+    public List<AvailableTimeSlot> addAvailableTimeSlots(List<AvailableTimeSlot> availableTimeSlotList) throws BusinessException{
+        return userBo.addAvailableTimeSlots(availableTimeSlotList);
+    }
+
+    @Override
+    public List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException{
+        return userBo.getAllTimeSlots();
     }
 
     private User convertUserEntityToUser(UserEntity userEntity){

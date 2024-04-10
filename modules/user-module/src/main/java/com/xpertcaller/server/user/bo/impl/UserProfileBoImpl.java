@@ -38,7 +38,7 @@ public class UserProfileBoImpl implements UserProfileBo {
     ExperienceDao experienceDao;
     @Autowired
     UserDao userDao;
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserProfileBoImpl.class);
 
     @Override
     public ProfileDetails addOrUpdateProfileDetails(ProfileDetails profileDetails) throws BusinessException {

@@ -2,23 +2,39 @@ package com.xpertcaller.server.user.bo.impl;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.Address;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
 import com.xpertcaller.server.user.beans.user.User;
 import com.xpertcaller.server.user.bo.interfaces.UserBo;
+import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotEntity;
 import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.util.CommonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class UserBoImpl implements UserBo {
 
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    AvailableTimeSlotDao availableTimeSlotDao;
     @Autowired
     UserDao userDao;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserBoImpl.class);
+
+    @Override
     public User updateUser(User user) throws BusinessException{
         User loggedUser = CommonUtil.getCurrentUser();
         UserEntity userEntity2 = userDao.findByMobileNumber(loggedUser.getMobileNumber());
@@ -49,6 +65,62 @@ public class UserBoImpl implements UserBo {
             throw new BusinessException("User not available, please register user");
         }
         return convertUserEntityToUser(userDao.saveUser(userEntity2));
+    }
+
+    @Override
+    public List<AvailableTimeSlot> addAvailableTimeSlots(List<AvailableTimeSlot> availableTimeSlotList) throws BusinessException {
+
+        try {
+            List<AvailableTimeSlotEntity> availableTimeSlotEntityList = new ArrayList<>();
+            List<AvailableTimeSlotEntity> finalAvailableTimeSlotEntityList = new ArrayList<>();
+            User user = CommonUtil.getCurrentUser();
+            UserEntity userEntity = userDao.findByMobileNumber(user.getMobileNumber());
+            availableTimeSlotList.forEach(availableTimeSlot -> {
+                AvailableTimeSlotEntity availableTimeSlotEntity = new AvailableTimeSlotEntity();
+                availableTimeSlotEntity.setZone(availableTimeSlot.getZone());
+                Date startTime = new Date(availableTimeSlot.getStartTime());
+                availableTimeSlotEntity.setStartTime(startTime);
+                Date endTime = new Date(availableTimeSlot.getEndTime());
+                availableTimeSlotEntity.setEndTime(endTime);
+                availableTimeSlotEntity.setUserEntity(userEntity);
+                availableTimeSlotEntityList.add(availableTimeSlotEntity);
+            });
+            if (!availableTimeSlotEntityList.isEmpty())
+                finalAvailableTimeSlotEntityList = availableTimeSlotDao.addAllSchedule(availableTimeSlotEntityList);
+
+            return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(finalAvailableTimeSlotEntityList);
+        }catch (Exception e){
+            logger.error("Error while inserting available time slots: ", e);
+            throw new BusinessException("Error while adding time slots");
+        }
+
+    }
+
+    @Override
+    public List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException {
+        User user = CommonUtil.getCurrentUser();
+        List<AvailableTimeSlotEntity> availableTimeSlotEntityList = availableTimeSlotDao.getAllTimeSlotsOfCurrentUser(user.getUserId());
+        return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(availableTimeSlotEntityList);
+    }
+
+
+    private List<AvailableTimeSlot> convertAvailableTimeSlotEntityListToAvailableTimeSlotList(List<AvailableTimeSlotEntity> availableTimeSlotEntityList){
+        List<AvailableTimeSlot> availableTimeSlotList = new ArrayList<>();
+        if(availableTimeSlotEntityList != null) {
+            availableTimeSlotEntityList.forEach(availableTimeSlotEntity -> {
+                availableTimeSlotList.add(convertAvailableTimeSlotEntityToAvailableTimeSlot(availableTimeSlotEntity));
+            });
+        }
+        return availableTimeSlotList;
+    }
+    private AvailableTimeSlot convertAvailableTimeSlotEntityToAvailableTimeSlot(AvailableTimeSlotEntity availableTimeSlotEntity){
+        AvailableTimeSlot availableTimeSlot = new AvailableTimeSlot();
+        availableTimeSlot.setZone(availableTimeSlotEntity.getZone());
+        availableTimeSlot.setStartTime(availableTimeSlotEntity.getStartTime().getTime());
+        availableTimeSlot.setEndTime(availableTimeSlotEntity.getEndTime().getTime());
+        availableTimeSlot.setId(availableTimeSlotEntity.getTimeSlotId());
+
+        return availableTimeSlot;
     }
 
     private String getValue(String newValue, String value){
