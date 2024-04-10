@@ -1,7 +1,6 @@
 package com.xpertcaller.server.user.db.sql.dao;
 
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
-import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotEntity;
 import com.xpertcaller.server.user.db.sql.repositories.AvailableTimeSlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;

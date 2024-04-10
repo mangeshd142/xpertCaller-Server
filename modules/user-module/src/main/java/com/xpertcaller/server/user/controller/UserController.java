@@ -19,7 +19,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/addProfileDetails", method = RequestMethod.POST)
     public ProfileDetails addProfileDetails(@RequestBody ProfileDetails profileDetails) throws BusinessException {
