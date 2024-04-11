@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -15,4 +16,6 @@ public interface AvailableTimeSlotRepository extends JpaRepository<AvailableTime
     List<AvailableTimeSlotEntity> findByUserEntity(@Param("userEntity") UserEntity userEntity);
 
     List<AvailableTimeSlotEntity> findByUserEntityUserId(String userId);
+    List<AvailableTimeSlotEntity> findByUserEntityUserIdAndStartTimeBetween(String userId, Date startDate, Date currentDate);
+
 }

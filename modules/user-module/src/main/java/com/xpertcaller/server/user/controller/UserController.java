@@ -3,11 +3,10 @@ package com.xpertcaller.server.user.controller;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.ProfileDetails;
 import com.xpertcaller.server.user.beans.user.User;
 import com.xpertcaller.server.user.service.interfaces.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +40,12 @@ public class UserController {
     @RequestMapping(value = "/getAllTimeSlots", method = RequestMethod.GET)
     public List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException {
         return userService.getAllTimeSlots();
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/getAvailableTimeSlotsByDate", method = RequestMethod.POST)
+    public List<AvailableTimeSlot> getAvailableTimeSlotsByDate(@RequestBody AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException {
+        return userService.getAvailableTimeSlotsByDate(availableTimeSlotRequest);
     }
 
     @CrossOrigin(origins = "*")

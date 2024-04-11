@@ -2,6 +2,7 @@ package com.xpertcaller.server.user.service.interfaces;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.ProfileDetails;
 import com.xpertcaller.server.user.beans.user.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,4 +35,6 @@ public interface UserService {
     List<AvailableTimeSlot> addAvailableTimeSlots(List<AvailableTimeSlot> availableTimeSlotList) throws BusinessException;
 
     List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException;
+
+    List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException;
 }

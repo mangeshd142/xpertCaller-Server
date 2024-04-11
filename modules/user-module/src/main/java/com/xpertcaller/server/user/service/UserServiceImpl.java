@@ -1,10 +1,7 @@
 package com.xpertcaller.server.user.service;
 
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.user.beans.user.Address;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
-import com.xpertcaller.server.user.beans.user.ProfileDetails;
-import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.beans.user.*;
 import com.xpertcaller.server.user.bo.interfaces.UserBo;
 import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
@@ -169,6 +166,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException{
         return userBo.getAllTimeSlots();
+    }
+
+    @Override
+    public List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException{
+       return userBo.getAvailableTimeSlotsByDate(availableTimeSlotRequest);
     }
 
     private User convertUserEntityToUser(UserEntity userEntity){

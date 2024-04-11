@@ -6,6 +6,7 @@ import com.xpertcaller.server.user.db.sql.repositories.AvailableTimeSlotReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,11 @@ public class AvailableTimeSlotDaoImpl implements AvailableTimeSlotDao {
     @Override
     public List<AvailableTimeSlotEntity> getAllTimeSlotsOfCurrentUser(String userId){
         return availableTimeSlotRepository.findByUserEntityUserId(userId);
+    }
+    
+    @Override
+    public List<AvailableTimeSlotEntity> getTimeSlotsOfStartDateInBetween(String userId, Date startDate, Date endDate){
+        return availableTimeSlotRepository.findByUserEntityUserIdAndStartTimeBetween(userId, startDate, endDate);
     }
 
 }

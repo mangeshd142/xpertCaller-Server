@@ -11,7 +11,6 @@ import com.xpertcaller.server.user.db.sql.entities.profileEntities.*;
 import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.db.sql.repositories.CategoryRepository;
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.user.service.UserServiceImpl;
 import com.xpertcaller.server.user.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

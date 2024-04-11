@@ -3,6 +3,7 @@ package com.xpertcaller.server.user.bo.impl;
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.Address;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.User;
 import com.xpertcaller.server.user.bo.interfaces.UserBo;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
@@ -101,6 +102,23 @@ public class UserBoImpl implements UserBo {
         User user = CommonUtil.getCurrentUser();
         List<AvailableTimeSlotEntity> availableTimeSlotEntityList = availableTimeSlotDao.getAllTimeSlotsOfCurrentUser(user.getUserId());
         return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(availableTimeSlotEntityList);
+    }
+
+    @Override
+    public List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException {
+        User user = CommonUtil.getCurrentUser();
+        String zone = availableTimeSlotRequest.getZone();
+        long startDateL = availableTimeSlotRequest.getDate();
+        long twentyThreeHoursInMillis = 23 * 60 * 60 * 1000L;
+        long fiftyNineMinutesInMillis = 59 * 60 * 1000L;
+        long endDateL = startDateL + twentyThreeHoursInMillis + fiftyNineMinutesInMillis;
+
+        Date startDate = new Date(startDateL);
+        Date endDate = new Date(endDateL);
+
+        return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(
+                availableTimeSlotDao.getTimeSlotsOfStartDateInBetween(user.getUserId(), startDate,endDate));
+
     }
 
 
