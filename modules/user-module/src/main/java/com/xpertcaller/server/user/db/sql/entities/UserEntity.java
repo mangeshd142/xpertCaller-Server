@@ -24,6 +24,7 @@ public class UserEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private AddressEntity addressEntity;
     private String gender;
+    private String profilePic;
     private String password;
     @Column(unique = true)
     private String mobileNumber;

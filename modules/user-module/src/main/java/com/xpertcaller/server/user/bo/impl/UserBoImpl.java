@@ -46,6 +46,9 @@ public class UserBoImpl implements UserBo {
             userEntity2.setUsername( getValue(user.getUsername(), userEntity2.getUsername()));
             userEntity2.setMobileNumber(getValue(user.getMobileNumber(), userEntity2.getMobileNumber()));
             userEntity2.setGender(getValue(user.getGender(), userEntity2.getGender()));
+            userEntity2.setProfilePic(getValue(user.getProfilePic(), userEntity2.getProfilePic()));
+            userEntity2.setAge(user.getAge());
+
             Address address = user.getAddress();
             AddressEntity addressEntity = null;
             if(address != null){
@@ -158,7 +161,7 @@ public class UserBoImpl implements UserBo {
             address.setLongitude(addressEntity.getLongitude());
         }
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(),"", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(), userEntity.getProfilePic(), "", userEntity.getMobileNumber(), userEntity.isActive(),
                 userEntity.getRole(), "", false);
     }
 }

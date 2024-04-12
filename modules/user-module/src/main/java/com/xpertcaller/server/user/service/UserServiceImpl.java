@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             address.setLongitude(addressEntity.getLongitude());
         }
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(), userEntity.getProfilePic(), userEntity.getPassword(), userEntity.getMobileNumber(), userEntity.isActive(),
                 userEntity.getRole(), userEntity.getOtp(), false);
     }
 
@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
             address.setLongitude(addressEntity.getLongitude());
         }
         return new User(userEntity.getUserId(), userEntity.getUsername(), userEntity.getEmail(), userEntity.getName(),
-                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(),"", userEntity.getMobileNumber(), userEntity.isActive(),
+                userEntity.getAge(), userEntity.getAbout(), address, userEntity.getGender(), userEntity.getProfilePic(), "", userEntity.getMobileNumber(), userEntity.isActive(),
                 userEntity.getRole(), "", false);
     }
 
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
             addressEntity.setLongitude(address.getLongitude());
         }
         return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(), user.getAbout(), addressEntity, user.getGender(),
-                 user.getPassword(), user.getMobileNumber(), user.isActive(), user.getRole(), user.getOtp());
+                 user.getProfilePic(), user.getPassword(), user.getMobileNumber(), user.isActive(), user.getRole(), user.getOtp());
     }
 
 }

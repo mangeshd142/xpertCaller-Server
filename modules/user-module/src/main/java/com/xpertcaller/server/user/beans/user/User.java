@@ -24,6 +24,7 @@ public class User implements UserDetails, Serializable {
     private String about;
     private Address address;
     private String gender;
+    private String profilePic;
     @JsonIgnore
     private String password;
     private String mobileNumber;
