@@ -50,6 +50,8 @@ public class CollegeServiceImpl implements CollegeService {
 
     @Override
     public List<College> getColleges(String collegeName) {
+        if(collegeName == null || collegeName.isEmpty())
+            collegeName = "a";
         List<CollegeEntity> collegeEntities = collegeDao.getColleges(collegeName);
         List<College> collegeList = new ArrayList<>();
         for (CollegeEntity college : collegeEntities){
