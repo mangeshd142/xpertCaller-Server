@@ -10,7 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ProfileDetails {
-    private String profilePic;
     private List<String> languages;
     private List<EducationDetails> educationDetails;
     private Category category;

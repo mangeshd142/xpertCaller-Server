@@ -61,7 +61,6 @@ public class UserProfileBoImpl implements UserProfileBo {
     public ProfileDetails updateProfilePictureId(String profileImageId) throws BusinessException {
         try {
             UserProfileEntity userProfileEntity = getCurrentUserProfileEntity();
-            userProfileEntity.setProfilePic(profileImageId);
             UserProfileEntity updatedUserProfileEntity = userProfileDao.saveUserProfile(userProfileEntity);
             return convertUserProfileEntityToProfileDetails(updatedUserProfileEntity);
         }catch (Exception e){
@@ -120,8 +119,6 @@ public class UserProfileBoImpl implements UserProfileBo {
 
         if(profileDetails.getLanguages() != null)
             userProfileEntity.setLanguages(profileDetails.getLanguages());
-        if(profileDetails.getProfilePic() != null)
-            userProfileEntity.setProfilePic(profileDetails.getProfilePic());
         if(profileDetails.getFiles() != null)
             userProfileEntity.setFiles(profileDetails.getFiles());
 
@@ -198,7 +195,6 @@ public class UserProfileBoImpl implements UserProfileBo {
         userProfileEntity.setProfileId(profileId);
 
         userProfileEntity.setLanguages(profileDetails.getLanguages());
-        userProfileEntity.setProfilePic(profileDetails.getProfilePic());
         userProfileEntity.setFiles(profileDetails.getFiles());
 
         Category category = profileDetails.getCategory();
@@ -241,7 +237,6 @@ public class UserProfileBoImpl implements UserProfileBo {
 
     private ProfileDetails convertUserProfileEntityToProfileDetails(UserProfileEntity updatedUserProfileEntity) {
         ProfileDetails profileDetails = new ProfileDetails();
-        profileDetails.setProfilePic(updatedUserProfileEntity.getProfilePic());
         profileDetails.setLanguages(updatedUserProfileEntity.getLanguages());
         profileDetails.setFiles(updatedUserProfileEntity.getFiles());
 

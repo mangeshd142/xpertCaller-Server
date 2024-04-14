@@ -18,7 +18,6 @@ public class UserProfileEntity {
     private String profileId;
     @OneToOne
     private UserEntity userEntity;
-    private String profilePic;
     private List<String> languages;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<EducationDetailsEntity> educationDetailEntities;
