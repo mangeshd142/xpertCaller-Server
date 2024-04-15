@@ -11,4 +11,6 @@ public interface FileBo {
     byte[] downloadFile(String fileName) throws BusinessException, IOException;
 
     FileResponse uploadFiles(List<MultipartFile> multipartFiles) throws BusinessException, IOException;
+
+    void deleteFile(String fileName) throws BusinessException, IOException;
 }

@@ -37,4 +37,6 @@ public interface UserService {
     List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException;
 
     List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException;
+
+    String deleteDocument(String fileName) throws BusinessException;
 }

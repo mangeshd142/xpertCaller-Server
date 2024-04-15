@@ -4,7 +4,7 @@ import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.common.util.CommonUtil;
 import com.xpertcaller.server.file.beans.FileResponse;
 import com.xpertcaller.server.file.bo.FileBo;
-import com.xpertcaller.server.file.service.S3BucketService;
+import com.xpertcaller.server.file.service.awsService.S3BucketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +50,10 @@ public class FileBoImpl implements FileBo {
         }
 
         return new FileResponse(profilePicIds);
+    }
+
+    @Override
+    public void deleteFile(String fileName) throws BusinessException, IOException{
+        s3BucketService.deleteFile(fileName);
     }
 }

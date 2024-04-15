@@ -1,5 +1,6 @@
 package com.xpertcaller.server.user.bo.impl;
 
+import com.xpertcaller.server.file.service.FileService;
 import com.xpertcaller.server.user.beans.user.*;
 import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
 import com.xpertcaller.server.user.db.interfaces.dao.EducationDetailsDao;
@@ -37,6 +38,9 @@ public class UserProfileBoImpl implements UserProfileBo {
     ExperienceDao experienceDao;
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    FileService fileService;
     private static final Logger logger = LoggerFactory.getLogger(UserProfileBoImpl.class);
 
     @Override
@@ -96,6 +100,22 @@ public class UserProfileBoImpl implements UserProfileBo {
     @Override
     public User fetchCurrentUser() throws BusinessException{
         return CommonUtil.getCurrentUser();
+    }
+
+    @Override
+    public String deleteDocument(String fileName) throws BusinessException {
+        try {
+            fileService.deleteFile(fileName);
+            UserProfileEntity userProfileEntity = getCurrentUserProfileEntity();
+            List<String> documents = userProfileEntity.getFiles();
+            documents = documents.stream().filter(document -> !document.equals(fileName)).toList();
+            userProfileEntity.setFiles(documents);
+            userProfileDao.saveUserProfile(userProfileEntity);
+        } catch (Exception e){
+            logger.error("Error while deleting document ", e);
+            throw new BusinessException("Not able to delete document");
+        }
+        return fileName;
     }
 
     private UserProfileEntity getCurrentUserProfileEntity() throws BusinessException {

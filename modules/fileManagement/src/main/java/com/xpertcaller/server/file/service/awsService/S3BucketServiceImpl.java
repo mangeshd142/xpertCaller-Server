@@ -1,11 +1,11 @@
 package com.xpertcaller.server.file.service.awsService;
 
-import com.xpertcaller.server.file.service.S3BucketService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -53,6 +53,14 @@ public class S3BucketServiceImpl implements S3BucketService {
                 .bucket(this.bucketName)
                 .key(imageName)
                 .build()).readAllBytes();
+    }
+
+    @Override
+    public void deleteFile(String key) {
+        s3Client.deleteObject(DeleteObjectRequest.builder()
+                .bucket(this.bucketName)
+                .key(key)
+                .build());
     }
 
 }

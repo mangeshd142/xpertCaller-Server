@@ -3,7 +3,7 @@ package com.xpertcaller.server.file.serviceimpl;
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.file.beans.FileResponse;
 import com.xpertcaller.server.file.bo.FileBo;
-import com.xpertcaller.server.file.service.awsService.FileService;
+import com.xpertcaller.server.file.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,5 +23,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileResponse uploadFiles(List<MultipartFile> multipartFiles) throws BusinessException, IOException {
         return fileBo.uploadFiles(multipartFiles);
+    }
+
+    @Override
+    public void deleteFile(String fileName) throws BusinessException, IOException{
+        fileBo.deleteFile(fileName);
     }
 }

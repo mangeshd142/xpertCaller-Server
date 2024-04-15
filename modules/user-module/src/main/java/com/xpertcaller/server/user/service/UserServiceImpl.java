@@ -173,6 +173,11 @@ public class UserServiceImpl implements UserService {
        return userBo.getAvailableTimeSlotsByDate(availableTimeSlotRequest);
     }
 
+    @Override
+    public String deleteDocument(String fileName) throws BusinessException {
+        return userProfileBo.deleteDocument(fileName);
+    }
+
     private User convertUserEntityToUser(UserEntity userEntity){
         AddressEntity addressEntity = userEntity.getAddressEntity();
         Address address = new Address();

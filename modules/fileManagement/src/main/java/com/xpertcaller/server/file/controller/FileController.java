@@ -2,7 +2,7 @@ package com.xpertcaller.server.file.controller;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.file.beans.FileResponse;
-import com.xpertcaller.server.file.service.awsService.FileService;
+import com.xpertcaller.server.file.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;

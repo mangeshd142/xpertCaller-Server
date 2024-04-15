@@ -59,4 +59,10 @@ public class UserController {
     public ProfileDetails fetchProfileDetails() throws BusinessException {
         return userService.fetchProfileDetails();
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/deleteDocument/{fileName}", method = RequestMethod.GET)
+    public String deleteDocument(@PathVariable String fileName ) throws BusinessException {
+        return userService.deleteDocument(fileName);
+    }
 }

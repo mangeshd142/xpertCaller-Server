@@ -18,4 +18,6 @@ public interface UserProfileBo {
     ProfileDetails fetchProfileDetails() throws BusinessException;
 
     User fetchCurrentUser() throws BusinessException;
+
+    String deleteDocument(String fileName) throws BusinessException;
 }
