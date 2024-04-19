@@ -1,6 +1,7 @@
 package com.xpertcaller.server.user.bo.impl;
 
 import com.xpertcaller.server.common.exception.BusinessException;
+import com.xpertcaller.server.file.service.FileService;
 import com.xpertcaller.server.user.beans.user.Address;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +35,9 @@ public class UserBoImpl implements UserBo {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    FileService fileService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserBoImpl.class);
 
     @Override
@@ -46,7 +51,18 @@ public class UserBoImpl implements UserBo {
             userEntity2.setUsername( getValue(user.getUsername(), userEntity2.getUsername()));
             userEntity2.setMobileNumber(getValue(user.getMobileNumber(), userEntity2.getMobileNumber()));
             userEntity2.setGender(getValue(user.getGender(), userEntity2.getGender()));
-            userEntity2.setProfilePic(getValue(user.getProfilePic(), userEntity2.getProfilePic()));
+
+            if(user.getProfilePic() != null && !user.getProfilePic().isEmpty()) {
+                String profilePic = userEntity2.getProfilePic();
+                if (profilePic != null && !profilePic.isEmpty()) {
+                    try {
+                        fileService.deleteFile(profilePic);
+                    } catch (IOException e) {
+                        logger.error("Error while deleting profile Picture ", e);
+                    }
+                }
+                userEntity2.setProfilePic(user.getProfilePic());
+            }
             userEntity2.setAge(user.getAge());
 
             Address address = user.getAddress();
@@ -110,7 +126,6 @@ public class UserBoImpl implements UserBo {
     @Override
     public List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException {
         User user = CommonUtil.getCurrentUser();
-        String zone = availableTimeSlotRequest.getZone();
         long startDateL = availableTimeSlotRequest.getDate();
         long twentyThreeHoursInMillis = 23 * 60 * 60 * 1000L;
         long fiftyNineMinutesInMillis = 59 * 60 * 1000L;
