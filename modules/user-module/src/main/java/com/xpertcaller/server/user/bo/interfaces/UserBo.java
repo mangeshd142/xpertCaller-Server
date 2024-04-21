@@ -2,8 +2,10 @@ package com.xpertcaller.server.user.bo.interfaces;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 
 import java.util.List;
 
@@ -15,4 +17,6 @@ public interface UserBo {
     List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException;
 
     List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException;
+
+    List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId);
 }

@@ -1,5 +1,6 @@
 package com.xpertcaller.server.user.db.interfaces.dao;
 
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotEntity;
 
 import java.util.Date;
@@ -18,4 +19,10 @@ public interface AvailableTimeSlotDao {
     List<AvailableTimeSlotEntity> getAllTimeSlotsOfCurrentUser(String userId);
 
     List<AvailableTimeSlotEntity> getTimeSlotsOfStartDateInBetween(String userId, Date startDate, Date endDate);
+
+    List<AvailableTimeSlotChunksEntity> addOrUpdateAvailableTimeslotChunks(List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities);
+
+    AvailableTimeSlotChunksEntity addOrUpdateAvailableTimeslotChunk(AvailableTimeSlotChunksEntity availableTimeSlotChunksEntity);
+
+    List<AvailableTimeSlotChunksEntity> getAvailableTimeslotChunksByAvailableTimeSlot(String timeSlotId);
 }

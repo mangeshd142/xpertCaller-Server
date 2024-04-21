@@ -1,10 +1,8 @@
 package com.xpertcaller.server.user.service.interfaces;
 
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
-import com.xpertcaller.server.user.beans.user.ProfileDetails;
-import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.beans.user.*;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -37,6 +35,8 @@ public interface UserService {
     List<AvailableTimeSlot> getAllTimeSlots() throws BusinessException;
 
     List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException;
+
+    List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId);
 
     String deleteDocument(String fileName) throws BusinessException;
 }

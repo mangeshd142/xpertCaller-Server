@@ -2,10 +2,8 @@ package com.xpertcaller.server.user.controller;
 
 
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
-import com.xpertcaller.server.user.beans.user.ProfileDetails;
-import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.beans.user.*;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import com.xpertcaller.server.user.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +44,12 @@ public class UserController {
     @RequestMapping(value = "/getAvailableTimeSlotsByDate", method = RequestMethod.POST)
     public List<AvailableTimeSlot> getAvailableTimeSlotsByDate(@RequestBody AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException {
         return userService.getAvailableTimeSlotsByDate(availableTimeSlotRequest);
+    }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/getTimeSlotChunksByTimeslotId/{timeSlotId}", method = RequestMethod.GET)
+    public List<AvailableTimeSlotChunks> getTimeSlotChunksByTimeslotId(@PathVariable String timeSlotId) throws BusinessException {
+        return userService.getAvailableTimeslotChunksByTimeSlotId(timeSlotId);
     }
 
     @CrossOrigin(origins = "*")

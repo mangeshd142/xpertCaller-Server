@@ -2,15 +2,13 @@ package com.xpertcaller.server.user.bo.impl;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.file.service.FileService;
-import com.xpertcaller.server.user.beans.user.Address;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
-import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.beans.user.*;
 import com.xpertcaller.server.user.bo.interfaces.UserBo;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotEntity;
 import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.util.CommonUtil;
@@ -95,6 +93,9 @@ public class UserBoImpl implements UserBo {
             List<AvailableTimeSlotEntity> finalAvailableTimeSlotEntityList = new ArrayList<>();
             User user = CommonUtil.getCurrentUser();
             UserEntity userEntity = userDao.findByMobileNumber(user.getMobileNumber());
+
+            List<List<AvailableTimeSlotChunksEntity>> listOfAvailableTimeSlotChunksEntities = new ArrayList<>();
+
             availableTimeSlotList.forEach(availableTimeSlot -> {
                 AvailableTimeSlotEntity availableTimeSlotEntity = new AvailableTimeSlotEntity();
                 availableTimeSlotEntity.setZone(availableTimeSlot.getZone());
@@ -103,10 +104,17 @@ public class UserBoImpl implements UserBo {
                 Date endTime = new Date(availableTimeSlot.getEndTime());
                 availableTimeSlotEntity.setEndTime(endTime);
                 availableTimeSlotEntity.setUserEntity(userEntity);
+                List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = createAvailableTimeSlotChunks(availableTimeSlotEntity, availableTimeSlot.getStartTime(), availableTimeSlot.getEndTime(), availableTimeSlot.getZone());
+                listOfAvailableTimeSlotChunksEntities.add(availableTimeSlotChunksEntities);
                 availableTimeSlotEntityList.add(availableTimeSlotEntity);
             });
+
             if (!availableTimeSlotEntityList.isEmpty())
                 finalAvailableTimeSlotEntityList = availableTimeSlotDao.addAllSchedule(availableTimeSlotEntityList);
+
+            listOfAvailableTimeSlotChunksEntities.forEach(availableTimeSlotEntity -> {
+                availableTimeSlotDao.addOrUpdateAvailableTimeslotChunks(availableTimeSlotEntity);
+            });
 
             return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(finalAvailableTimeSlotEntityList);
         }catch (Exception e){
@@ -114,6 +122,26 @@ public class UserBoImpl implements UserBo {
             throw new BusinessException("Error while adding time slots");
         }
 
+    }
+
+    private List<AvailableTimeSlotChunksEntity> createAvailableTimeSlotChunks(AvailableTimeSlotEntity availableTimeSlotEntity, long startTime, long endTime, String zone){
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = new ArrayList<>();
+        long startChunkTime = startTime;
+        long endChunkTime = 0l;
+        while (startChunkTime < endTime){
+            endChunkTime = (startChunkTime + (15 * 60 * 1000)) -1;
+            AvailableTimeSlotChunksEntity availableTimeSlotChunksEntity = new AvailableTimeSlotChunksEntity();
+            availableTimeSlotChunksEntity.setStartTime(new Date(startChunkTime));
+            availableTimeSlotChunksEntity.setEndTime(new Date(endChunkTime));
+            availableTimeSlotChunksEntity.setZone(zone);
+            availableTimeSlotChunksEntity.setAvailableTimeSlotEntity(availableTimeSlotEntity);
+
+            availableTimeSlotChunksEntities.add(availableTimeSlotChunksEntity);
+
+            startChunkTime = endChunkTime+1;
+        }
+
+        return availableTimeSlotChunksEntities;
     }
 
     @Override
@@ -137,6 +165,21 @@ public class UserBoImpl implements UserBo {
         return convertAvailableTimeSlotEntityListToAvailableTimeSlotList(
                 availableTimeSlotDao.getTimeSlotsOfStartDateInBetween(user.getUserId(), startDate,endDate));
 
+    }
+
+    @Override
+    public List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId){
+        return convertAvailableTimeSlotChunkEntityToAvailableTimeSlotChunks(availableTimeSlotDao.getAvailableTimeslotChunksByAvailableTimeSlot(timeSlotId));
+    }
+
+    private List<AvailableTimeSlotChunks> convertAvailableTimeSlotChunkEntityToAvailableTimeSlotChunks(List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities){
+        List<AvailableTimeSlotChunks> availableTimeSlotChunks = new ArrayList<>();
+
+        availableTimeSlotChunksEntities.forEach(availableTimeSlotChunksEntity -> {
+            availableTimeSlotChunks.add(new AvailableTimeSlotChunks(availableTimeSlotChunksEntity.getTimeSlotChunkId(), availableTimeSlotChunksEntity.getStartTime(), availableTimeSlotChunksEntity.getEndTime(), availableTimeSlotChunksEntity.getZone()));
+        });
+
+        return availableTimeSlotChunks;
     }
 
 
