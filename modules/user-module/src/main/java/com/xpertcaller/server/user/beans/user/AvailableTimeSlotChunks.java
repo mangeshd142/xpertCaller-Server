@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class AvailableTimeSlotChunks {
-    private String timeSlotChunkId;
+    private String id;
     private Date startTime;
     private Date endTime;
     private String zone;
