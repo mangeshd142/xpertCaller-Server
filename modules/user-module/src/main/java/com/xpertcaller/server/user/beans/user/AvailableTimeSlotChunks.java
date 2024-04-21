@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 public class AvailableTimeSlotChunks {
     private String id;
-    private Date startTime;
-    private Date endTime;
+    private long startTime;
+    private long endTime;
     private String zone;
 }
