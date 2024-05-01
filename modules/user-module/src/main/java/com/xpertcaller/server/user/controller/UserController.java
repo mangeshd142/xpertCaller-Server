@@ -69,4 +69,10 @@ public class UserController {
     public String deleteDocument(@PathVariable String fileName ) throws BusinessException {
         return userService.deleteDocument(fileName);
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping("/createUsers")
+    public List<User> createUsers(@RequestBody Map<String, List<User> > userMap) {
+        return userService.createUsers(userMap);
+    }
 }

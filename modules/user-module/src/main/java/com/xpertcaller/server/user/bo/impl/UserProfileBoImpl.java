@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -116,6 +117,19 @@ public class UserProfileBoImpl implements UserProfileBo {
             throw new BusinessException("Not able to delete document");
         }
         return fileName;
+    }
+
+    @Override
+    public List<User> createUsers(Map<String, List<User>> userMap){
+        List<User> userList = userMap.get("users");
+        List<UserEntity> userEntityList = new ArrayList<>();
+        userList.forEach(user -> {
+            user.setUserId(UUID.randomUUID().toString());
+            userEntityList.add(convertUserToUserEntity(user));
+        });
+
+        userDao.saveUsers(userEntityList);
+        return userList;
     }
 
     private UserProfileEntity getCurrentUserProfileEntity() throws BusinessException {
@@ -285,5 +299,19 @@ public class UserProfileBoImpl implements UserProfileBo {
         }
 
         return profileDetails;
+    }
+
+    private UserEntity convertUserToUserEntity(User user){
+        Address address = user.getAddress();
+        AddressEntity addressEntity = null;
+        if(address != null){
+            addressEntity = new AddressEntity();
+            addressEntity.setStreet(address.getStreet());
+            addressEntity.setCity(address.getCity());
+            addressEntity.setLatitude(address.getLatitude());
+            addressEntity.setLongitude(address.getLongitude());
+        }
+        return new UserEntity(user.getUserId(), user.getUsername(), user.getEmail(), user.getName(), user.getAge(), user.getAbout(), addressEntity, user.getGender(),
+                user.getProfilePic(), user.getPassword(), user.getMobileNumber(), user.isActive(), user.getRole(), user.getOtp());
     }
 }

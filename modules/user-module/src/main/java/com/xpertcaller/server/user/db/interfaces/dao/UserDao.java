@@ -13,5 +13,7 @@ public interface UserDao {
 
     UserEntity saveUser(UserEntity userEntity);
 
+    List<UserEntity> saveUsers(List<UserEntity> userEntityList);
+
     UserEntity getUserById(String id);
 }

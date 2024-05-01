@@ -7,6 +7,7 @@ import com.xpertcaller.server.user.beans.user.User;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.EducationDetailsEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserProfileBo {
     ProfileDetails addOrUpdateProfileDetails(ProfileDetails profileDetails) throws BusinessException;
@@ -20,4 +21,6 @@ public interface UserProfileBo {
     User fetchCurrentUser() throws BusinessException;
 
     String deleteDocument(String fileName) throws BusinessException;
+
+    List<User> createUsers(Map<String, List<User>> userMap);
 }

@@ -34,6 +34,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<UserEntity> saveUsers(List<UserEntity> userEntityList){
+        return userRepository.saveAll(userEntityList);
+    }
+
+    @Override
     public UserEntity getUserById(String id){
         return userRepository.getReferenceById(id);
     }

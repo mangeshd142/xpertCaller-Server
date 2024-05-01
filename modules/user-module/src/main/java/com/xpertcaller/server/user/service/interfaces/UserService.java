@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
@@ -39,4 +40,6 @@ public interface UserService {
     List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId);
 
     String deleteDocument(String fileName) throws BusinessException;
+
+    List<User> createUsers(Map<String, List<User>> userMap);
 }

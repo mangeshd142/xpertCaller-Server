@@ -18,10 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -93,6 +90,11 @@ public class UserServiceImpl implements UserService {
             user = convertUserEntityToUser(userEntity1);
         }
         return user;
+    }
+
+    @Override
+    public List<User> createUsers(Map<String, List<User>> userMap){
+        return userProfileBo.createUsers(userMap);
     }
 
     @Override
