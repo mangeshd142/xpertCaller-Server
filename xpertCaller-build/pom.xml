@@ -29,6 +29,11 @@
             <artifactId>fileManagement</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.xpertcaller</groupId>
+            <artifactId>expert-data-retrieval-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
