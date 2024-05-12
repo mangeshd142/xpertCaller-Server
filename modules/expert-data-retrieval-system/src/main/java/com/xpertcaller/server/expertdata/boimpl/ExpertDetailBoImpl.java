@@ -4,7 +4,6 @@ package com.xpertcaller.server.expertdata.boimpl;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
-import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserProfileDao;
