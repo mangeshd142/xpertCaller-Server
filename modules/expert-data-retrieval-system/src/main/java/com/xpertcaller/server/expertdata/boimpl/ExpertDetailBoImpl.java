@@ -1,18 +1,20 @@
 package com.xpertcaller.server.expertdata.boimpl;
 
 
+import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
+import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.EducationDetailsEntity;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.ExperienceEntity;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.UserProfileEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,6 +26,9 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
 
     @Autowired
     UserProfileDao userProfileDao;
+
+    @Autowired
+    AvailableTimeSlotDao availableTimeSlotDao;
 
     @Override
     public ExpertDetails fetchExpertDetails(String id){
@@ -48,18 +53,22 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             expertDetails.setLanguages(userProfileEntity.getLanguages());
             List<EducationDetailsEntity> educationDetailsEntityList = userProfileEntity.getEducationDetailEntities();
             List<String> degrees = new ArrayList<>();
-            educationDetailsEntityList.forEach(educationDetailsEntity -> {
-                degrees.add(educationDetailsEntity.getDegree());
-            });
+            if(educationDetailsEntityList != null)
+                educationDetailsEntityList.forEach(educationDetailsEntity -> {
+                    degrees.add(educationDetailsEntity.getDegree());
+                });
+
             expertDetails.setDegree(degrees);
             List<ExperienceEntity> experienceEntities = userProfileEntity.getExperienceEntities();
 
-            AtomicReference<Float> experience = new AtomicReference<>((float) 0);
-        /*experienceEntities.forEach(experienceEntity -> {
-            if(experienceEntity.getYears() != null )
-                experience.set(experience.get() + Float.parseFloat(experienceEntity.getYears()));
-        });*/
-            expertDetails.setExperience(experience.get());
+            AtomicReference<Integer> years = new AtomicReference<>((int) 0);
+            AtomicReference<Integer> months = new AtomicReference<>((int) 0);
+            experienceEntities.forEach(experienceEntity -> {
+                years.set(years.get() + experienceEntity.getYears());
+                months.set(months.get() + experienceEntity.getMonths());
+            });
+            float totalExperience = years.get() + (months.get()/12f);
+            expertDetails.setExperience(totalExperience);
         }
 
         return expertDetails;
@@ -73,5 +82,35 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             expertDetails.add(getExpertDetailByUser(userEntity));
         });
         return expertDetails;
+    }
+
+    @Override
+    public List<ExpertAvailableTimeSlots> fetchTimeSlotByUser(String userId, long startDateL, String zone){
+        long twentyThreeHoursInMillis = 23 * 60 * 60 * 1000L;
+        long fiftyNineMinutesInMillis = 59 * 60 * 1000L;
+        long endDateL = startDateL + twentyThreeHoursInMillis + fiftyNineMinutesInMillis;
+
+        Date startDate = new Date(startDateL);
+        Date endDate = new Date(endDateL);
+
+        List<AvailableTimeSlotEntity> availableTimeSlotEntityList = availableTimeSlotDao.getTimeSlotsOfStartDateInBetween(userId, startDate, endDate);
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = new ArrayList<>();
+        availableTimeSlotEntityList.forEach(availableTimeSlotEntity -> {
+            availableTimeSlotChunksEntities.addAll(availableTimeSlotDao.getAvailableTimeslotChunksByAvailableTimeSlot(availableTimeSlotEntity.getTimeSlotId()));
+        });
+
+        return convertAvailableTimeSlotChunkEntityToExpertAvailableTimeSlots(availableTimeSlotChunksEntities);
+    }
+
+    private List<ExpertAvailableTimeSlots> convertAvailableTimeSlotChunkEntityToExpertAvailableTimeSlots(List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities){
+        List<ExpertAvailableTimeSlots> availableTimeSlotChunks = new ArrayList<>();
+
+        availableTimeSlotChunksEntities.forEach(availableTimeSlotChunksEntity -> {
+            availableTimeSlotChunks.add(new ExpertAvailableTimeSlots(availableTimeSlotChunksEntity.getTimeSlotChunkId(),
+                    availableTimeSlotChunksEntity.getStartTime().getTime(), availableTimeSlotChunksEntity.getEndTime().getTime(),
+                    availableTimeSlotChunksEntity.getZone(), availableTimeSlotChunksEntity.getStatus()));
+        });
+
+        return availableTimeSlotChunks;
     }
 }

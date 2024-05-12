@@ -184,7 +184,7 @@ public class UserProfileBoImpl implements UserProfileBo {
             List<ExperienceEntity> experienceEntities = new ArrayList<>();
             for (Experience experience : experiences) {
                 ExperienceEntity experienceEntity = new ExperienceEntity(experience.getCompanyName(), experience.getRole(),
-                        experience.getDetails(), experience.getYears());
+                        experience.getDetails(), experience.getYears(), experience.getMonths());
                 experienceEntity.setUserProfileEntity(userProfileEntity);
                 experienceEntity.setExperienceEntityId(experience.getId());
                 experienceEntities.add(experienceEntity);
@@ -257,7 +257,7 @@ public class UserProfileBoImpl implements UserProfileBo {
             List<ExperienceEntity> experienceEntities = new ArrayList<>();
             for (Experience experience : experiences) {
                 ExperienceEntity experienceEntity = new ExperienceEntity(experience.getCompanyName(), experience.getRole(),
-                        experience.getDetails(), experience.getYears());
+                        experience.getDetails(), experience.getYears(), experience.getMonths());
                 experienceEntity.setUserProfileEntity(userProfileEntity);
                 experienceEntities.add(experienceEntity);
             }
@@ -283,7 +283,7 @@ public class UserProfileBoImpl implements UserProfileBo {
             List<Experience> experiences = new ArrayList<>();
             for (ExperienceEntity experienceEntity: experienceEntities) {
                 experiences.add(new Experience(experienceEntity.getExperienceEntityId(), experienceEntity.getCompanyName(),
-                        experienceEntity.getRole(), experienceEntity.getDetails(), experienceEntity.getYears()));
+                        experienceEntity.getRole(), experienceEntity.getDetails(), experienceEntity.getYears(), experienceEntity.getMonths()));
             }
             profileDetails.setExperiences(experiences);
         }

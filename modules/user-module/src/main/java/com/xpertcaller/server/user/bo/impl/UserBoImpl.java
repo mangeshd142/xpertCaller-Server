@@ -178,7 +178,7 @@ public class UserBoImpl implements UserBo {
         availableTimeSlotChunksEntities.forEach(availableTimeSlotChunksEntity -> {
             availableTimeSlotChunks.add(new AvailableTimeSlotChunks(availableTimeSlotChunksEntity.getTimeSlotChunkId(),
                     availableTimeSlotChunksEntity.getStartTime().getTime(), availableTimeSlotChunksEntity.getEndTime().getTime(),
-                    availableTimeSlotChunksEntity.getZone()));
+                    availableTimeSlotChunksEntity.getZone(), availableTimeSlotChunksEntity.getStatus()));
         });
 
         return availableTimeSlotChunks;

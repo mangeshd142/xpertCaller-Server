@@ -12,5 +12,6 @@ public class Experience {
     private String companyName;
     private String role;
     private String details;
-    private String years;
+    private int years;
+    private int months;
 }

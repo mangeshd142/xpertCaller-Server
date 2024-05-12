@@ -17,16 +17,18 @@ public class ExperienceEntity {
     private String companyName;
     private String role;
     private String details;
-    private String years;
+    private int years;
+    private int months;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_profile_id", referencedColumnName = "profileId")
     private UserProfileEntity userProfileEntity;
 
-    public ExperienceEntity(String companyName, String role, String details, String years) {
+    public ExperienceEntity(String companyName, String role, String details, int years, int months) {
         this.companyName = companyName;
         this.role = role;
         this.details = details;
         this.years = years;
+        this.months = months;
     }
 }

@@ -1,15 +1,13 @@
-package com.xpertcaller.server.user.beans.user;
+package com.xpertcaller.server.expertdata.beans;
 
 import lombok.*;
-
-import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AvailableTimeSlotChunks {
+public class ExpertAvailableTimeSlots {
     private String id;
     private long startTime;
     private long endTime;

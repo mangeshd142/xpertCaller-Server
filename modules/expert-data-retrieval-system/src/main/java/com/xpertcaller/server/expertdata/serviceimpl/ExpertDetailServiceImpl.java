@@ -1,5 +1,6 @@
 package com.xpertcaller.server.expertdata.serviceimpl;
 
+import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
@@ -22,5 +23,10 @@ public class ExpertDetailServiceImpl implements ExpertDetailService {
     @Override
     public List<ExpertDetails> fetchAllExpertDetails(){
         return expertDetailBo.fetchAllExpertDetails();
+    }
+
+    @Override
+    public List<ExpertAvailableTimeSlots> fetchTimeSlotByUser(String userId, long startDateL, String zone){
+        return expertDetailBo.fetchTimeSlotByUser(userId, startDateL, zone);
     }
 }
