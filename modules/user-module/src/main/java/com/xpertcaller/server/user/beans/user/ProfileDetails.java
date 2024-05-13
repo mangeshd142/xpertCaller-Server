@@ -13,6 +13,7 @@ public class ProfileDetails {
     private List<String> languages;
     private List<EducationDetails> educationDetails;
     private Category category;
+    private Pricing pricing;
     private List<Experience> experiences;
     private List<String> files;
     private List<String> deleteEducationDetailIds;

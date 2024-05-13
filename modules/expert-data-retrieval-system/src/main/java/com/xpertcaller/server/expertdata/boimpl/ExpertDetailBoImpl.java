@@ -3,6 +3,7 @@ package com.xpertcaller.server.expertdata.boimpl;
 
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
+import com.xpertcaller.server.expertdata.beans.Pricing;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
@@ -68,6 +69,13 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             });
             float totalExperience = years.get() + (months.get()/12f);
             expertDetails.setExperience(totalExperience);
+
+            PricingEntity pricingEntity = userProfileEntity.getPricingEntity();
+            if(pricingEntity != null){
+                Pricing pricing = new Pricing(pricingEntity.getVideoCalling(), pricingEntity.getAudioCalling(), pricingEntity.getMessage());
+                expertDetails.setPricing(pricing);
+
+            }
         }
 
         return expertDetails;

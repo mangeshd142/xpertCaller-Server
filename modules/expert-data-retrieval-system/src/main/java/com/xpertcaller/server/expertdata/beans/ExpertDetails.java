@@ -22,4 +22,5 @@ public class ExpertDetails {
     private List<String> degree;
     private float experience;
     private List<String> files;
+    private Pricing pricing;
 }

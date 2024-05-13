@@ -165,6 +165,13 @@ public class UserProfileBoImpl implements UserProfileBo {
             userProfileEntity.setCategoryEntity(categoryEntity);
         }
 
+        Pricing pricing = profileDetails.getPricing();
+        if(pricing != null) {
+            PricingEntity pricingEntity = new PricingEntity(pricing.getPricingId(), pricing.getVideoCalling(), pricing.getAudioCalling(), pricing.getMessage());
+            pricingEntity = userProfileDao.savePricing(pricingEntity);
+            userProfileEntity.setPricingEntity(pricingEntity);
+        }
+
         List<EducationDetails> educationDetails = profileDetails.getEducationDetails();
         if(educationDetails != null) {
             List<EducationDetailsEntity> educationDetailsEntities = new ArrayList<>();
@@ -239,6 +246,13 @@ public class UserProfileBoImpl implements UserProfileBo {
             userProfileEntity.setCategoryEntity(categoryEntity);
         }
 
+        Pricing pricing = profileDetails.getPricing();
+        if(pricing != null) {
+            PricingEntity pricingEntity = new PricingEntity(pricing.getVideoCalling(), pricing.getAudioCalling(), pricing.getMessage());
+            pricingEntity = userProfileDao.savePricing(pricingEntity);
+            userProfileEntity.setPricingEntity(pricingEntity);
+        }
+
         List<EducationDetails> educationDetails = profileDetails.getEducationDetails();
         if(educationDetails != null) {
             List<EducationDetailsEntity> educationDetailsEntities = new ArrayList<>();
@@ -277,6 +291,11 @@ public class UserProfileBoImpl implements UserProfileBo {
         CategoryEntity categoryEntity = updatedUserProfileEntity.getCategoryEntity();
         if(categoryEntity != null)
             profileDetails.setCategory(new Category(categoryEntity.getCategoryId(), categoryEntity.getCategory(), categoryEntity.getSkills()));
+
+        PricingEntity pricingEntity = updatedUserProfileEntity.getPricingEntity();
+
+        if(pricingEntity != null)
+            profileDetails.setPricing(new Pricing(pricingEntity.getPricingId(), pricingEntity.getVideoCalling(), pricingEntity.getAudioCalling(), pricingEntity.getMessage()));
 
         List<ExperienceEntity> experienceEntities = updatedUserProfileEntity.getExperienceEntities();
         if(experienceEntities !=null){
