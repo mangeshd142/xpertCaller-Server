@@ -49,6 +49,7 @@ public class UserBoImpl implements UserBo {
             userEntity2.setUsername( getValue(user.getUsername(), userEntity2.getUsername()));
             userEntity2.setMobileNumber(getValue(user.getMobileNumber(), userEntity2.getMobileNumber()));
             userEntity2.setGender(getValue(user.getGender(), userEntity2.getGender()));
+            userEntity2.setRole(getValue(user.getRole(), userEntity2.getRole()));
 
             if(user.getProfilePic() != null && !user.getProfilePic().isEmpty()) {
                 String profilePic = userEntity2.getProfilePic();
