@@ -1,21 +1,28 @@
 package com.xpertcaller.server.expertdata.boimpl;
 
 
+import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.Pricing;
+import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
+import com.xpertcaller.server.expertdata.db.interfaces.ScheduleMeetingDao;
+import com.xpertcaller.server.expertdata.db.sql.entities.ScheduleMeetingEntity;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserProfileDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.*;
+import com.xpertcaller.server.user.service.interfaces.UserService;
+import com.xpertcaller.server.user.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Component
@@ -29,6 +36,12 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
 
     @Autowired
     AvailableTimeSlotDao availableTimeSlotDao;
+
+    @Autowired
+    ScheduleMeetingDao scheduleMeetingDao;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public ExpertDetails fetchExpertDetails(String id){
@@ -119,5 +132,79 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         });
 
         return availableTimeSlotChunks;
+    }
+
+    @Override
+    public List<ScheduleMeeting> getAllScheduleMeetingsBySubscriber() throws BusinessException {
+        String userId = CommonUtil.getCurrentUser().getUserId();
+        List<ScheduleMeeting> scheduleMeetings = new ArrayList<>();
+        List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriber(userId);
+        scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
+            scheduleMeetings.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
+        });
+        return scheduleMeetings;
+    }
+
+    @Override
+    public List<ScheduleMeeting> getAllScheduleMeetingsByPublisher() throws BusinessException {
+        String userId = CommonUtil.getCurrentUser().getUserId();
+        List<ScheduleMeeting> scheduleMeetings = new ArrayList<>();
+        List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsByPublisher(userId);
+        scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
+            scheduleMeetings.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
+        });
+        return scheduleMeetings;
+    }
+
+    @Override
+    public ScheduleMeeting addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException {
+        String userId = CommonUtil.getCurrentUser().getUserId();
+        ScheduleMeetingEntity scheduleMeetingEntity = convertScheduleMeetingToScheduleMeetingEntity(scheduleMeeting);
+        scheduleMeetingEntity.setSubscriber(userId);
+        List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
+        String status = scheduleMeeting.getStatus();
+        scheduleMeetingEntity.setBookingId(UUID.randomUUID().toString());
+        if(timeSlotIds != null){
+            for (String timeSlotId : timeSlotIds) {
+                userService.updateAvailableTimeslotChunkStatus(timeSlotId, status);
+            }
+        }
+        return convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingDao.saveScheduleMeeting(scheduleMeetingEntity));
+    }
+
+    @Override
+    public ScheduleMeeting updateStatusOfMeeting(String meetingId, String status) throws BusinessException {
+        ScheduleMeetingEntity scheduleMeetingEntity = scheduleMeetingDao.getScheduleMeetingById(meetingId);
+        List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
+        if(timeSlotIds != null){
+            for (String timeSlotId : timeSlotIds) {
+                userService.updateAvailableTimeslotChunkStatus(timeSlotId, status);
+            }
+        }
+        scheduleMeetingEntity.setStatus(status);
+        return convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingDao.saveScheduleMeeting(scheduleMeetingEntity));
+    }
+
+    private ScheduleMeetingEntity convertScheduleMeetingToScheduleMeetingEntity(ScheduleMeeting scheduleMeeting) {
+        ScheduleMeetingEntity scheduleMeetingEntity = new ScheduleMeetingEntity();
+        scheduleMeetingEntity.setPublisher(scheduleMeeting.getPublisher());
+        scheduleMeetingEntity.setSubscriber(scheduleMeeting.getSubscriber());
+        scheduleMeetingEntity.setTimeSlotIds(scheduleMeeting.getTimeSlotIds());
+        scheduleMeetingEntity.setStatus(scheduleMeeting.getStatus());
+        scheduleMeetingEntity.setMode(scheduleMeeting.getMode());
+
+        return scheduleMeetingEntity;
+    }
+
+    private ScheduleMeeting convertScheduleMeetingEntityToScheduleMeeting(ScheduleMeetingEntity scheduleMeetingEntity) {
+        ScheduleMeeting scheduleMeeting = new ScheduleMeeting();
+        scheduleMeeting.setPublisher(scheduleMeetingEntity.getPublisher());
+        scheduleMeeting.setSubscriber(scheduleMeetingEntity.getSubscriber());
+        scheduleMeeting.setTimeSlotIds(scheduleMeetingEntity.getTimeSlotIds());
+        scheduleMeeting.setStatus(scheduleMeetingEntity.getStatus());
+        scheduleMeeting.setMode(scheduleMeetingEntity.getMode());
+        scheduleMeeting.setBookingId(scheduleMeetingEntity.getBookingId());
+
+        return scheduleMeeting;
     }
 }

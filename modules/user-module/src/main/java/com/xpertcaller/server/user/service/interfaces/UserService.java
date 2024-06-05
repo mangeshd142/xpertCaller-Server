@@ -42,4 +42,6 @@ public interface UserService {
     String deleteDocument(String fileName) throws BusinessException;
 
     List<User> createUsers(Map<String, List<User>> userMap);
+
+    void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException;
 }

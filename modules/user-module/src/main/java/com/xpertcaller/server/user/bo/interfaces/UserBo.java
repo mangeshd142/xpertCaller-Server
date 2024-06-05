@@ -19,4 +19,6 @@ public interface UserBo {
     List<AvailableTimeSlot> getAvailableTimeSlotsByDate(AvailableTimeSlotRequest availableTimeSlotRequest) throws BusinessException;
 
     List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId);
+
+    void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException;
 }

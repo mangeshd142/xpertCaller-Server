@@ -173,6 +173,18 @@ public class UserBoImpl implements UserBo {
         return convertAvailableTimeSlotChunkEntityToAvailableTimeSlotChunks(availableTimeSlotDao.getAvailableTimeslotChunksByAvailableTimeSlot(timeSlotId));
     }
 
+    @Override
+    public void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException {
+        try {
+            AvailableTimeSlotChunksEntity availableTimeSlotChunk = availableTimeSlotDao.getAvailableTimeSlotChunksEntityById(id);
+            availableTimeSlotChunk.setStatus(status);
+            availableTimeSlotDao.addOrUpdateAvailableTimeslotChunk(availableTimeSlotChunk);
+        } catch (Exception e){
+            logger.error("Error while updating status available timeslot chunk", e);
+            throw new BusinessException("Error while updating status available timeslot chunk");
+        }
+    }
+
     private List<AvailableTimeSlotChunks> convertAvailableTimeSlotChunkEntityToAvailableTimeSlotChunks(List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities){
         List<AvailableTimeSlotChunks> availableTimeSlotChunks = new ArrayList<>();
 

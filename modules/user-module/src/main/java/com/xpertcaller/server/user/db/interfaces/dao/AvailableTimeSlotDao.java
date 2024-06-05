@@ -24,5 +24,7 @@ public interface AvailableTimeSlotDao {
 
     AvailableTimeSlotChunksEntity addOrUpdateAvailableTimeslotChunk(AvailableTimeSlotChunksEntity availableTimeSlotChunksEntity);
 
+    AvailableTimeSlotChunksEntity getAvailableTimeSlotChunksEntityById(String id);
+
     List<AvailableTimeSlotChunksEntity> getAvailableTimeslotChunksByAvailableTimeSlot(String timeSlotId);
 }

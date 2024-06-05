@@ -7,7 +7,6 @@ import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AddressEntity;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import com.xpertcaller.server.user.db.sql.repositories.AddressRepository;
 import com.xpertcaller.server.user.service.interfaces.UserService;
 import org.slf4j.Logger;
@@ -184,6 +183,11 @@ public class UserServiceImpl implements UserService {
         @Override
     public String deleteDocument(String fileName) throws BusinessException {
         return userProfileBo.deleteDocument(fileName);
+    }
+
+    @Override
+    public void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException {
+        userBo.updateAvailableTimeslotChunkStatus(id, status);
     }
 
     private User convertUserEntityToUser(UserEntity userEntity){

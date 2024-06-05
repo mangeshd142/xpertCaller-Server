@@ -60,6 +60,11 @@ public class AvailableTimeSlotDaoImpl implements AvailableTimeSlotDao {
     }
 
     @Override
+    public AvailableTimeSlotChunksEntity getAvailableTimeSlotChunksEntityById(String id){
+        return availableTimeSlotChunksRepository.getReferenceById(id);
+    }
+
+    @Override
     public List<AvailableTimeSlotChunksEntity> getAvailableTimeslotChunksByAvailableTimeSlot(String timeSlotId){
         return availableTimeSlotChunksRepository.findByAvailableTimeSlotEntityTimeSlotId(timeSlotId);
     }
