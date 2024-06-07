@@ -72,7 +72,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/createUsers")
-    public List<User> createUsers(@RequestBody Map<String, List<User> > userMap) {
-        return userService.createUsers(userMap);
+    public List<UserProfileRequest> createUsers(@RequestBody Map<String, List<UserProfileRequest> > userProfileRequestMap) {
+        return userService.createUsers(userProfileRequestMap);
     }
 }

@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> createUsers(Map<String, List<User>> userMap){
-        return userProfileBo.createUsers(userMap);
+    public List<UserProfileRequest> createUsers(Map<String, List<UserProfileRequest>> userProfileRequestMap){
+        return userProfileBo.createUsers(userProfileRequestMap);
     }
 
     @Override

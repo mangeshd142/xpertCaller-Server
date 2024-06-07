@@ -4,6 +4,7 @@ import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.ProfileDetails;
 import com.xpertcaller.server.user.beans.user.User;
+import com.xpertcaller.server.user.beans.user.UserProfileRequest;
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.EducationDetailsEntity;
 
 import java.util.List;
@@ -22,5 +23,5 @@ public interface UserProfileBo {
 
     String deleteDocument(String fileName) throws BusinessException;
 
-    List<User> createUsers(Map<String, List<User>> userMap);
+    List<UserProfileRequest> createUsers(Map<String, List<UserProfileRequest>> userMap);
 }

@@ -1,5 +1,6 @@
 package com.xpertcaller.server.user.bo.impl;
 
+import co.elastic.clients.elasticsearch.security.UserProfile;
 import com.xpertcaller.server.file.service.FileService;
 import com.xpertcaller.server.user.beans.user.*;
 import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
@@ -51,15 +52,20 @@ public class UserProfileBoImpl implements UserProfileBo {
             User user = CommonUtil.getCurrentUser();
             UserEntity userEntity = userDao.getUserById(user.getUserId());
             UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
-            userProfileEntity = createOrUpdateUserProfileEntity(profileDetails, userProfileEntity);
-            userProfileEntity.setUserEntity(userEntity);
 
-            UserProfileEntity updatedUserProfileEntity = userProfileDao.saveUserProfile(userProfileEntity);
+            UserProfileEntity updatedUserProfileEntity = saveUserProfileDetails(profileDetails, userProfileEntity, userEntity);
             return convertUserProfileEntityToProfileDetails(updatedUserProfileEntity);
         }catch (Exception e){
             logger.error("Error while adding profile details ", e);
             throw new BusinessException("Error while adding profile details");
         }
+    }
+
+    public UserProfileEntity saveUserProfileDetails(ProfileDetails profileDetails, UserProfileEntity userProfileEntity, UserEntity userEntity){
+        userProfileEntity = createOrUpdateUserProfileEntity(profileDetails, userProfileEntity);
+        userProfileEntity.setUserEntity(userEntity);
+
+        return userProfileDao.saveUserProfile(userProfileEntity);
     }
 
     @Override
@@ -120,16 +126,21 @@ public class UserProfileBoImpl implements UserProfileBo {
     }
 
     @Override
-    public List<User> createUsers(Map<String, List<User>> userMap){
-        List<User> userList = userMap.get("users");
-        List<UserEntity> userEntityList = new ArrayList<>();
-        userList.forEach(user -> {
-            user.setUserId(UUID.randomUUID().toString());
-            userEntityList.add(convertUserToUserEntity(user));
-        });
+    public List<UserProfileRequest> createUsers(Map<String, List<UserProfileRequest>> userMap){
+        List<UserProfileRequest> userProfileList = userMap.get("users");
 
-        userDao.saveUsers(userEntityList);
-        return userList;
+        userProfileList.forEach(userProfile -> {
+            try {
+                User user = userProfile.getUser();
+                ProfileDetails profileDetails = userProfile.getProfileDetails();
+                user.setUserId(UUID.randomUUID().toString());
+                UserEntity userEntity = userDao.saveUser(convertUserToUserEntity(user));
+                saveUserProfileDetails(profileDetails, null, userEntity);
+            } catch (Exception e){
+                logger.error("Error while creating user and profile ", e);
+            }
+        });
+        return userProfileList;
     }
 
     private UserProfileEntity getCurrentUserProfileEntity() throws BusinessException {
