@@ -25,7 +25,5 @@ public class ScheduleMeeting {
     private int status;
     private List<String> timeSlotIds;
     private String mode;
-    @OneToMany
-    private List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities;
 
 }
