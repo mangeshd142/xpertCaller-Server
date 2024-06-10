@@ -63,7 +63,7 @@ public class ExpertDetailController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/updateMeetingStatus/{meetingId}/{status}")
-    public ScheduleMeeting updateStatusOfMeeting(@PathVariable String meetingId, @PathVariable String status) throws BusinessException {
+    public ScheduleMeeting updateStatusOfMeeting(@PathVariable String meetingId, @PathVariable int status) throws BusinessException {
         return expertDetailService.updateStatusOfMeeting(meetingId, status);
     }
 }

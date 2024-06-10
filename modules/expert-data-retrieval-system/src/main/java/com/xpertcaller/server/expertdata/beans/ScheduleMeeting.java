@@ -1,7 +1,9 @@
 package com.xpertcaller.server.expertdata.beans;
 
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -20,8 +22,10 @@ public class ScheduleMeeting {
     private String bookingId;
     private String publisher;
     private String subscriber;
-    private String status;
+    private int status;
     private List<String> timeSlotIds;
     private String mode;
+    @OneToMany
+    private List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities;
 
 }

@@ -186,7 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException {
+    public void updateAvailableTimeslotChunkStatus(String id, int status) throws BusinessException {
         userBo.updateAvailableTimeslotChunkStatus(id, status);
     }
 

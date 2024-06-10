@@ -16,7 +16,7 @@ public interface ExpertDetailService {
 
     ScheduleMeeting addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException;
 
-    ScheduleMeeting updateStatusOfMeeting(String meetingId, String status) throws BusinessException;
+    ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException;
 
     List<ScheduleMeeting> getAllScheduleMeetingsBySubscriber() throws BusinessException;
 

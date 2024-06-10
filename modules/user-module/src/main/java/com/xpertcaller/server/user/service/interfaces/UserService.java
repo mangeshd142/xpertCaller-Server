@@ -2,7 +2,6 @@ package com.xpertcaller.server.user.service.interfaces;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.user.beans.user.*;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -43,5 +42,5 @@ public interface UserService {
 
     List<UserProfileRequest> createUsers(Map<String, List<UserProfileRequest>> userMap);
 
-    void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException;
+    void updateAvailableTimeslotChunkStatus(String id, int status) throws BusinessException;
 }

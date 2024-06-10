@@ -173,8 +173,14 @@ public class UserBoImpl implements UserBo {
         return convertAvailableTimeSlotChunkEntityToAvailableTimeSlotChunks(availableTimeSlotDao.getAvailableTimeslotChunksByAvailableTimeSlot(timeSlotId));
     }
 
+    /**
+     * This method updates the status of available timeslot chunk
+     * @param id
+     * @param status
+     * @throws BusinessException
+     */
     @Override
-    public void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException {
+    public void updateAvailableTimeslotChunkStatus(String id, int status) throws BusinessException {
         try {
             AvailableTimeSlotChunksEntity availableTimeSlotChunk = availableTimeSlotDao.getAvailableTimeSlotChunksEntityById(id);
             availableTimeSlotChunk.setStatus(status);

@@ -5,7 +5,6 @@ import com.xpertcaller.server.user.beans.user.AvailableTimeSlot;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotRequest;
 import com.xpertcaller.server.user.beans.user.User;
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 
 import java.util.List;
 
@@ -20,5 +19,5 @@ public interface UserBo {
 
     List<AvailableTimeSlotChunks> getAvailableTimeslotChunksByTimeSlotId(String timeSlotId);
 
-    void updateAvailableTimeslotChunkStatus(String id, String status) throws BusinessException;
+    void updateAvailableTimeslotChunkStatus(String id, int status) throws BusinessException;
 }

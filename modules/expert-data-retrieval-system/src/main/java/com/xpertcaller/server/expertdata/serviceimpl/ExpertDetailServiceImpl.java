@@ -38,7 +38,7 @@ public class ExpertDetailServiceImpl implements ExpertDetailService {
     }
 
     @Override
-    public ScheduleMeeting updateStatusOfMeeting(String meetingId, String status) throws BusinessException {
+    public ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
         return expertDetailBo.updateStatusOfMeeting(meetingId, status);
     }
 

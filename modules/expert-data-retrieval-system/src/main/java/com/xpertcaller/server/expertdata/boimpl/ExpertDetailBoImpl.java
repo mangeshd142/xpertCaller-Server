@@ -162,7 +162,7 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         ScheduleMeetingEntity scheduleMeetingEntity = convertScheduleMeetingToScheduleMeetingEntity(scheduleMeeting);
         scheduleMeetingEntity.setSubscriber(userId);
         List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
-        String status = scheduleMeeting.getStatus();
+        int status = scheduleMeeting.getStatus();
         scheduleMeetingEntity.setBookingId(UUID.randomUUID().toString());
         if(timeSlotIds != null){
             for (String timeSlotId : timeSlotIds) {
@@ -173,7 +173,7 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
     }
 
     @Override
-    public ScheduleMeeting updateStatusOfMeeting(String meetingId, String status) throws BusinessException {
+    public ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
         ScheduleMeetingEntity scheduleMeetingEntity = scheduleMeetingDao.getScheduleMeetingById(meetingId);
         List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
         if(timeSlotIds != null){

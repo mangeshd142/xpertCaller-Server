@@ -12,5 +12,5 @@ public class ExpertAvailableTimeSlots {
     private long startTime;
     private long endTime;
     private String zone;
-    private String status;
+    private int status;
 }

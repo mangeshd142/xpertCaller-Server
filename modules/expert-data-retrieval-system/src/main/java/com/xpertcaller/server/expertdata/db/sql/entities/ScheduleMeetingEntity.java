@@ -20,7 +20,7 @@ public class ScheduleMeetingEntity {
     private String bookingId;
     private String publisher;
     private String subscriber;
-    private String status;
+    private int status;
     private List<String> timeSlotIds;
     private String mode;
 

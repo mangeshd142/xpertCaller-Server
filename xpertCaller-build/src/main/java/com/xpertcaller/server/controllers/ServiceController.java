@@ -25,8 +25,8 @@ public class ServiceController {
     @Autowired
     ConsultationService consultationService;
 
-    @Autowired
-    ExpertService expertService;
+    /*@Autowired
+    ExpertService expertService;*/
 
 
     @CrossOrigin(origins = "*")
@@ -65,9 +65,9 @@ public class ServiceController {
         consultationService.insertConsultationCategory();
     }
 
-    @CrossOrigin(origins = "*")
+    /*@CrossOrigin(origins = "*")
     @RequestMapping(value = "/expert", method = RequestMethod.POST)
     public Expert insertExpert(@RequestBody Expert expert) throws JSONException, IOException {
         return expertService.insertExpert(expert);
-    }
+    }*/
 }

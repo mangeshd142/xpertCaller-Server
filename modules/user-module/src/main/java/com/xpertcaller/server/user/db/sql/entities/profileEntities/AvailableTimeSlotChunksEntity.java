@@ -19,13 +19,13 @@ public class AvailableTimeSlotChunksEntity {
     private Date startTime;
     private Date endTime;
     private String zone;
-    private String status;
+    private int status;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "timeSlot_id", referencedColumnName = "timeSlotId")
     private AvailableTimeSlotEntity availableTimeSlotEntity;
 
-    public AvailableTimeSlotChunksEntity(String timeSlotChunkId, Date startTime, Date endTime, String zone, String status){
+    public AvailableTimeSlotChunksEntity(String timeSlotChunkId, Date startTime, Date endTime, String zone, int status){
         this.timeSlotChunkId = timeSlotChunkId;
         this.startTime = startTime;
         this.endTime = endTime;
