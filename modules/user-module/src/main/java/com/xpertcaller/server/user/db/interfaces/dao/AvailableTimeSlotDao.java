@@ -27,4 +27,6 @@ public interface AvailableTimeSlotDao {
     AvailableTimeSlotChunksEntity getAvailableTimeSlotChunksEntityById(String id);
 
     List<AvailableTimeSlotChunksEntity> getAvailableTimeslotChunksByAvailableTimeSlot(String timeSlotId);
+
+    List<AvailableTimeSlotChunksEntity>  getAvailableTimeSlotChunksByStartTimeBetween(Date startTime, Date endTime);
 }

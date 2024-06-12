@@ -6,9 +6,11 @@ import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.Pricing;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
-import com.xpertcaller.server.expertdata.db.interfaces.ScheduleMeetingDao;
-import com.xpertcaller.server.expertdata.db.sql.entities.ScheduleMeetingEntity;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
+import com.xpertcaller.server.user.db.interfaces.dao.ScheduleMeetingDao;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.ScheduleMeetingEntity;
 import com.xpertcaller.server.user.db.interfaces.dao.AvailableTimeSlotDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.interfaces.dao.UserProfileDao;
@@ -94,6 +96,10 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         return expertDetails;
     }
 
+    /**
+     * Fetch all the experts in the system
+     * @return List of ExpertDetails
+     */
     @Override
     public List<ExpertDetails> fetchAllExpertDetails(){
         List<UserEntity> userEntityList = userDao.getAllUsers();
@@ -104,6 +110,13 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         return expertDetails;
     }
 
+    /**
+     * fetch Time slots by user id
+     * @param userId
+     * @param startDateL
+     * @param zone
+     * @return List of ExpertAvailableTimeSlots
+     */
     @Override
     public List<ExpertAvailableTimeSlots> fetchTimeSlotByUser(String userId, long startDateL, String zone){
         long twentyThreeHoursInMillis = 23 * 60 * 60 * 1000L;
@@ -134,46 +147,74 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         return availableTimeSlotChunks;
     }
 
+    /**
+     * get all the schedule meetings by user id
+     * @return List of ScheduleMeetingResponse
+     * @throws BusinessException
+     */
     @Override
-    public List<ScheduleMeeting> getAllScheduleMeetingsBySubscriber() throws BusinessException {
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriber() throws BusinessException {
         String userId = CommonUtil.getCurrentUser().getUserId();
-        List<ScheduleMeeting> scheduleMeetings = new ArrayList<>();
+        List<ScheduleMeetingResponse> scheduleMeetingResponses = new ArrayList<>();
         List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriber(userId);
         scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
-            scheduleMeetings.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
+            scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
         });
-        return scheduleMeetings;
+        return scheduleMeetingResponses;
     }
 
+    /**
+     * get all the schedule meetings by publisher
+     * @return List of ScheduleMeetingResponse
+     * @throws BusinessException
+     */
     @Override
-    public List<ScheduleMeeting> getAllScheduleMeetingsByPublisher() throws BusinessException {
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException {
         String userId = CommonUtil.getCurrentUser().getUserId();
-        List<ScheduleMeeting> scheduleMeetings = new ArrayList<>();
+        List<ScheduleMeetingResponse> scheduleMeetingResponses = new ArrayList<>();
         List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsByPublisher(userId);
         scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
-            scheduleMeetings.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
+            scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
         });
-        return scheduleMeetings;
+        return scheduleMeetingResponses;
     }
 
+    /**
+     * add schedule meeting
+     * @param scheduleMeeting
+     * @return ScheduleMeetingResponse
+     * @throws BusinessException
+     */
     @Override
-    public ScheduleMeeting addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException {
+    public ScheduleMeetingResponse addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException {
         String userId = CommonUtil.getCurrentUser().getUserId();
         ScheduleMeetingEntity scheduleMeetingEntity = convertScheduleMeetingToScheduleMeetingEntity(scheduleMeeting);
         scheduleMeetingEntity.setSubscriber(userId);
-        List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
-        int status = scheduleMeeting.getStatus();
         scheduleMeetingEntity.setBookingId(UUID.randomUUID().toString());
-        if(timeSlotIds != null){
-            for (String timeSlotId : timeSlotIds) {
-                userService.updateAvailableTimeslotChunkStatus(timeSlotId, status);
-            }
-        }
+        String timeSlotId = scheduleMeeting.getTimeSlotId();
+        AvailableTimeSlotChunksEntity availableTimeSlotChunksEntity = availableTimeSlotDao.getAvailableTimeSlotChunksEntityById(timeSlotId);
+        long startTime = availableTimeSlotChunksEntity.getStartTime().getTime();
+        long duration = (scheduleMeeting.getDuration() - 1) * 60 * 1000L;
+        long endDateL = startTime + duration;
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = availableTimeSlotDao.getAvailableTimeSlotChunksByStartTimeBetween(new Date(startTime), new Date(endDateL));
+
+        availableTimeSlotChunksEntities.forEach(modifyAvailableTimeSlotChunksEntity -> {
+            modifyAvailableTimeSlotChunksEntity.setStatus(scheduleMeeting.getStatus());
+            modifyAvailableTimeSlotChunksEntity.setScheduleMeetingEntity(scheduleMeetingEntity);
+        });
+        scheduleMeetingEntity.setAvailableTimeSlotChunksEntities(availableTimeSlotChunksEntities);
         return convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingDao.saveScheduleMeeting(scheduleMeetingEntity));
     }
 
+    /**
+     * update schedule meeting
+     * @param meetingId
+     * @param status
+     * @return ScheduleMeetingResponse
+     * @throws BusinessException
+     */
     @Override
-    public ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
+    public ScheduleMeetingResponse updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
         ScheduleMeetingEntity scheduleMeetingEntity = scheduleMeetingDao.getScheduleMeetingById(meetingId);
         List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
         if(timeSlotIds != null){
@@ -189,22 +230,35 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         ScheduleMeetingEntity scheduleMeetingEntity = new ScheduleMeetingEntity();
         scheduleMeetingEntity.setPublisher(scheduleMeeting.getPublisher());
         scheduleMeetingEntity.setSubscriber(scheduleMeeting.getSubscriber());
-        scheduleMeetingEntity.setTimeSlotIds(scheduleMeeting.getTimeSlotIds());
+        //scheduleMeetingEntity.setTimeSlotIds(scheduleMeeting.getTimeSlotIds());
         scheduleMeetingEntity.setStatus(scheduleMeeting.getStatus());
         scheduleMeetingEntity.setMode(scheduleMeeting.getMode());
 
         return scheduleMeetingEntity;
     }
 
-    private ScheduleMeeting convertScheduleMeetingEntityToScheduleMeeting(ScheduleMeetingEntity scheduleMeetingEntity) {
-        ScheduleMeeting scheduleMeeting = new ScheduleMeeting();
-        scheduleMeeting.setPublisher(scheduleMeetingEntity.getPublisher());
-        scheduleMeeting.setSubscriber(scheduleMeetingEntity.getSubscriber());
-        scheduleMeeting.setTimeSlotIds(scheduleMeetingEntity.getTimeSlotIds());
-        scheduleMeeting.setStatus(scheduleMeetingEntity.getStatus());
-        scheduleMeeting.setMode(scheduleMeetingEntity.getMode());
-        scheduleMeeting.setBookingId(scheduleMeetingEntity.getBookingId());
+    private ScheduleMeetingResponse convertScheduleMeetingEntityToScheduleMeeting(ScheduleMeetingEntity scheduleMeetingEntity) {
+        ScheduleMeetingResponse scheduleMeetingResponse = new ScheduleMeetingResponse();
+        scheduleMeetingResponse.setPublisher(scheduleMeetingEntity.getPublisher());
+        scheduleMeetingResponse.setSubscriber(scheduleMeetingEntity.getSubscriber());
+        scheduleMeetingResponse.setTimeSlotIds(scheduleMeetingEntity.getTimeSlotIds());
+        scheduleMeetingResponse.setStatus(scheduleMeetingEntity.getStatus());
+        scheduleMeetingResponse.setMode(scheduleMeetingEntity.getMode());
+        scheduleMeetingResponse.setBookingId(scheduleMeetingEntity.getBookingId());
+        List<AvailableTimeSlotChunks> availableTimeSlotChunksList = new ArrayList<>();
 
-        return scheduleMeeting;
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = scheduleMeetingEntity.getAvailableTimeSlotChunksEntities();
+
+        availableTimeSlotChunksEntities.forEach(availableTimeSlotChunksEntity -> {
+            AvailableTimeSlotChunks availableTimeSlotChunk = new AvailableTimeSlotChunks();
+            availableTimeSlotChunk.setId(availableTimeSlotChunksEntity.getTimeSlotChunkId());
+            availableTimeSlotChunk.setStartTime(availableTimeSlotChunksEntity.getStartTime().getTime());
+            availableTimeSlotChunk.setEndTime(availableTimeSlotChunksEntity.getEndTime().getTime());
+            availableTimeSlotChunk.setZone(availableTimeSlotChunksEntity.getZone());
+            availableTimeSlotChunk.setStatus(availableTimeSlotChunksEntity.getStatus());
+            availableTimeSlotChunksList.add(availableTimeSlotChunk);
+        });
+        scheduleMeetingResponse.setTimeSlots(availableTimeSlotChunksList);
+        return scheduleMeetingResponse;
     }
 }

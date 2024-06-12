@@ -4,6 +4,7 @@ import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 
 import java.util.List;
 
@@ -14,11 +15,11 @@ public interface ExpertDetailBo {
 
     List<ExpertAvailableTimeSlots> fetchTimeSlotByUser(String userId, long date, String zone);
 
-    List<ScheduleMeeting> getAllScheduleMeetingsBySubscriber() throws BusinessException;
+    List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriber() throws BusinessException;
 
-    List<ScheduleMeeting> getAllScheduleMeetingsByPublisher() throws BusinessException;
+    List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException;
 
-    ScheduleMeeting addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException;
+    ScheduleMeetingResponse addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException;
 
-    ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException;
+    ScheduleMeetingResponse updateStatusOfMeeting(String meetingId, int status) throws BusinessException;
 }

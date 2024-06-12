@@ -1,8 +1,8 @@
-package com.xpertcaller.server.expertdata.db.sql.dao;
+package com.xpertcaller.server.user.db.sql.dao;
 
-import com.xpertcaller.server.expertdata.db.interfaces.ScheduleMeetingDao;
-import com.xpertcaller.server.expertdata.db.sql.entities.ScheduleMeetingEntity;
-import com.xpertcaller.server.expertdata.db.sql.repository.ScheduleMeetingRepository;
+import com.xpertcaller.server.user.db.interfaces.dao.ScheduleMeetingDao;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.ScheduleMeetingEntity;
+import com.xpertcaller.server.user.db.sql.repositories.ScheduleMeetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

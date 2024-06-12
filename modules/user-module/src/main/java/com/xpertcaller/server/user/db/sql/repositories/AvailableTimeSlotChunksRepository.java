@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface AvailableTimeSlotChunksRepository  extends JpaRepository<AvailableTimeSlotChunksEntity, String> {
@@ -15,6 +16,6 @@ public interface AvailableTimeSlotChunksRepository  extends JpaRepository<Availa
     List<AvailableTimeSlotChunksEntity> findByAvailableTimeSlotEntity(@Param("availableTimeSlotEntity") AvailableTimeSlotEntity availableTimeSlotEntity);
 
     List<AvailableTimeSlotChunksEntity> findByAvailableTimeSlotEntityTimeSlotId(String id);
-
+    List<AvailableTimeSlotChunksEntity> findByStartTimeBetween(Date startTime, Date endTime);
 
 }

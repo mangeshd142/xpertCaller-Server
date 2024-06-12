@@ -69,4 +69,9 @@ public class AvailableTimeSlotDaoImpl implements AvailableTimeSlotDao {
         return availableTimeSlotChunksRepository.findByAvailableTimeSlotEntityTimeSlotId(timeSlotId);
     }
 
+    @Override
+    public List<AvailableTimeSlotChunksEntity>  getAvailableTimeSlotChunksByStartTimeBetween(Date startTime, Date endTime) {
+        return availableTimeSlotChunksRepository.findByStartTimeBetween(startTime, endTime);
+    }
+
 }

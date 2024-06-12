@@ -1,4 +1,4 @@
-package com.xpertcaller.server.expertdata.beans;
+package com.xpertcaller.server.user.db.sql.entities.profileEntities;
 
 import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import jakarta.persistence.*;
@@ -11,13 +11,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ScheduleMeeting {
+@Entity
+@Table(name = "schedule_meeting")
+public class ScheduleMeetingEntity {
 
+    @Id
     private String bookingId;
-    private int duration;
     private String publisher;
     private String subscriber;
     private int status;
-    private String timeSlotId;
+    private List<String> timeSlotIds;
     private String mode;
+    @OneToMany(mappedBy = "scheduleMeetingEntity", cascade = CascadeType.ALL)
+    private List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities;
+
 }

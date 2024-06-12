@@ -1,6 +1,6 @@
-package com.xpertcaller.server.expertdata.db.sql.repository;
+package com.xpertcaller.server.user.db.sql.repositories;
 
-import com.xpertcaller.server.expertdata.db.sql.entities.ScheduleMeetingEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.ScheduleMeetingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.xpertcaller.server.expertdata.db.interfaces;
+package com.xpertcaller.server.user.db.interfaces.dao;
 
-import com.xpertcaller.server.expertdata.db.sql.entities.ScheduleMeetingEntity;
+import com.xpertcaller.server.user.db.sql.entities.profileEntities.ScheduleMeetingEntity;
 
 import java.util.List;
 

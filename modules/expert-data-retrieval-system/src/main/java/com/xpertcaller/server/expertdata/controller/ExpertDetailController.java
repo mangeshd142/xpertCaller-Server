@@ -5,6 +5,7 @@ import com.xpertcaller.server.expertdata.beans.AvailableTimeSlotRequest;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,25 +46,25 @@ public class ExpertDetailController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchPublisherScheduleMeetings")
-    public List<ScheduleMeeting> fetchPublisherScheduleMeetings() throws BusinessException {
+    public List<ScheduleMeetingResponse> fetchPublisherScheduleMeetings() throws BusinessException {
         return expertDetailService.getAllScheduleMeetingsByPublisher();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchSubscriberScheduleMeetings")
-    public List<ScheduleMeeting> fetchSubscriberScheduleMeetings() throws BusinessException {
+    public List<ScheduleMeetingResponse> fetchSubscriberScheduleMeetings() throws BusinessException {
         return expertDetailService.getAllScheduleMeetingsBySubscriber();
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleMeeting")
-    public ScheduleMeeting scheduleMeeting(@RequestBody ScheduleMeeting scheduleMeeting) throws BusinessException {
+    public ScheduleMeetingResponse scheduleMeeting(@RequestBody ScheduleMeeting scheduleMeeting) throws BusinessException {
         return expertDetailService.addScheduleMeeting(scheduleMeeting);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/updateMeetingStatus/{meetingId}/{status}")
-    public ScheduleMeeting updateStatusOfMeeting(@PathVariable String meetingId, @PathVariable int status) throws BusinessException {
+    public ScheduleMeetingResponse updateStatusOfMeeting(@PathVariable String meetingId, @PathVariable int status) throws BusinessException {
         return expertDetailService.updateStatusOfMeeting(meetingId, status);
     }
 }

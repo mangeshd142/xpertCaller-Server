@@ -4,6 +4,7 @@ import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,22 +34,22 @@ public class ExpertDetailServiceImpl implements ExpertDetailService {
     }
 
     @Override
-    public ScheduleMeeting addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException {
+    public ScheduleMeetingResponse addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException {
         return expertDetailBo.addScheduleMeeting(scheduleMeeting);
     }
 
     @Override
-    public ScheduleMeeting updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
+    public ScheduleMeetingResponse updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
         return expertDetailBo.updateStatusOfMeeting(meetingId, status);
     }
 
     @Override
-    public List<ScheduleMeeting> getAllScheduleMeetingsBySubscriber() throws BusinessException {
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriber() throws BusinessException {
         return expertDetailBo.getAllScheduleMeetingsBySubscriber();
     }
 
     @Override
-    public List<ScheduleMeeting> getAllScheduleMeetingsByPublisher() throws BusinessException {
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException {
         return expertDetailBo.getAllScheduleMeetingsByPublisher();
     }
 }

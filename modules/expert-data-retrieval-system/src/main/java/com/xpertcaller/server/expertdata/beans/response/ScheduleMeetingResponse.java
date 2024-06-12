@@ -1,8 +1,7 @@
-package com.xpertcaller.server.expertdata.db.sql.entities;
+package com.xpertcaller.server.expertdata.beans.response;
 
-import jakarta.persistence.Entity;
+import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
 
 import java.util.List;
@@ -12,16 +11,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity
-@Table(name = "schedule_meeting")
-public class ScheduleMeetingEntity {
-
-    @Id
+public class ScheduleMeetingResponse {
     private String bookingId;
     private String publisher;
     private String subscriber;
     private int status;
     private List<String> timeSlotIds;
     private String mode;
-
+    private List<AvailableTimeSlotChunks> timeSlots;
 }
