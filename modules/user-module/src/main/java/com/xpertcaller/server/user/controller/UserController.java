@@ -75,4 +75,10 @@ public class UserController {
     public List<UserProfileRequest> createUsers(@RequestBody Map<String, List<UserProfileRequest> > userProfileRequestMap) {
         return userService.createUsers(userProfileRequestMap);
     }
+
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/getusers", method = RequestMethod.GET)
+    public List<User> getUsers() throws BusinessException {
+        return userService.getAllUsers();
+    }
 }
