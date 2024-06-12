@@ -216,12 +216,10 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
     @Override
     public ScheduleMeetingResponse updateStatusOfMeeting(String meetingId, int status) throws BusinessException {
         ScheduleMeetingEntity scheduleMeetingEntity = scheduleMeetingDao.getScheduleMeetingById(meetingId);
-        List<String> timeSlotIds = scheduleMeetingEntity.getTimeSlotIds();
-        if(timeSlotIds != null){
-            for (String timeSlotId : timeSlotIds) {
-                userService.updateAvailableTimeslotChunkStatus(timeSlotId, status);
-            }
-        }
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = scheduleMeetingEntity.getAvailableTimeSlotChunksEntities();
+        availableTimeSlotChunksEntities.forEach(availableTimeSlotChunksEntity -> {
+            availableTimeSlotChunksEntity.setStatus(status);
+        });
         scheduleMeetingEntity.setStatus(status);
         return convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingDao.saveScheduleMeeting(scheduleMeetingEntity));
     }
@@ -230,7 +228,6 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         ScheduleMeetingEntity scheduleMeetingEntity = new ScheduleMeetingEntity();
         scheduleMeetingEntity.setPublisher(scheduleMeeting.getPublisher());
         scheduleMeetingEntity.setSubscriber(scheduleMeeting.getSubscriber());
-        //scheduleMeetingEntity.setTimeSlotIds(scheduleMeeting.getTimeSlotIds());
         scheduleMeetingEntity.setStatus(scheduleMeeting.getStatus());
         scheduleMeetingEntity.setMode(scheduleMeeting.getMode());
 
