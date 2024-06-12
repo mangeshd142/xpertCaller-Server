@@ -20,7 +20,6 @@ public class ScheduleMeetingEntity {
     private String publisher;
     private String subscriber;
     private int status;
-    private List<String> timeSlotIds;
     private String mode;
     @OneToMany(mappedBy = "scheduleMeetingEntity", cascade = CascadeType.ALL)
     private List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities;

@@ -7,6 +7,7 @@ import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.Pricing;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
+import com.xpertcaller.server.expertdata.beans.response.UserResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
 import com.xpertcaller.server.user.beans.user.AvailableTimeSlotChunks;
 import com.xpertcaller.server.user.db.interfaces.dao.ScheduleMeetingDao;
@@ -236,9 +237,24 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
 
     private ScheduleMeetingResponse convertScheduleMeetingEntityToScheduleMeeting(ScheduleMeetingEntity scheduleMeetingEntity) {
         ScheduleMeetingResponse scheduleMeetingResponse = new ScheduleMeetingResponse();
-        scheduleMeetingResponse.setPublisher(scheduleMeetingEntity.getPublisher());
-        scheduleMeetingResponse.setSubscriber(scheduleMeetingEntity.getSubscriber());
-        scheduleMeetingResponse.setTimeSlotIds(scheduleMeetingEntity.getTimeSlotIds());
+        UserEntity publisherEntity = userDao.getUserById(scheduleMeetingEntity.getPublisher());
+        UserResponse publisher = new UserResponse();
+        publisher.setUserId(publisherEntity.getUserId());
+        publisher.setEmail(publisherEntity.getEmail());
+        publisher.setImage(publisherEntity.getProfilePic());
+        publisher.setPhone(publisherEntity.getMobileNumber());
+        publisher.setName(publisherEntity.getName());
+
+        UserEntity subscriberEntity = userDao.getUserById(scheduleMeetingEntity.getSubscriber());
+        UserResponse subscriber = new UserResponse();
+        subscriber.setUserId(subscriberEntity.getUserId());
+        subscriber.setEmail(subscriberEntity.getEmail());
+        subscriber.setImage(subscriberEntity.getProfilePic());
+        subscriber.setName(subscriberEntity.getName());
+        subscriber.setPhone(subscriberEntity.getMobileNumber());
+
+        scheduleMeetingResponse.setPublisher(publisher);
+        scheduleMeetingResponse.setSubscriber(subscriber);
         scheduleMeetingResponse.setStatus(scheduleMeetingEntity.getStatus());
         scheduleMeetingResponse.setMode(scheduleMeetingEntity.getMode());
         scheduleMeetingResponse.setBookingId(scheduleMeetingEntity.getBookingId());

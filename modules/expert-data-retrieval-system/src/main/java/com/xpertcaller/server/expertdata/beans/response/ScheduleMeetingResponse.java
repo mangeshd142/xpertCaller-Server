@@ -13,10 +13,9 @@ import java.util.List;
 @ToString
 public class ScheduleMeetingResponse {
     private String bookingId;
-    private String publisher;
-    private String subscriber;
+    private UserResponse publisher;
+    private UserResponse subscriber;
     private int status;
-    private List<String> timeSlotIds;
     private String mode;
     private List<AvailableTimeSlotChunks> timeSlots;
 }
