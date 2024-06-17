@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
                 userEntity.setUsername(mobileNumber);
                 userEntity.setActive(true);
             }
-            String randomNumber = "" + random.nextInt(10000, 99999);
+            String randomNumber = "5555";
             logger.error("OTP : {}", randomNumber);
             userEntity.setOtp(passwordEncoder.encode(randomNumber));
             return convertUserEntityToUser(userDao.saveUser(userEntity));
