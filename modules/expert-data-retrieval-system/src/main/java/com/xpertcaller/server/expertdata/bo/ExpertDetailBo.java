@@ -17,6 +17,8 @@ public interface ExpertDetailBo {
 
     List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriber() throws BusinessException;
 
+    List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException;
+
     List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException;
 
     ScheduleMeetingResponse addScheduleMeeting(ScheduleMeeting scheduleMeeting) throws BusinessException;

@@ -181,6 +181,22 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
     }
 
     /**
+     * get all the schedule meetings by subscriber or publisher
+     * @return List of ScheduleMeetingResponse
+     * @throws BusinessException
+     */
+    @Override
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException {
+        String userId = CommonUtil.getCurrentUser().getUserId();
+        List<ScheduleMeetingResponse> scheduleMeetingResponses = new ArrayList<>();
+        List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriberOrPublisher(userId, userId);
+        scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
+            scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
+        });
+        return scheduleMeetingResponses;
+    }
+
+    /**
      * add schedule meeting
      * @param scheduleMeeting
      * @return ScheduleMeetingResponse
@@ -196,8 +212,8 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         AvailableTimeSlotChunksEntity availableTimeSlotChunksEntity = availableTimeSlotDao.getAvailableTimeSlotChunksEntityById(timeSlotId);
         long startTime = availableTimeSlotChunksEntity.getStartTime().getTime();
         long duration = (scheduleMeeting.getDuration() - 1) * 60 * 1000L;
-        long endDateL = startTime + duration;
-        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = availableTimeSlotDao.getAvailableTimeSlotChunksByStartTimeBetween(new Date(startTime), new Date(endDateL));
+        long endTime = startTime + duration;
+        List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = availableTimeSlotDao.getAvailableTimeSlotChunksByStartTimeBetween(new Date(startTime), new Date(endTime));
 
         availableTimeSlotChunksEntities.forEach(modifyAvailableTimeSlotChunksEntity -> {
             modifyAvailableTimeSlotChunksEntity.setStatus(scheduleMeeting.getStatus());

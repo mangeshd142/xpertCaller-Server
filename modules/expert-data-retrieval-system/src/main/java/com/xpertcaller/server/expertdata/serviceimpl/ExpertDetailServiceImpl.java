@@ -52,4 +52,9 @@ public class ExpertDetailServiceImpl implements ExpertDetailService {
     public List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException {
         return expertDetailBo.getAllScheduleMeetingsByPublisher();
     }
+
+    @Override
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException {
+        return expertDetailBo.getAllScheduleMeetingsBySubscriberOrPublisher();
+    }
 }

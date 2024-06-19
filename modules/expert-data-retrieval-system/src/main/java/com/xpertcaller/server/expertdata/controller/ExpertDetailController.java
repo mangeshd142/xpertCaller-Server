@@ -57,6 +57,12 @@ public class ExpertDetailController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping(value = "/meetings")
+    public List<ScheduleMeetingResponse> fetchMeetings() throws BusinessException {
+        return expertDetailService.getAllScheduleMeetingsBySubscriberOrPublisher();
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleMeeting")
     public ScheduleMeetingResponse scheduleMeeting(@RequestBody ScheduleMeeting scheduleMeeting) throws BusinessException {
         return expertDetailService.addScheduleMeeting(scheduleMeeting);

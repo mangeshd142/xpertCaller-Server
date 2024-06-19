@@ -14,4 +14,6 @@ public interface ScheduleMeetingDao {
     List<ScheduleMeetingEntity> getAllScheduleMeetingsBySubscriber(String subscriber);
 
     List<ScheduleMeetingEntity> getAllScheduleMeetingsByPublisher(String publisher);
+
+    List<ScheduleMeetingEntity> getAllScheduleMeetingsBySubscriberOrPublisher(String subscriber, String publisher);
 }

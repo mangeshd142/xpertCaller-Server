@@ -22,4 +22,6 @@ public interface ExpertDetailService {
     List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriber() throws BusinessException;
 
     List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException;
+
+    List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException;
 }

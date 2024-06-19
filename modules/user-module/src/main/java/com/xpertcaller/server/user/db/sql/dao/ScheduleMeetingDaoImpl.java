@@ -39,4 +39,9 @@ public class ScheduleMeetingDaoImpl implements ScheduleMeetingDao {
         return scheduleMeetingRepository.findByPublisher(publisher);
     }
 
+    @Override
+    public List<ScheduleMeetingEntity> getAllScheduleMeetingsBySubscriberOrPublisher(String subscriber, String publisher){
+        return scheduleMeetingRepository.findBySubscriberOrPublisher(subscriber, publisher);
+    }
+
 }
