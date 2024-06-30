@@ -4,6 +4,7 @@ import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTime
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,4 +21,6 @@ public class ScheduleMeeting {
     private int status;
     private String timeSlotId;
     private String mode;
+    private Date startTime;
+    private Date endTime;
 }

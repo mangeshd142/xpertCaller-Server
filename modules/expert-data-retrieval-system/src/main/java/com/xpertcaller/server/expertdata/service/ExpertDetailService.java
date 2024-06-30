@@ -4,6 +4,7 @@ import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.ScheduleMeetingFilter;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface ExpertDetailService {
 
     List<ScheduleMeetingResponse> getAllScheduleMeetingsByPublisher() throws BusinessException;
 
-    List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException;
+    List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher(ScheduleMeetingFilter scheduleMeetingFilter) throws BusinessException;
 }

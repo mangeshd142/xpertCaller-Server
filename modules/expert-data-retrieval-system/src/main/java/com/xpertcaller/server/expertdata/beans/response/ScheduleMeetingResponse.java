@@ -18,4 +18,6 @@ public class ScheduleMeetingResponse {
     private int status;
     private String mode;
     private List<AvailableTimeSlotChunks> timeSlots;
+    private long startTime;
+    private long endTime;
 }

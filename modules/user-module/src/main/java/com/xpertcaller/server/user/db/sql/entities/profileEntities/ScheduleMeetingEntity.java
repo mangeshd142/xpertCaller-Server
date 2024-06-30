@@ -1,9 +1,9 @@
 package com.xpertcaller.server.user.db.sql.entities.profileEntities;
 
-import com.xpertcaller.server.user.db.sql.entities.profileEntities.AvailableTimeSlotChunksEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -21,6 +21,8 @@ public class ScheduleMeetingEntity {
     private String subscriber;
     private int status;
     private String mode;
+    private Date  startTime;
+    private Date endTime;
     @OneToMany(mappedBy = "scheduleMeetingEntity", cascade = CascadeType.ALL)
     private List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities;
 

@@ -2,10 +2,7 @@ package com.xpertcaller.server.expertdata.boimpl;
 
 
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
-import com.xpertcaller.server.expertdata.beans.ExpertDetails;
-import com.xpertcaller.server.expertdata.beans.Pricing;
-import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.*;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.beans.response.UserResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
@@ -186,10 +183,22 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
      * @throws BusinessException
      */
     @Override
-    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher() throws BusinessException {
+    public List<ScheduleMeetingResponse> getAllScheduleMeetingsBySubscriberOrPublisher(ScheduleMeetingFilter scheduleMeetingFilter) throws BusinessException {
         String userId = CommonUtil.getCurrentUser().getUserId();
         List<ScheduleMeetingResponse> scheduleMeetingResponses = new ArrayList<>();
-        List<ScheduleMeetingEntity> scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriberOrPublisher(userId, userId);
+        List<ScheduleMeetingEntity> scheduleMeetingEntities = null;
+        if(scheduleMeetingFilter.getDate() != 0) {
+            long startDateL = scheduleMeetingFilter.getDate();
+            long twentyThreeHoursInMillis = 23 * 60 * 60 * 1000L;
+            long fiftyNineMinutesInMillis = 59 * 60 * 1000L;
+            long endDateL = startDateL + twentyThreeHoursInMillis + fiftyNineMinutesInMillis;
+            Date startDate = new Date(startDateL);
+            Date endDate = new Date(endDateL);
+            scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriberOrPublisherAndStartTimeBetween(userId, userId, startDate, endDate);
+        }else {
+            scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriberOrPublisher(userId, userId);
+        }
+
         scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
             scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
         });
@@ -215,10 +224,15 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         long endTime = startTime + duration;
         List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = availableTimeSlotDao.getAvailableTimeSlotChunksByStartTimeBetween(new Date(startTime), new Date(endTime));
 
+        long endTimeDuration = (scheduleMeeting.getDuration() * 60 * 1000L) -1;
+        Date newEndTime = new Date(startTime + endTimeDuration);
+
         availableTimeSlotChunksEntities.forEach(modifyAvailableTimeSlotChunksEntity -> {
             modifyAvailableTimeSlotChunksEntity.setStatus(scheduleMeeting.getStatus());
             modifyAvailableTimeSlotChunksEntity.setScheduleMeetingEntity(scheduleMeetingEntity);
         });
+        scheduleMeetingEntity.setStartTime(new Date(startTime));
+        scheduleMeetingEntity.setEndTime(newEndTime);
         scheduleMeetingEntity.setAvailableTimeSlotChunksEntities(availableTimeSlotChunksEntities);
         return convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingDao.saveScheduleMeeting(scheduleMeetingEntity));
     }
@@ -274,6 +288,8 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         scheduleMeetingResponse.setStatus(scheduleMeetingEntity.getStatus());
         scheduleMeetingResponse.setMode(scheduleMeetingEntity.getMode());
         scheduleMeetingResponse.setBookingId(scheduleMeetingEntity.getBookingId());
+        scheduleMeetingResponse.setStartTime(scheduleMeetingEntity.getStartTime().getTime());
+        scheduleMeetingResponse.setEndTime(scheduleMeetingEntity.getEndTime().getTime());
         List<AvailableTimeSlotChunks> availableTimeSlotChunksList = new ArrayList<>();
 
         List<AvailableTimeSlotChunksEntity> availableTimeSlotChunksEntities = scheduleMeetingEntity.getAvailableTimeSlotChunksEntities();

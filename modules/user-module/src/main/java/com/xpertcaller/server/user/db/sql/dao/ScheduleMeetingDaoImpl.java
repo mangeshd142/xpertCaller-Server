@@ -6,6 +6,7 @@ import com.xpertcaller.server.user.db.sql.repositories.ScheduleMeetingRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -42,6 +43,11 @@ public class ScheduleMeetingDaoImpl implements ScheduleMeetingDao {
     @Override
     public List<ScheduleMeetingEntity> getAllScheduleMeetingsBySubscriberOrPublisher(String subscriber, String publisher){
         return scheduleMeetingRepository.findBySubscriberOrPublisher(subscriber, publisher);
+    }
+
+    @Override
+    public List<ScheduleMeetingEntity> getAllScheduleMeetingsBySubscriberOrPublisherAndStartTimeBetween(String subscriber, String publisher, Date startTime, Date endTime){
+        return scheduleMeetingRepository.findByStartTimeBetweenAndSubscriberOrPublisher(startTime, endTime, subscriber, publisher);
     }
 
 }

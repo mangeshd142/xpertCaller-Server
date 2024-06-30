@@ -16,6 +16,6 @@ public interface AvailableTimeSlotChunksRepository  extends JpaRepository<Availa
     List<AvailableTimeSlotChunksEntity> findByAvailableTimeSlotEntity(@Param("availableTimeSlotEntity") AvailableTimeSlotEntity availableTimeSlotEntity);
 
     List<AvailableTimeSlotChunksEntity> findByAvailableTimeSlotEntityTimeSlotId(String id);
-    List<AvailableTimeSlotChunksEntity> findByStartTimeBetween(Date startTime, Date endTime);
+    List<AvailableTimeSlotChunksEntity> findByStartTimeBetweenOrderByStartTimeAsc(Date startTime, Date endTime);
 
 }

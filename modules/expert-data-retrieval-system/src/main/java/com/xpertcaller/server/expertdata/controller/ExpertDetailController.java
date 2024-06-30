@@ -1,10 +1,7 @@
 package com.xpertcaller.server.expertdata.controller;
 
 import com.xpertcaller.server.common.exception.BusinessException;
-import com.xpertcaller.server.expertdata.beans.AvailableTimeSlotRequest;
-import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
-import com.xpertcaller.server.expertdata.beans.ExpertDetails;
-import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
+import com.xpertcaller.server.expertdata.beans.*;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,22 @@ public class ExpertDetailController {
     @Autowired
     ExpertDetailService expertDetailService;
 
+    /**
+     * Fetch expert details by id
+     * @param id
+     * @return
+     */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchExpert/{id}")
     public ExpertDetails fetchExpert(@PathVariable String id){
         return expertDetailService.fetchExpertDetails(id);
     }
 
+    /**
+     * Fetch all expert details
+     * @param
+     * @return
+     */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchAllExpert")
     public Map<String , List<ExpertDetails> > fetchAllExpert(){
@@ -35,6 +42,11 @@ public class ExpertDetailController {
         return expertMap;
     }
 
+    /**
+     * Fetch expert available time slots
+     * @param availableTimeSlotRequest
+     * @return
+     */
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/fetchExpertTimeSlots")
     public Map<String , List<ExpertAvailableTimeSlots> > fetchExpertTimeSlots(@RequestBody AvailableTimeSlotRequest availableTimeSlotRequest){
@@ -44,30 +56,58 @@ public class ExpertDetailController {
         return expertAvailableSlotMap;
     }
 
+    /**
+     * fetch Publisher Schedule Meetings
+     * @return
+     * @throws BusinessException
+     */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchPublisherScheduleMeetings")
     public List<ScheduleMeetingResponse> fetchPublisherScheduleMeetings() throws BusinessException {
         return expertDetailService.getAllScheduleMeetingsByPublisher();
     }
 
+    /**
+     * fetch Subscriber Schedule Meetings
+     * @return
+     * @throws BusinessException
+     */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchSubscriberScheduleMeetings")
     public List<ScheduleMeetingResponse> fetchSubscriberScheduleMeetings() throws BusinessException {
         return expertDetailService.getAllScheduleMeetingsBySubscriber();
     }
 
+    /**
+     * fetch all Schedule Meetings
+     * @return
+     * @throws BusinessException
+     */
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/meetings")
-    public List<ScheduleMeetingResponse> fetchMeetings() throws BusinessException {
-        return expertDetailService.getAllScheduleMeetingsBySubscriberOrPublisher();
+    @PostMapping(value = "/meetings")
+    public List<ScheduleMeetingResponse> fetchMeetings(@RequestBody ScheduleMeetingFilter scheduleMeetingFilter) throws BusinessException {
+        return expertDetailService.getAllScheduleMeetingsBySubscriberOrPublisher(scheduleMeetingFilter);
     }
 
+    /**
+     * schedule meeting
+     * @param scheduleMeeting
+     * @return
+     * @throws BusinessException
+     */
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleMeeting")
     public ScheduleMeetingResponse scheduleMeeting(@RequestBody ScheduleMeeting scheduleMeeting) throws BusinessException {
         return expertDetailService.addScheduleMeeting(scheduleMeeting);
     }
 
+    /**
+     * update meeting status
+     * @param meetingId
+     * @param status
+     * @return
+     * @throws BusinessException
+     */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/updateMeetingStatus/{meetingId}/{status}")
     public ScheduleMeetingResponse updateStatusOfMeeting(@PathVariable String meetingId, @PathVariable int status) throws BusinessException {
