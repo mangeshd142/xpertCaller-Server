@@ -199,9 +199,20 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             scheduleMeetingEntities = scheduleMeetingDao.getAllScheduleMeetingsBySubscriberOrPublisher(userId, userId);
         }
 
-        scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
-            scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity));
-        });
+        if(scheduleMeetingFilter.getStatus() != 0){
+            List<ScheduleMeetingEntity> filteredScheduleMeetingEntities = new ArrayList<>();
+            scheduleMeetingEntities.forEach(scheduleMeetingEntity -> {
+                if(scheduleMeetingEntity.getStatus() == scheduleMeetingFilter.getStatus()) {
+                    filteredScheduleMeetingEntities.add(scheduleMeetingEntity);
+                }
+            });
+            scheduleMeetingEntities = filteredScheduleMeetingEntities;
+        }
+
+        scheduleMeetingEntities.forEach(scheduleMeetingEntity ->
+            scheduleMeetingResponses.add(convertScheduleMeetingEntityToScheduleMeeting(scheduleMeetingEntity))
+        );
+
         return scheduleMeetingResponses;
     }
 

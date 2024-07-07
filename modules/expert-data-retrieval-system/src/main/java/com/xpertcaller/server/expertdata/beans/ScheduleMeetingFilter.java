@@ -10,4 +10,5 @@ import lombok.*;
 public class ScheduleMeetingFilter {
     private long date;
     private String mode;
+    private int status;
 }
