@@ -42,4 +42,9 @@ public class UserDaoImpl implements UserDao {
     public UserEntity getUserById(String id){
         return userRepository.getReferenceById(id);
     }
+
+    @Override
+    public List<UserEntity> getUserByFilter(String category, String gender){
+        return userRepository.findByCategory(category, gender);
+    }
 }

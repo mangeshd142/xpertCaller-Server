@@ -16,12 +16,12 @@ import java.util.List;
 public class UserProfileEntity {
     @Id
     private String profileId;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserEntity userEntity;
     private List<String> languages;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<EducationDetailsEntity> educationDetailEntities;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CategoryEntity categoryEntity;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<ExperienceEntity> experienceEntities;

@@ -3,6 +3,7 @@ package com.xpertcaller.server.expertdata.boimpl;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.*;
+import com.xpertcaller.server.expertdata.beans.request.ExpertFilter;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.beans.response.UserResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
@@ -50,7 +51,7 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
     }
 
     private ExpertDetails getExpertDetailByUser(UserEntity userEntity){
-        UserProfileEntity userProfileEntity = userProfileDao.getProfileByUser(userEntity);
+        UserProfileEntity userProfileEntity = userEntity.getUserProfileEntity();
 
         ExpertDetails expertDetails = new ExpertDetails();
 
@@ -106,6 +107,22 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             expertDetails.add(getExpertDetailByUser(userEntity));
         });
         return expertDetails;
+    }
+
+    @Override
+    public List<ExpertDetails> fetchExpertDetailsByFilter(ExpertFilter expertFilter) throws BusinessException{
+        try{
+            String category = expertFilter.getCategory() == null? "" : expertFilter.getCategory();
+            String gender = expertFilter.getGender() == null? "" : expertFilter.getGender();
+            List<UserEntity> userEntityList = userDao.getUserByFilter(category, gender);
+            List<ExpertDetails> expertDetails = new ArrayList<>();
+            userEntityList.forEach(userEntity -> {
+                expertDetails.add(getExpertDetailByUser(userEntity));
+            });
+            return expertDetails;
+        } catch (Exception e){
+            throw new BusinessException("Error while fetching experts by filter");
+        }
     }
 
     /**

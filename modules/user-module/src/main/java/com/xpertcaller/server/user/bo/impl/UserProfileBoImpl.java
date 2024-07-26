@@ -1,6 +1,5 @@
 package com.xpertcaller.server.user.bo.impl;
 
-import co.elastic.clients.elasticsearch.security.UserProfile;
 import com.xpertcaller.server.file.service.FileService;
 import com.xpertcaller.server.user.beans.user.*;
 import com.xpertcaller.server.user.bo.interfaces.UserProfileBo;
@@ -64,7 +63,7 @@ public class UserProfileBoImpl implements UserProfileBo {
     public UserProfileEntity saveUserProfileDetails(ProfileDetails profileDetails, UserProfileEntity userProfileEntity, UserEntity userEntity){
         userProfileEntity = createOrUpdateUserProfileEntity(profileDetails, userProfileEntity);
         userProfileEntity.setUserEntity(userEntity);
-
+        userEntity.setUserProfileEntity(userProfileEntity);
         return userProfileDao.saveUserProfile(userProfileEntity);
     }
 

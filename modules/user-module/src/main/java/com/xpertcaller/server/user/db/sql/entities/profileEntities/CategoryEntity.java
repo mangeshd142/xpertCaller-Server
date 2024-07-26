@@ -16,6 +16,10 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String categoryId;
+
+    @ElementCollection
+    @CollectionTable(name = "category_names", joinColumns = @JoinColumn(name = "category_id"))
+    @Column(name = "category_name")
     private List<String> category;
     private List<String> skills;
 

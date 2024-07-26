@@ -16,4 +16,6 @@ public interface UserDao {
     List<UserEntity> saveUsers(List<UserEntity> userEntityList);
 
     UserEntity getUserById(String id);
+
+    List<UserEntity> getUserByFilter(String category, String gender);
 }

@@ -2,6 +2,7 @@ package com.xpertcaller.server.expertdata.controller;
 
 import com.xpertcaller.server.common.exception.BusinessException;
 import com.xpertcaller.server.expertdata.beans.*;
+import com.xpertcaller.server.expertdata.beans.request.ExpertFilter;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class ExpertDetailController {
     /**
      * Fetch expert details by id
      * @param id
-     * @return
+     * @return ExpertDetails
+     * @throws BusinessException
      */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchExpert/{id}")
@@ -32,7 +34,8 @@ public class ExpertDetailController {
     /**
      * Fetch all expert details
      * @param
-     * @return
+     * @return List of ExpertDetails
+     * @throws BusinessException
      */
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/fetchAllExpert")
@@ -43,9 +46,23 @@ public class ExpertDetailController {
     }
 
     /**
+     * Fetch expert details by filter
+     * @param expertFilter
+     * @return List of ExpertDetails
+     * @throws BusinessException
+     */
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/fetchExperts")
+    public Map<String , List<ExpertDetails> > fetchExperts(@RequestBody ExpertFilter expertFilter) throws BusinessException {
+        Map<String , List<ExpertDetails>> expertMap = new HashMap<>();
+        expertMap.put("experts", expertDetailService.fetchExpertDetailsByFilter(expertFilter));
+        return expertMap;
+    }
+
+    /**
      * Fetch expert available time slots
      * @param availableTimeSlotRequest
-     * @return
+     * @return Map of String and List of ExpertAvailableTimeSlots
      */
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/fetchExpertTimeSlots")
@@ -69,7 +86,7 @@ public class ExpertDetailController {
 
     /**
      * fetch Subscriber Schedule Meetings
-     * @return
+     * @return List of ScheduleMeetingResponse
      * @throws BusinessException
      */
     @CrossOrigin(origins = "*")
@@ -80,7 +97,8 @@ public class ExpertDetailController {
 
     /**
      * fetch all Schedule Meetings
-     * @return
+     * @param scheduleMeetingFilter
+     * @return List of ScheduleMeetingResponse
      * @throws BusinessException
      */
     @CrossOrigin(origins = "*")
@@ -92,7 +110,7 @@ public class ExpertDetailController {
     /**
      * schedule meeting
      * @param scheduleMeeting
-     * @return
+     * @return ScheduleMeetingResponse
      * @throws BusinessException
      */
     @CrossOrigin(origins = "*")
@@ -105,7 +123,7 @@ public class ExpertDetailController {
      * update meeting status
      * @param meetingId
      * @param status
-     * @return
+     * @return ScheduleMeetingResponse
      * @throws BusinessException
      */
     @CrossOrigin(origins = "*")

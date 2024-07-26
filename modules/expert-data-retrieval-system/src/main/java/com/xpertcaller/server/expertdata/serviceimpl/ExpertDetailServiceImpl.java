@@ -5,6 +5,7 @@ import com.xpertcaller.server.expertdata.beans.ExpertAvailableTimeSlots;
 import com.xpertcaller.server.expertdata.beans.ExpertDetails;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeeting;
 import com.xpertcaller.server.expertdata.beans.ScheduleMeetingFilter;
+import com.xpertcaller.server.expertdata.beans.request.ExpertFilter;
 import com.xpertcaller.server.expertdata.beans.response.ScheduleMeetingResponse;
 import com.xpertcaller.server.expertdata.bo.ExpertDetailBo;
 import com.xpertcaller.server.expertdata.service.ExpertDetailService;
@@ -27,6 +28,10 @@ public class ExpertDetailServiceImpl implements ExpertDetailService {
     @Override
     public List<ExpertDetails> fetchAllExpertDetails(){
         return expertDetailBo.fetchAllExpertDetails();
+    }
+
+    public List<ExpertDetails> fetchExpertDetailsByFilter(ExpertFilter expertFilter) throws BusinessException{
+        return expertDetailBo.fetchExpertDetailsByFilter(expertFilter);
     }
 
     @Override
