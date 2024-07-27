@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,11 +21,12 @@ public class UserQueryTest {
     UserRepository userRepository;
 
 
-    //@Test
-    //@Transactional
+    @Test
+    @Transactional
     void testUserRepo(){
         try {
-            Pageable pageable = PageRequest.of(1, 2);
+            Sort  sort = Sort.by("userProfileEntity.totalExperience").ascending();
+            Pageable pageable = PageRequest.of(0, 5, sort);
             List<UserEntity> userEntityList = userRepository.findByCategory("", "", pageable);
             System.out.println("size : "+userEntityList.size());
             userEntityList.forEach(userEntity -> {

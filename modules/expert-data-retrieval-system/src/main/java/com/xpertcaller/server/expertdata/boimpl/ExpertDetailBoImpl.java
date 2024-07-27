@@ -20,6 +20,7 @@ import com.xpertcaller.server.user.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -105,7 +106,15 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         try{
             String category = expertFilter.getCategory() == null? "" : expertFilter.getCategory();
             String gender = expertFilter.getGender() == null? "" : expertFilter.getGender();
-            Pageable pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize());
+            Pageable pageable = null;
+            if(expertFilter.getSortByExperience() == null || expertFilter.getSortByExperience().equals("")){
+                pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize());
+            }
+            else{
+                Sort  sort = expertFilter.getSortByExperience().equals("dsc") ? Sort.by("userProfileEntity.totalExperience").descending()
+                        : Sort.by("userProfileEntity.totalExperience").ascending();
+                pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize(), sort);
+            }
             List<UserEntity> userEntityList = userDao.getUserByFilter(category, gender, pageable);
             List<ExpertDetails> expertDetails = new ArrayList<>();
             userEntityList.forEach(userEntity -> {
@@ -113,6 +122,7 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
             });
             return expertDetails;
         } catch (Exception e){
+
             throw new BusinessException("Error while fetching experts by filter");
         }
     }
