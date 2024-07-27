@@ -25,6 +25,8 @@ public class UserProfileEntity {
     private CategoryEntity categoryEntity;
     @OneToMany(mappedBy = "userProfileEntity", cascade = CascadeType.ALL)
     private List<ExperienceEntity> experienceEntities;
+    @Column
+    private float totalExperience;
     private List<String> files;
     @OneToOne(cascade = CascadeType.ALL)
     private PricingEntity pricingEntity;

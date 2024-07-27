@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Component
@@ -198,16 +199,29 @@ public class UserProfileBoImpl implements UserProfileBo {
 
         List<Experience> experiences = profileDetails.getExperiences();
         if(experiences != null) {
+            int year = 0;
+            int moths = 0;
             List<ExperienceEntity> experienceEntities = new ArrayList<>();
+            List<ExperienceEntity> experienceEntitiesList =userProfileEntity.getExperienceEntities();
+            for (ExperienceEntity experienceEntity : experienceEntitiesList) {
+                year += experienceEntity.getYears();
+                moths += experienceEntity.getMonths();
+            }
+
             for (Experience experience : experiences) {
                 ExperienceEntity experienceEntity = new ExperienceEntity(experience.getCompanyName(), experience.getRole(),
                         experience.getDetails(), experience.getYears(), experience.getMonths());
                 experienceEntity.setUserProfileEntity(userProfileEntity);
                 experienceEntity.setExperienceEntityId(experience.getId());
                 experienceEntities.add(experienceEntity);
+                if(experience.getId()==null || experience.getId().equals("")) {
+                    year += experience.getYears();
+                    moths += experience.getMonths();
+                }
             }
             if (!experienceEntities.isEmpty()) {
                 userProfileEntity.setExperienceEntities(experienceEntities);
+                userProfileEntity.setTotalExperience(year + (moths/12f));
             }
         }
 
@@ -277,6 +291,8 @@ public class UserProfileBoImpl implements UserProfileBo {
         }
 
         List<Experience> experiences = profileDetails.getExperiences();
+        int year = 0;
+        int moths = 0;
         if(experiences != null) {
             List<ExperienceEntity> experienceEntities = new ArrayList<>();
             for (Experience experience : experiences) {
@@ -284,7 +300,10 @@ public class UserProfileBoImpl implements UserProfileBo {
                         experience.getDetails(), experience.getYears(), experience.getMonths());
                 experienceEntity.setUserProfileEntity(userProfileEntity);
                 experienceEntities.add(experienceEntity);
+                year += experience.getYears();
+                moths += experience.getMonths();
             }
+            userProfileEntity.setTotalExperience(year + (moths/12f));
             if (!experienceEntities.isEmpty()) {
                 userProfileEntity.setExperienceEntities(experienceEntities);
             }

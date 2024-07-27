@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 public class ExpertDetailBoImpl implements ExpertDetailBo {
@@ -73,22 +72,12 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
                 });
 
             expertDetails.setDegree(degrees);
-            List<ExperienceEntity> experienceEntities = userProfileEntity.getExperienceEntities();
-
-            AtomicReference<Integer> years = new AtomicReference<>((int) 0);
-            AtomicReference<Integer> months = new AtomicReference<>((int) 0);
-            experienceEntities.forEach(experienceEntity -> {
-                years.set(years.get() + experienceEntity.getYears());
-                months.set(months.get() + experienceEntity.getMonths());
-            });
-            float totalExperience = years.get() + (months.get()/12f);
-            expertDetails.setExperience(totalExperience);
+            expertDetails.setExperience(userProfileEntity.getTotalExperience());
 
             PricingEntity pricingEntity = userProfileEntity.getPricingEntity();
             if(pricingEntity != null){
                 Pricing pricing = new Pricing(pricingEntity.getVideoCalling(), pricingEntity.getAudioCalling(), pricingEntity.getMessage());
                 expertDetails.setPricing(pricing);
-
             }
         }
 
