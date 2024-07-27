@@ -18,6 +18,8 @@ import com.xpertcaller.server.user.db.sql.entities.profileEntities.*;
 import com.xpertcaller.server.user.service.interfaces.UserService;
 import com.xpertcaller.server.user.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -103,7 +105,8 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         try{
             String category = expertFilter.getCategory() == null? "" : expertFilter.getCategory();
             String gender = expertFilter.getGender() == null? "" : expertFilter.getGender();
-            List<UserEntity> userEntityList = userDao.getUserByFilter(category, gender);
+            Pageable pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize());
+            List<UserEntity> userEntityList = userDao.getUserByFilter(category, gender, pageable);
             List<ExpertDetails> expertDetails = new ArrayList<>();
             userEntityList.forEach(userEntity -> {
                 expertDetails.add(getExpertDetailByUser(userEntity));

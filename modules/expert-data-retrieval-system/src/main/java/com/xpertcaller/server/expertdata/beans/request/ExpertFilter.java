@@ -10,4 +10,6 @@ import lombok.*;
 public class ExpertFilter {
     String category;
     String gender;
+    int page;
+    int size;
 }

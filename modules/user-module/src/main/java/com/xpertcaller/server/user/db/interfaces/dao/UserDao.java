@@ -1,6 +1,7 @@
 package com.xpertcaller.server.user.db.interfaces.dao;
 
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,5 +18,5 @@ public interface UserDao {
 
     UserEntity getUserById(String id);
 
-    List<UserEntity> getUserByFilter(String category, String gender);
+    List<UserEntity> getUserByFilter(String category, String gender, Pageable pageable);
 }

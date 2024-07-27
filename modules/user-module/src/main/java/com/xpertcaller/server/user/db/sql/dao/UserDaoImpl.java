@@ -4,6 +4,7 @@ import com.xpertcaller.server.user.db.interfaces.dao.UserDao;
 import com.xpertcaller.server.user.db.sql.entities.UserEntity;
 import com.xpertcaller.server.user.db.sql.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<UserEntity> getUserByFilter(String category, String gender){
-        return userRepository.findByCategory(category, gender);
+    public List<UserEntity> getUserByFilter(String category, String gender, Pageable pageable){
+        return userRepository.findByCategory(category, gender, pageable);
     }
 }
