@@ -28,6 +28,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * expert detail bo
+ * @author mangeshdarekar
+ */
 @Component
 public class ExpertDetailBoImpl implements ExpertDetailBo {
 
@@ -46,6 +50,12 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
     @Autowired
     UserService userService;
 
+    /**
+     * Fetch expert details by id
+     * @param id
+     * @return ExpertDetails
+     * @throws BusinessException
+     */
     @Override
     public ExpertDetails fetchExpertDetails(String id){
         UserEntity userEntity = userDao.getUserById(id);
@@ -101,6 +111,12 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
         return expertDetails;
     }
 
+    /**
+     * fetch expert details by filter
+     * @param expertFilter
+     * @return
+     * @throws BusinessException
+     */
     @Override
     public List<ExpertDetails> fetchExpertDetailsByFilter(ExpertFilter expertFilter) throws BusinessException{
         try{
@@ -111,7 +127,9 @@ public class ExpertDetailBoImpl implements ExpertDetailBo {
                 pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize());
             }
             else{
-                Sort  sort = expertFilter.getSortByExperience().equals("dsc") ? Sort.by("userProfileEntity.totalExperience").descending()
+                //TODO add constants for property
+                Sort  sort = expertFilter.getSortByExperience().equals("dsc") ?
+                        Sort.by("userProfileEntity.totalExperience").descending()
                         : Sort.by("userProfileEntity.totalExperience").ascending();
                 pageable = PageRequest.of(expertFilter.getPage(), expertFilter.getSize(), sort);
             }

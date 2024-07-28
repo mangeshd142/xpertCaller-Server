@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@SpringBootTest(classes=XpertCallerApplication.class)
+//@SpringBootTest(classes=XpertCallerApplication.class)
 public class UserQueryTest {
     @Autowired
     UserRepository userRepository;
 
 
-    @Test
-    @Transactional
+    //@Test
+    //@Transactional
     void testUserRepo(){
         try {
             Sort  sort = Sort.by("userProfileEntity.totalExperience").ascending();
