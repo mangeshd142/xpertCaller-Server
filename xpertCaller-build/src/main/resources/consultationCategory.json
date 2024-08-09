@@ -7,16 +7,19 @@
       "image" : "",
       "skillSets" : [
         {
+          "id" : "1",
           "skillName" : "car",
-          "skillSetDescription" : "car"
+          "skillSetDescription" : ""
         },
         {
+          "id" : "2",
           "skillName" : "Bike",
-          "skillSetDescription" : "Bike"
+          "skillSetDescription" : ""
         },
         {
-          "skillName" : "Bike",
-          "skillSetDescription" : "car"
+          "id" : "3",
+          "skillName" : "Servicing",
+          "skillSetDescription" : ""
         }
       ]
     },
@@ -25,7 +28,23 @@
       "consultationName" : "Astrologer",
       "consultationDescription" : "Astrologer",
       "image" : "",
-      "skillSets" : []
+      "skillSets" : [
+        {
+          "id" : "1",
+          "skillName" : "Marriage",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "2",
+          "skillName" : "Feature Predict",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "3",
+          "skillName" : "Pooja",
+          "skillSetDescription" : "car"
+        }
+      ]
     },
     {
       "consultationId" : "3",
@@ -34,15 +53,23 @@
       "image" : "",
       "skillSets" : [
         {
+          "id" : "1",
           "skillName" : "Human Rights Advocate",
           "skillSetDescription" : "Human Rights Advocate"
         },
         {
+          "id" : "2",
           "skillName" : "Civil Rights Advocate",
           "skillSetDescription" : "Civil Rights Advocate"
         },
         {
+          "id" : "3",
           "skillName" : "Family Law Advocate",
+          "skillSetDescription" : "Family Law Advocate"
+        },
+        {
+          "id" : "4",
+          "skillName" : "Corporate adviser",
           "skillSetDescription" : "Family Law Advocate"
         }
       ]
@@ -150,7 +177,33 @@
       "consultationName" : "Interior Designer",
       "consultationDescription" : "Interior Designer",
       "image" : "",
-      "skillSets" : []
+      "skillSets" : [
+        {
+          "id" : "1",
+          "skillName" : "Space Planning",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "2",
+          "skillName" : "Technical Drawing and Drafting",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "3",
+          "skillName" : "Material and Product Knowledge",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "4",
+          "skillName" : "Project Management",
+          "skillSetDescription" : ""
+        },
+        {
+          "id" : "5",
+          "skillName" : "Project Management",
+          "skillSetDescription" : ""
+        }
+      ]
     },
     {
       "consultationId" : "19",
@@ -189,7 +242,7 @@
     },
     {
       "consultationId" : "24",
-      "consultationName" : "Couching Advisor",
+      "consultationName" : "Coaching Advisor",
       "consultationDescription" : "Couching Advisor",
       "image" : "",
       "skillSets" : []

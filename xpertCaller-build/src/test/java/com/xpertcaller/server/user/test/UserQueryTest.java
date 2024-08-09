@@ -23,7 +23,7 @@ public class UserQueryTest {
 
     //@Test
     //@Transactional
-    void testUserRepo(){
+    void testUserFilter(){
         try {
             Sort  sort = Sort.by("userProfileEntity.totalExperience").ascending();
             Pageable pageable = PageRequest.of(0, 5, sort);
@@ -37,5 +37,9 @@ public class UserQueryTest {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    void testSearchSuggestionFilter(){
+
     }
 }

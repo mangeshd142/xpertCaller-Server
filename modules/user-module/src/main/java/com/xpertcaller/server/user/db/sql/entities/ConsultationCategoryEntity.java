@@ -1,10 +1,8 @@
 package com.xpertcaller.server.user.db.sql.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +18,6 @@ public class ConsultationCategoryEntity {
     private String consultationName;
     private String consultationDescription;
     private String image;
+    @OneToMany(mappedBy = "consultationCategoryEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ConsultationSkillsEntity> consultationSkills;
 }

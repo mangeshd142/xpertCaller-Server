@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface ConsultationSkillsRepository extends JpaRepository<ConsultationSkillsEntity, String> {
     public ConsultationSkillsEntity findByConsultationSkillId(String collegeId);
     public Optional<ConsultationSkillsEntity> findByConsultationSkillName(String userName);
-    public List<ConsultationSkillsEntity> findByParentId(String parentId);
+    public List<ConsultationSkillsEntity> findByConsultationCategoryEntityConsultationId(String parentId);
 }

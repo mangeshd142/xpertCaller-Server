@@ -37,36 +37,39 @@ public class ConsultationServiceImpl implements ConsultationService {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject consultationCategory = jsonArray.getJSONObject(i);
             String consultationId = consultationCategory.getString("consultationId");
-            consultationCategoryList.add(new ConsultationCategoryEntity(consultationId, consultationCategory.getString("consultationName"),
-                    consultationCategory.getString("consultationDescription"), consultationCategory.getString("image")));
+            ConsultationCategoryEntity consultationCategoryEntity = new ConsultationCategoryEntity();
+            consultationCategoryEntity.setConsultationId(consultationId);
+            consultationCategoryEntity.setConsultationName(consultationCategory.getString("consultationName"));
+            consultationCategoryEntity.setConsultationDescription(consultationCategory.getString("consultationDescription"));
+            consultationCategoryEntity.setImage(consultationCategory.getString("image"));
 
             JSONArray skillSets = consultationCategory.getJSONArray("skillSets");
             for (int j = 0; j < skillSets.length(); j++){
-                JSONObject skillSet = skillSets.getJSONObject(i);
-                consultationSkillsEntityList.add(new ConsultationSkillsEntity(UUID.randomUUID().toString(), skillSet.getString("skillName"),
-                        skillSet.getString("skillSetDescription"), consultationId));
+                try {
+                    JSONObject skillSet = skillSets.getJSONObject(j);
+                    ConsultationSkillsEntity consultationSkillsEntity = new ConsultationSkillsEntity(UUID.randomUUID().toString(), skillSet.getString("skillName"),
+                            skillSet.getString("skillSetDescription"));
+                    consultationSkillsEntity.setConsultationCategoryEntity(consultationCategoryEntity);
+                    consultationSkillsEntityList.add(consultationSkillsEntity);
+                } catch (JSONException e) {
+
+                }
             }
+            consultationCategoryEntity.setConsultationSkills(consultationSkillsEntityList);
+            consultationCategoryList.add(consultationCategoryEntity);
         }
 
         Map<String, Object> consultationCategories = new HashMap<>();
         List<ConsultationCategory> consultationCategoryList1 = new ArrayList<>();
-        List<ConsultationSkills> consultationSkillsList = new ArrayList<>();
 
         List<ConsultationCategoryEntity> insertedConsultationCategoryEntity = consultationDao.insertConsultationCategories(consultationCategoryList);
-        List<ConsultationSkillsEntity> insertedConsultationSkillsEntity = consultationDao.insertConsultationSkills(consultationSkillsEntityList);
 
         for (ConsultationCategoryEntity consultationCategory : insertedConsultationCategoryEntity){
             consultationCategoryList1.add(new ConsultationCategory(consultationCategory.getConsultationId(), consultationCategory.getConsultationName(),
                     consultationCategory.getConsultationDescription(), consultationCategory.getImage()));
         }
 
-        for (ConsultationSkillsEntity consultationSkills : insertedConsultationSkillsEntity){
-            consultationSkillsList.add(new ConsultationSkills(consultationSkills.getConsultationSkillId(), consultationSkills.getConsultationSkillName(),
-                    consultationSkills.getConsultationSkillDescription(), consultationSkills.getParentId()));
-        }
-
         consultationCategories.put("consultationCategory", consultationCategoryList1);
-        consultationCategories.put("consultationSkills", consultationSkillsList);
         return consultationCategories;
     }
 
@@ -87,7 +90,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         List<ConsultationSkills> consultationSkillsList = new ArrayList<>();
         for (ConsultationSkillsEntity consultationSkills : consultationSkillsEntityList){
             consultationSkillsList.add(new ConsultationSkills(consultationSkills.getConsultationSkillId(), consultationSkills.getConsultationSkillName(),
-                    consultationSkills.getConsultationSkillDescription(), consultationSkills.getParentId()));
+                    consultationSkills.getConsultationSkillDescription(), consultationSkills.getConsultationCategoryEntity().getConsultationId()));
         }
         return  consultationSkillsList;
     }

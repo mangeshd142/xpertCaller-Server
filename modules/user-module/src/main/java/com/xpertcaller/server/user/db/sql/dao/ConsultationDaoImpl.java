@@ -36,6 +36,6 @@ public class ConsultationDaoImpl implements ConsultationDao {
 
     @Override
     public List<ConsultationSkillsEntity> getConsultationSkillsByParentId(String parentId){
-        return  consultationSkillsRepository.findByParentId(parentId);
+        return  consultationSkillsRepository.findByConsultationCategoryEntityConsultationId(parentId);
     }
 }

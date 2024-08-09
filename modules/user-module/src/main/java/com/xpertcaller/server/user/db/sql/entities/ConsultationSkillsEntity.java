@@ -1,8 +1,6 @@
 package com.xpertcaller.server.user.db.sql.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -17,5 +15,15 @@ public class ConsultationSkillsEntity {
     private String consultationSkillId;
     private String consultationSkillName;
     private String consultationSkillDescription;
-    private String parentId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "consultation_category_id", referencedColumnName = "consultationId")
+    private ConsultationCategoryEntity consultationCategoryEntity;
+
+    public ConsultationSkillsEntity(String consultationSkillId, String consultationSkillName, String consultationSkillDescription) {
+        this.consultationSkillId = consultationSkillId;
+        this.consultationSkillName = consultationSkillName;
+        this.consultationSkillDescription = consultationSkillDescription;
+    }
+
 }
